@@ -14,8 +14,8 @@ RUN npm install
 # 앱 소스 복사
 COPY . .
 
-# React 개발 서버 실행
-CMD ["npm", "start"]
+# Vite 개발 서버 실행 (npm start 대신 npm run dev)
+CMD ["npm", "run", "dev"]
 
 # 애플리케이션이 3000번 포트를 사용함
 EXPOSE 3000
