@@ -1,0 +1,215 @@
+/* 슬라이드 이미지 래퍼 */
+.slider__img-wrapper {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 234px; /* 상단 마진 234px 설정 */
+    background-color: #36BB84;
+}
+
+/* 슬라이드 이미지 */
+.slider__img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: right;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transform: translateX(100%);
+    z-index: 1;
+}
+
+.slider__img.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 2;
+}
+
+.slider__img.prevSlide {
+    transform: translateX(-100%);
+}
+
+.slider__img.nextSlide {
+    transform: translateX(100%);
+}
+
+/* 온보딩 텍스트 중앙 정렬 */
+.slider__img .desc {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 3;
+    margin: 0; /* 여백 제거 */
+}
+
+.slider__img .desc h3 {
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0 0 20px 0; /* 상단 여백 제거, 하단 여백 유지 */
+    font-family: 'Pretendard-SemiBold', sans-serif;
+}
+
+.slider__img .desc p {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0; /* 여백 제거 */
+    font-family: 'Pretendard-Regular', sans-serif;
+}
+
+/* 화살표 버튼 스타일 */
+.slider__arrow {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    z-index: 5;
+}
+
+.slider__arrow button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.slider__arrow .left {
+    left: 20px;
+}
+
+.slider__arrow .right {
+    right: 20px;
+}
+
+.slider__arrow img {
+    width: 100%;
+    height: 100%;
+}
+
+/* 도트 버튼 스타일 */
+.slider__dot {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+}
+
+.slider__dot button {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url('../../../../../../ppurisam/Frontend/src/assets/images/Slider/listicon1.png') no-repeat center;
+    background-size: 6px 6px;
+    border: none;
+    margin: 0 5px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.slider__dot button.active {
+    background: url('../../../../../../ppurisam/Frontend/src/assets/images/Slider/listicon2.png') no-repeat center;
+    background-size: 12px 12px;
+}
+
+/* 기본 태그의 여백 제거 */
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* 반응형 웹을 위한 미디어 쿼리 */
+@media screen and (max-width: 1024px) {
+    .slider__img-wrapper {
+        height: 400px;
+    }
+
+    .slider__img .desc h3 {
+        font-size: 32px;
+    }
+
+    .slider__img .desc p {
+        font-size: 14px;
+    }
+
+    .slider__arrow button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .slider__arrow .left {
+        left: 15px;
+    }
+
+    .slider__arrow .right {
+        right: 15px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .slider__img-wrapper {
+        height: 300px;
+    }
+
+    .slider__img .desc h3 {
+        font-size: 24px;
+    }
+
+    .slider__img .desc p {
+        font-size: 12px;
+    }
+
+    .slider__arrow button {
+        width: 30px;
+        height: 30px;
+    }
+
+    .slider__arrow .left {
+        left: 10px;
+    }
+
+    .slider__arrow .right {
+        right: 10px;
+    }
+
+    .slider__dot {
+        bottom: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .slider__img-wrapper {
+        height: 200px;
+    }
+
+    .slider__img .desc h3 {
+        font-size: 18px;
+    }
+
+    .slider__img .desc p {
+        font-size: 10px;
+    }
+
+    .slider__arrow button {
+        width: 20px;
+        height: 20px;
+    }
+
+    .slider__dot button {
+        width: 12px;
+        height: 12px;
+    }
+}
