@@ -1,0 +1,48 @@
+/* SendPage.css */
+
+.send-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center; /* 세로 정렬: 콘텐츠를 세로 중앙에 배치 */
+    align-items: center; /* 가로 정렬: 콘텐츠를 가로 중앙에 배치 */
+    padding: 20px; /* 필요에 따라 패딩 추가 */
+}
+
+.send-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; /* 가로 정렬: 내부 컴포넌트를 가로 중앙에 배치 */
+    align-items: center; /* 세로 정렬: 내부 컴포넌트를 세로 중앙에 배치 */
+    max-width: 1200px; /* 전체 콘텐츠의 최대 너비 설정 */
+    width: 100%; /* 반응형을 위해 너비를 100%로 설정 */
+}
+
+.message-send-container,
+.image-send-container {
+    width: 45%;
+    max-width: 570px;
+    margin: 10px;
+}
+
+.footer {
+    width: 100%; /* 푸터가 전체 너비를 차지하도록 설정 */
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 20px; /* 푸터와 콘텐츠 간의 간격 조정 */
+}
+
+/* 글로벌 설정 */
+* {
+    box-sizing: border-box;
+}
+
+@media (max-width: 1200px) {
+    .message-send-container,
+    .image-send-container {
+        width: 90%;
+    }
+}
