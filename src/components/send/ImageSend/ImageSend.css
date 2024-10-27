@@ -1,0 +1,57 @@
+/* src/components/Send/ImageSend/ImageSend.css */
+
+.image-send-container {
+  /* 고정된 너비와 높이를 제거하여 부모에서 제어 */
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 51px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin: auto; */ /* 제거 */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.image-send-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 40px;
+  color: #000000;
+  margin-bottom: 26px;
+}
+
+.image-upload-box {
+  width: 100%; /* 부모의 너비에 맞춤 */
+  max-width: 470px; /* 최대 너비 설정 */
+  height: 534px;
+  background-color: #f2f3f5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.image-button img {
+  width: 110px;
+  height: 110px;
+}
+
+.ai-image-button {
+  margin-top: 71px;
+  width: 100%; /* 부모의 너비에 맞춤 */
+  max-width: 470px; /* 최대 너비 설정 */
+  height: 60px;
+  background-color: #31a575;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
+  font-size: 30px;
+  cursor: pointer;
+}
