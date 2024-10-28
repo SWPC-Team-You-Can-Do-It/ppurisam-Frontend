@@ -1,0 +1,300 @@
+/* 전체 컨테이너 */
+.contact-page-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 1200px; /* 중앙 정렬을 위해 최대 너비 설정 */
+    margin: 0 auto;
+}
+
+/* 탭 메뉴 */
+.tab-menu {
+    display: flex;
+    gap: 20px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.tab-item {
+    cursor: pointer;
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+.tab-item.active {
+    border-bottom: 2px solid #2ecc71;
+    font-weight: bold;
+}
+
+.main-content {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* 왼쪽 폴더 관리 영역 */
+.left-panel {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 폴더 섹션 */
+.folder-section {
+    display: flex;
+    gap: 20px;
+}
+
+.folder-sort {
+    position: relative;
+}
+
+.folder-sort-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.arrow-icon {
+    margin-left: 8px;
+    width: 12px;
+    height: 12px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 150px;
+}
+
+.dropdown-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f1f5f9;
+}
+
+.add-folder-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.folder-icon {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* 폴더 리스트 */
+.folder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.folder-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #fff;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+}
+
+.folder-checkbox {
+    margin-right: 10px;
+}
+
+.folder-name {
+    flex-grow: 1;
+}
+
+.folder-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+/* 오른쪽 연락처 관리 영역 */
+.right-panel {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+}
+
+.search-icons {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #fff;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+}
+
+.contact-checkbox {
+    margin-right: 10px;
+}
+
+.contact-details {
+    flex-grow: 1;
+}
+
+/* 연락처 수정, 삭제 버튼 */
+.contact-actions-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.edit-contact,
+.delete-contact {
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.page-number {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.page-number.active {
+    font-weight: bold;
+    color: #2ecc71;
+}
+
+/* 주소록 입력 탭 */
+.input-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.folder-upload-section {
+    display: flex;
+    gap: 20px;
+}
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-icon {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+/* 테이블(엑셀 시트 형태) */
+.table-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #d1c8c8;
+}
+
+.contact-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contact-table th,
+.contact-table td {
+    border: 1px solid #d1c8c8;
+    padding: 10px;
+    text-align: left;
+}
+
+.contact-table th {
+    background-color: #f1f5f9;
+}
+
+/* 삭제 및 전체삭제 버튼 */
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.delete-button,
+.delete-all-button {
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    cursor: pointer;
+}
