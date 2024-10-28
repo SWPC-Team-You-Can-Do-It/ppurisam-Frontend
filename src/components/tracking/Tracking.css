@@ -1,0 +1,438 @@
+/* Tracking.css */
+
+/* 전역적으로 박스 사이징을 border-box로 설정 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "NEXON Lv1 Gothic OTF", sans-serif;
+  background-color: #e4f3ed;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll; /* 항상 스크롤바 표시 */
+}
+
+.tracking-content-wrapper {
+  width: 80%;
+  max-width: 1160px;
+  margin: 80px auto; /* 상단 마진 추가 */
+  background: #ffffff;
+  padding: 30px;
+  padding-right: 45px;
+  border-radius: 10px;
+  min-height: 680px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+}
+
+/* 발송 조회 및 검색 섹션 */
+.header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 40px; /* 검색 바와 테이블 섹션 간 간격 */
+}
+
+.header-title {
+  font-size: 2.5vw;
+  text-transform: uppercase;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  width: 100%; /* 박스 사이징으로 인해 overflow 문제 해결 */
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 60%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background: #f2f2f7;
+  padding: 8px;
+  border-radius: 10px;
+  position: relative; /* 'x' 버튼을 절대 위치로 배치하기 위해 relative 설정 */
+}
+
+.search-bar .search-icon {
+  margin-left: 5px;
+  font-size: 1.2rem;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  margin-left: 10px;
+  flex-grow: 1;
+  font-size: 1rem;
+  color: #3c3c4399;
+  padding-right: 25px; /* 'x' 버튼 공간 확보 */
+}
+
+.clear-button {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #888;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.clear-button:hover {
+  color: #555;
+}
+
+/* 테이블 섹션 */
+.table-container {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  overflow: hidden;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 2px solid #e0e0e0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #8a8b8d;
+}
+
+.table-column {
+  padding: 0 10px;
+}
+
+.title {
+  width: 50%;
+}
+
+.status {
+  width: 20%;
+}
+
+.date {
+  width: 20%;
+}
+
+.details {
+  width: 10%;
+}
+
+.table-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  height: 100%; /* 부모 컨테이너의 높이를 채우도록 설정 */
+}
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1.1rem;
+  color: #292d32;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.table-row:hover {
+  background-color: #f9f9f9;
+}
+
+.status.completed {
+  color: #2ecc71; /* 녹색 */
+}
+
+.status.failed {
+  color: #e74c3c; /* 빨간색 */
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px 0;
+  color: #8a8b8d;
+  font-size: 1rem;
+}
+
+/* 확장된 상세 내용 행 스타일 */
+.expanded-row {
+  background-color: #f9f9f9;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  max-height: 200px; /* 필요 시 조정 */
+  overflow: auto; /* 내용이 길어질 경우 내부 스크롤 */
+}
+
+.expanded-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.left-section {
+  flex: 1;
+  background-color: #f2f2f7;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-section img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.sender-section {
+  font-size: 0.95rem;
+  background-color: #31446c; /* 배경색 변경 */
+  padding: 8px 12px; /* 내부 여백 추가 */
+  border-radius: 5px; /* 테두리 반경 추가 */
+  color: #ffffff; /* 텍스트 색상 변경 */
+  display: inline-block; /* 텍스트 주변에 여백을 추가하려면 필요 시 */
+}
+
+.recipients-section {
+  font-size: 0.95rem;
+}
+
+/* 수신자 목록 버튼 스타일 */
+.recipients-button {
+  background-color: #36bb84;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.recipients-button:hover {
+  background-color: #2fa776;
+}
+
+.recipients-button:focus {
+  outline: 2px solid #2fa776;
+  outline-offset: 2px;
+}
+
+/* 모달 오버레이 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 다른 요소보다 위에 표시 */
+}
+
+/* 모달 콘텐츠 스타일 */
+.modal-content {
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 모달 닫기 버튼 스타일 */
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.modal-close-button:hover {
+  color: #555;
+}
+
+/* 모달 제목 스타일 */
+.modal-content h2 {
+  margin-top: 0;
+  color: #292d32;
+  font-size: 1.5rem;
+}
+
+/* 모달 내 수신자 목록 스타일 */
+.modal-recipients-list {
+  list-style-type: none; /* 불릿 제거 */
+  margin: 15px 0 0 0;
+  padding: 0;
+  font-size: 1rem;
+  color: #292d32;
+}
+
+.modal-recipients-list li {
+  margin-bottom: 10px; /* 각 항목 간 간격 추가 */
+}
+
+/* 테이블 페이징 */
+.table-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #000;
+}
+
+.pagination-button {
+  margin: 0 10px;
+  padding: 5px 10px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-button:hover:not(:disabled),
+.pagination-page:hover {
+  background-color: #f2f2f7;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-page {
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.active-page {
+  font-weight: bold;
+  text-decoration: underline;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #36bb84;
+}
+
+/* 세부사항 아이콘 크기 조정 및 애니메이션 */
+.detail-icon {
+  width: 12px; /* 기존 24px의 절반 */
+  height: 12px; /* 기존 24px의 절반 */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.detail-icon.rotated {
+  transform: rotate(90deg);
+}
+
+/* 반응형 디자인 조정 */
+@media screen and (max-width: 1024px) {
+  .header-title {
+    font-size: 3vw;
+  }
+
+  .search-bar {
+    width: 70%;
+  }
+
+  .tracking-content-wrapper {
+    width: 90%;
+  }
+
+  .table-header,
+  .table-row {
+    font-size: 1rem;
+  }
+
+  .expanded-content {
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header-title {
+    font-size: 4vw;
+  }
+
+  .search-bar {
+    width: 80%;
+    height: 35px;
+  }
+
+  .tracking-content-wrapper {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .table-header,
+  .table-row {
+    font-size: 0.9rem;
+  }
+
+  .expanded-content {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header-title {
+    font-size: 5vw;
+    margin-top: 10px;
+  }
+
+  .search-bar {
+    width: 90%;
+    height: 30px;
+    padding: 5px;
+  }
+
+  .tracking-content-wrapper {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .table-header,
+  .table-row {
+    font-size: 0.8rem;
+  }
+
+  .expanded-content {
+    font-size: 0.85rem;
+    flex-direction: column;
+  }
+}
