@@ -1,0 +1,34 @@
+/* ContactPage.css */
+
+/* 전체 페이지 컨테이너 */
+.contact-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 페이지 높이를 전체 화면으로 설정 */
+    justify-content: flex-start; /* 세로 정렬: 콘텐츠를 상단부터 배치 */
+    align-items: center; /* 가로 정렬: 콘텐츠를 가로 중앙에 배치 */
+    background-color: #e4f3ed; /* 배경색을 일관되게 설정 */
+    padding: 20px;
+}
+
+/* 연락처 페이지의 콘텐츠 영역 */
+.contact-content {
+    flex: 1; /* 남은 공간을 모두 차지하여 Footer를 아래로 밀어냄 */
+    display: flex;
+    flex-direction: column; /* 세로로 콘텐츠 배치 */
+    justify-content: flex-start; /* 콘텐츠를 상단에 배치 */
+    align-items: center; /* 가로 정렬: 중앙 */
+    max-width: 1200px; /* 전체 콘텐츠의 최대 너비 설정 */
+    width: 1200px; /* 고정된 너비 설정 */
+    padding: 20px 0;
+}
+
+/* Footer 스타일 */
+.footer {
+    width: 100%; /* 푸터가 전체 너비를 차지하도록 설정 */
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto; /* 푸터가 페이지 하단에 위치하도록 설정 */
+}
