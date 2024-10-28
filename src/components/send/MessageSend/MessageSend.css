@@ -32,6 +32,7 @@
     margin-bottom: 30px;
 }
 
+
 .search-input {
     flex: 1;
     border: none;
@@ -39,7 +40,6 @@
     outline: none;
     font-size: 20px;
 }
-
 .mic-button {
     width: 37px;
     height: 41px;
