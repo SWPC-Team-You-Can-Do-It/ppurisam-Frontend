@@ -1,0 +1,312 @@
+/* src/components/main/Send/MessageCreate/MessageCreate.css */
+
+/* 모달 오버레이 스타일 */
+.message-create-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    z-index: 1000;
+}
+
+.message-create-modal-content {
+    width: 90vw; /* 화면의 90% 너비 */
+    max-width: 1159px; /* 최대 너비 */
+    height: 90vh; /* 화면의 90% 높이 */
+    max-height: 890px; /* 최대 높이 */
+    background-color: #ffffff; /* 배경색 변경 */
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 1200px) {
+    .message-create-modal-content {
+        width: 90vw; /* 화면의 90% 너비 */
+        max-width: 1159px; /* 최대 너비 */
+        height: 90vh; /* 화면의 90% 높이 */
+        max-height: 890px; /* 최대 높이 */
+    }
+}
+
+@media (max-width: 768px) {
+    .message-create-modal-content {
+        width: 95vw; /* 작은 화면에서는 95% 너비 사용 */
+        height: auto; /* 높이를 자동으로 조정 */
+        max-height: 80vh; /* 최대 높이를 80%로 설정 */
+    }
+
+    .message-create-toggle-button {
+        font-size: 20px; /* 글자 크기 조정 */
+        margin-right: 20px; /* 마진 조정 */
+    }
+
+    .message-create-prompt-label,
+    .message-create-result-text {
+        font-size: 20px; /* 레이블 글자 크기 조정 */
+    }
+
+    .message-create-prompt-textbox {
+        height: 300px; /* 텍스트 박스 높이 조정 */
+        width: 100%; /* 작은 화면에서 전체 너비 사용 */
+    }
+
+    .message-create-body {
+        flex-direction: column;
+    }
+
+    .left-section,
+    .right-section {
+        width: 100%;
+        max-width: none;
+        margin-left: 0; /* 작은 화면에서는 마진 제거 */
+    }
+}
+
+/* 헤더 스타일 */
+.message-create-modal-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; /* 수직 정렬 */
+    margin-bottom: 40px;
+}
+
+.message-create-toggle-button {
+    background: none;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Bold */
+    font-size: 25px;
+    margin-right: 47px;
+    cursor: pointer;
+    color: #8e8e8f;
+    transition: color 0.3s;
+}
+
+.message-create-toggle-button.active {
+    color: #31a575;
+}
+
+/* 바디 섹션 스타일 */
+.message-create-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* 왼쪽 섹션 스타일 */
+.left-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #ffffff !important;
+}
+
+/* 오른쪽 섹션 스타일 */
+.right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 100px; /* 왼쪽 섹션과의 간격 */
+}
+
+@media (max-width: 768px) {
+    .right-section {
+        margin-left: 0;
+    }
+}
+
+/* 프롬프트 섹션 */
+.message-create-prompt-section {
+    position: relative;
+    margin-bottom: 14px;
+}
+
+.message-create-prompt-label {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Bold */
+    font-size: 30px;
+    color: #000000;
+    display: block; /* 전체 너비 사용 */
+    margin-bottom: 10px; /* 레이블과 입력 박스 간격 */
+}
+
+.message-create-required {
+    color: red;
+    margin-left: 4px;
+}
+
+.message-create-result-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Bold */
+    font-size: 30px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+/* 텍스트박스 스타일 */
+.message-create-prompt-textbox {
+    width: 470px;
+    height: 470px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    background-color: #e1e4e5; /* 기존 색상 유지 */
+
+    resize: none;
+    box-sizing: border-box;
+}
+
+.message-create-prompt-textbox:focus {
+    outline: none;
+    border-color: #31a575;
+    background-color: #ffffff; /* 포커스 시 배경색 변경 */
+}
+
+/* 바이트 카운터 스타일 */
+.message-create-byte-counter {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #8e8e8f;
+}
+
+/* 버튼 스타일 */
+.message-create-mic-button,
+.message-create-generate-button {
+    width: 100%; /* 전체 너비 사용 */
+    max-width: 471px; /* 최대 너비 설정 */
+    height: 55px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Bold */
+    font-size: 26px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 43px;
+}
+
+.message-create-mic-button {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 드롭 섀도우 수정 */
+}
+
+.message-create-mic-button img {
+    width: 23px;
+    height: 37px;
+}
+
+.message-create-generate-button {
+    background-color: #31a575;
+}
+
+/* 삭제 및 이미지 사용 버튼 */
+.message-create-delete-button,
+.message-create-use-image-button {
+    width: 100%; /* 전체 너비 사용 */
+    max-width: 471px; /* 최대 너비 설정 */
+    height: 55px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Bold */
+    font-size: 26px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 43px;
+}
+
+.message-create-delete-button {
+    background-color: #d31660;
+}
+
+.green-button {
+    background-color: #31a575; /* 초록색 */
+}
+
+.message-create-use-image-button {
+    background-color: #000000;
+}
+
+/* 이미지 디스플레이 박스 */
+.message-create-image-display-box {
+    width: 100%; /* 전체 너비 사용 */
+    max-width: 470px; /* 최대 너비 설정 */
+    height: 470px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #e1e4e5; /* 배경색 변경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* 플레이스홀더 텍스트 위치 지정 */
+}
+
+/* .message-create-image-display-box::before 제거 */
+
+/* 이미지 디스플레이 박스 내부 입력 필드 스타일 */
+.message-create-image-display-box input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    cursor: text;
+}
+
+.message-create-image-display-box input:focus {
+    outline: none;
+}
+
+/* 잘못된 선택자 수정 */
+.message-create-image-display-box input:not(:placeholder-shown)::before {
+    display: none;
+}
+
+/* 나가기 버튼 스타일 추가 */
+.message-create-close-button {
+    position: absolute;
+    top: 20px; /* 모달 컨텐츠의 패딩과 일치 */
+    right: 20px; /* 모달 컨텐츠의 패딩과 일치 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    /* 텍스트 스타일 */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000; /* 텍스트 색상 */
+    z-index: 1001; /* 다른 요소들보다 위에 표시 */
+}
+
+.message-create-close-button:hover {
+    color: #31a575; /* 호버 시 색상 변경 */
+}

@@ -1,4 +1,4 @@
-/* src/components/Send/ImageSend/ImageSend.css */
+/* src/components/main/Send/ImageSend/ImageSend.css */
 
 .image-send-container {
   /* 고정된 너비와 높이를 제거하여 부모에서 제어 */
@@ -29,6 +29,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden; /* 이미지가 박스를 넘지 않도록 */
 }
 
 .image-button {
@@ -54,4 +56,17 @@
   font-family: "NEXON Lv1 Gothic OTP", sans-serif;
   font-size: 30px;
   cursor: pointer;
+}
+
+/* 업로드된 이미지 스타일링 */
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 박스에 맞게 커버되도록 */
+  border-radius: 10px;
+}
+
+/* 숨겨진 파일 입력 요소는 기본적으로 보이지 않지만, 필요 시 스타일링 가능 */
+input[type="file"] {
+  display: none;
 }
