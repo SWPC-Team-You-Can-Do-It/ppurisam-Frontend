@@ -266,8 +266,6 @@
     position: relative; /* 플레이스홀더 텍스트 위치 지정 */
 }
 
-/* .image-create-image-display-box::before 제거 */
-
 /* 이미지 디스플레이 박스 내부 입력 필드 스타일 */
 .image-create-image-display-box input {
     width: 100%;
@@ -309,4 +307,28 @@
 
 .image-create-close-button:hover {
     color: #31a575; /* 호버 시 색상 변경 */
+}
+
+/* 생성된 이미지 스타일 */
+.generated-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 이미지 비율 유지하며 박스에 맞춤 */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 반응형 이미지 박스 */
+@media (max-width: 768px) {
+    .generated-image {
+        max-height: 300px; /* 작은 화면에서는 이미지 높이 제한 */
+    }
+}
+
+/* 에러 메시지 스타일 추가 */
+.error-message {
+    color: red;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
 }
