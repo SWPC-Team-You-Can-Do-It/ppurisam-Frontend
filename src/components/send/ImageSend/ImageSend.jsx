@@ -35,6 +35,12 @@ const ImageSend = () => {
         }
     };
 
+    // ImageCreate로부터 이미지 URL을 받아 uploadedImage 상태 업데이트
+    const handleImageGenerated = (imageUrl) => {
+        setUploadedImage(imageUrl);
+        setIsModalOpen(false); // 모달 닫기
+    };
+
     return (
         <div className="image-send-container">
             <h2 className="image-send-title">이미지 첨부</h2>
@@ -61,7 +67,11 @@ const ImageSend = () => {
             </button>
 
             {/* 모달 컴포넌트 */}
-            <ImageCreate isOpen={isModalOpen} onClose={closeModal} />
+            <ImageCreate
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onImageGenerated={handleImageGenerated}
+            />
         </div>
     );
 };
