@@ -1,0 +1,159 @@
+/* container */
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #36bb84; /* 배경색 변경 */
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* headerBrand */
+.headerBrand {
+  margin-bottom: 40px; /* signupBox와 간격 추가 */
+  font-size: 2rem; /* 폰트 크기 증가 */
+  font-family: "Gmarket_Sans";
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center; /* 중앙 정렬 */
+}
+
+/* signupBox */
+.signupBox {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* 크기 증가 */
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 90px; /* 세로 패딩 증가 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* brandWrapper */
+.brandWrapper {
+  width: 100%;
+  text-align: center; /* 중앙 정렬 */
+  margin-bottom: 50px; /* 하단 간격 추가 */
+}
+
+/* brandName */
+.brandName {
+  font-size: 1.5rem; /* 적당한 폰트 크기 설정 */
+  font-family: "Gmarket_Sans";
+  font-weight: bold;
+  color: #36bb84; /* 브랜드 색상과 조화롭게 변경 */
+}
+
+/* inputWrapper */
+.inputWrapper {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* inputLabel */
+.inputLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  font-family: "NEXON_Lv1_Gothic_OTF";
+  color: #333333;
+}
+
+/* textInput */
+.textInput {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "NEXON_Lv1_Gothic_OTF";
+  outline: none;
+}
+
+/* buttonWrapper */
+.buttonWrapper {
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* signupButton */
+.signupButton {
+  width: 100%;
+  padding: 15px;
+  background-color: #00c1a2;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  font-family: "NEXON_Lv1_Gothic_OTF";
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signupButton:hover {
+  background-color: #00a892;
+}
+
+/* backLinkWrapper */
+.backLinkWrapper {
+  margin-top: 20px;
+}
+
+/* backLink */
+.backLink {
+  color: #2ecc71;
+  text-decoration: none;
+  font-family: "NEXON_Lv1_Gothic_OTF";
+  font-size: 1rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+/* 반응형 조정 */
+@media screen and (max-width: 768px) {
+  .signupBox {
+    padding: 30px;
+    width: 90%;
+    height: auto;
+  }
+  .brandName {
+    font-size: 1.25rem;
+  }
+  .textInput {
+    padding: 10px;
+  }
+  .signupButton {
+    font-size: 1.1rem;
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .signupBox {
+    padding: 20px;
+    width: 100%;
+    height: auto;
+  }
+  .brandName {
+    font-size: 1rem;
+  }
+  .textInput {
+    padding: 8px;
+  }
+  .signupButton {
+    font-size: 1rem;
+    padding: 10px;
+  }
+  .headerBrand {
+    font-size: 1.5rem;
+  }
+}
