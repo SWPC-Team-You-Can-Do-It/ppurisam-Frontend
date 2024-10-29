@@ -1,36 +1,32 @@
-/* src/components/main/Send/ImageSend/ImageSend.css */
-
 .image-send-container {
-  /* 고정된 너비와 높이를 제거하여 부모에서 제어 */
-  background-color: #ffffff;
+  background-color: transparent;
   border-radius: 20px;
-  padding: 51px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin: auto; */ /* 제거 */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 .image-send-title {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 30px;
   color: #000000;
-  margin-bottom: 26px;
+  margin-bottom: 20px;
 }
 
 .image-upload-box {
-  width: 100%; /* 부모의 너비에 맞춤 */
-  max-width: 470px; /* 최대 너비 설정 */
-  height: 534px;
+  width: 100%;
+  max-width: 470px;
+  height: 520px; /* 세로 길이 증가 */
   background-color: #f2f3f5;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden; /* 이미지가 박스를 넘지 않도록 */
+  overflow: hidden;
 }
 
 .image-button {
@@ -40,33 +36,27 @@
 }
 
 .image-button img {
-  width: 110px;
-  height: 110px;
+  width: 80px;
+  height: 80px;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .ai-image-button {
-  margin-top: 71px;
-  width: 100%; /* 부모의 너비에 맞춤 */
-  max-width: 470px; /* 최대 너비 설정 */
-  height: 60px;
+  width: 100%;
+  max-width: 470px;
+  height: 50px; /* 버튼 크기 줄임 */
   background-color: #31a575;
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
-  font-size: 30px;
+  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
+  font-size: 18px; /* 글자 크기 줄임 */
   cursor: pointer;
-}
-
-/* 업로드된 이미지 스타일링 */
-.uploaded-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 이미지가 박스에 맞게 커버되도록 */
-  border-radius: 10px;
-}
-
-/* 숨겨진 파일 입력 요소는 기본적으로 보이지 않지만, 필요 시 스타일링 가능 */
-input[type="file"] {
-  display: none;
+  margin-top: 20px;
 }

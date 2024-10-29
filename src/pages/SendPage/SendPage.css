@@ -1,41 +1,51 @@
-/* SendPage.css */
-
+/*SendPage.css*/
 .send-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  justify-content: center; /* 세로 정렬: 콘텐츠를 세로 중앙에 배치 */
-  align-items: center; /* 가로 정렬: 콘텐츠를 가로 중앙에 배치 */
-  padding: 20px; /* 필요에 따라 패딩 추가 */
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
+}
+
+/* 두 컴포넌트를 감싸는 wrapper */
+.send-content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  padding: 30px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .send-content {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center; /* 가로 정렬: 내부 컴포넌트를 가로 중앙에 배치 */
-  align-items: center; /* 세로 정렬: 내부 컴포넌트를 세로 중앙에 배치 */
-  max-width: 1200px; /* 전체 콘텐츠의 최대 너비 설정 */
-  width: 100%; /* 반응형을 위해 너비를 100%로 설정 */
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
 }
 
 .message-send-container,
 .image-send-container {
-  width: 45%;
-  max-width: 570px;
-  margin: 10px;
+  width: 48%;
+  display: flex;
+  flex-direction: column;
 }
 
 .footer {
-  width: 100%; /* 푸터가 전체 너비를 차지하도록 설정 */
+  width: 100%;
   background-color: #333;
   color: white;
   text-align: center;
   padding: 1rem 0;
-  margin-top: 20px; /* 푸터와 콘텐츠 간의 간격 조정 */
+  margin-top: 20px;
 }
 
-/* 글로벌 설정 */
 * {
   box-sizing: border-box;
 }
@@ -43,6 +53,47 @@
 @media (max-width: 1200px) {
   .message-send-container,
   .image-send-container {
-    width: 90%;
+    width: 100%;
   }
+
+  .send-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+/* 버튼 스타일 수정 */
+.action-buttons,
+.submit-button,
+.ai-image-button {
+  margin-top: 10px;
+}
+
+.action-buttons button,
+.ai-image-button,
+.submit-button {
+  width: 100%;
+  height: 60px;
+  background-color: #31a575;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.ai-image-button {
+  margin-top: 0;
+  background-color: #31a575;
+}
+
+.submit-button {
+  background-color: #2ecc71;
+  font-size: 22px;
+}
+
+.mic-button2 {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
