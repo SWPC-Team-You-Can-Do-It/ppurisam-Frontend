@@ -1,10 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./pages/MainPage";
+import MainPage from "./pages/MainPage/MainPage";
 import SendPage from "./pages/SendPage/SendPage";
 import TrackingPage from "./pages//TrackingPage/TrackingPage";
-import ContactPage from './pages/ContactPage/ContactPage';
-import Footer from "@/components/main/Footer/Footer"; // Footer 임포트
+import ContactPage from "./pages/ContactPage/ContactPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import "./App.css"; // 스타일시트 임포트
 
 function App() {
@@ -13,8 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/send" element={<SendPage />} />
-        <Route path="/tracking" element={<TrackingPage />}/>
-          <Route path="/contact" element={<ContactPage />} />
+        <Route path="/tracking" element={<TrackingPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         {/* 필요한 다른 라우트 추가 */}
       </Routes>
     </Router>

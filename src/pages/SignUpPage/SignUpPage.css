@@ -1,0 +1,23 @@
+/* TrackingPage.css */
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.signup-content {
+  flex: 1; /* 남은 공간을 모두 차지하여 Footer를 아래로 밀어냄 */
+  display: flex; /* 콘텐츠가 최소 높이를 가지도록 설정 */
+  flex-direction: column; /* 콘텐츠의 방향을 수직으로 설정 */
+  overflow: hidden; /* 내부 스크롤을 위한 숨김 설정 */
+  background-color: #e4f3ed; /* 배경색 동일하게 설정 */
+}
+
+.footer {
+  margin-top: auto; /* Footer를 아래로 배치 */
+  background-color: #333; /* 배경색 예시 */
+  color: white; /* 글자색 예시 */
+  text-align: center;
+  padding: 1rem 0; /* 여백 추가 */
+}

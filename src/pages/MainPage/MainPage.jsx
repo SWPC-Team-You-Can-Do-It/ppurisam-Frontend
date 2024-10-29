@@ -1,20 +1,20 @@
 // MainPage.jsx
 import React from "react";
 import Header from "@/components/main/Header/Header";
+import Slider from "@/components/main/Slider/Slider";
 import Footer from "@/components/main/Footer/Footer";
-import Tracking from "@/components/tracking/Tracking";
 import "@/pages/MainPage/MainPage.css";
 
-const TrackingPage = () => {
+const MainPage = () => {
   return (
-    <div className="tracking-container">
+    <div className="main-container">
       <Header />
-      <div className="tracking-content">
-        <Tracking />
+      <div className="content">
+        <Slider />
       </div>
       <Footer />
     </div>
   );
 };
 
-export default TrackingPage;
+export default MainPage;
