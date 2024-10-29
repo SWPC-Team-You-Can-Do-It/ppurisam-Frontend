@@ -7,15 +7,14 @@
 
 /* Contact 전체 컨테이너 */
 .contact-wrapper {
-    width: 80%;
+    width: 100%;
     max-width: 1160px;
     margin: 80px auto;
     background: #ffffff;
-    padding: 30px;
+    padding: 10px;
     padding-right: 45px;
+    margin-top: -1px;
     border-radius: 10px;
-    min-height: 680px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
 }
 
 /* 탭 메뉴 */
@@ -319,6 +318,18 @@
     background-color: #f1f5f9;
 }
 
+.delete-button,
+.delete-all-button {
+    padding: 8px 15px; /* 버튼 크기 조정 */
+    background-color: #f1f5f9;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100px; /* 버튼 너비 조정 */
+    height: 35px; /* 버튼 높이 조정 */
+}
+
 /* 삭제 및 전체삭제 버튼 */
 .action-buttons {
     display: flex;
@@ -326,11 +337,3 @@
     margin-top: 20px;
 }
 
-.delete-button,
-.delete-all-button {
-    padding: 10px 20px;
-    background-color: #f1f5f9;
-    border: 1px solid #d1c8c8;
-    border-radius: 5px;
-    cursor: pointer;
-}

@@ -1,4 +1,4 @@
-//Contact.jsx
+// Contact.jsx
 import React, { useState } from 'react';
 import './Contact.css';
 import penIcon from '@/assets/images/contact/Pen.png'; // 수정 아이콘
@@ -61,18 +61,18 @@ const Contact = () => {
         <div className="contact-wrapper">
             {/* 탭 메뉴 */}
             <div className="tab-menu">
-        <span
-            className={`tab-item ${currentTab === 'manage' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('manage')}
-        >
-          주소록 관리
-        </span>
+                <span
+                    className={`tab-item ${currentTab === 'manage' ? 'active' : ''}`}
+                    onClick={() => setCurrentTab('manage')}
+                >
+                    주소록 관리
+                </span>
                 <span
                     className={`tab-item ${currentTab === 'input' ? 'active' : ''}`}
                     onClick={() => setCurrentTab('input')}
                 >
-          주소록 입력
-        </span>
+                    주소록 입력
+                </span>
             </div>
 
             <div className="main-content">
@@ -155,8 +155,8 @@ const Contact = () => {
                                         className={`page-number ${currentPage === i + 1 ? 'active' : ''}`}
                                         onClick={() => handlePageClick(i + 1)}
                                     >
-                    {i + 1}
-                  </span>
+                                        {i + 1}
+                                    </span>
                                 ))}
                             </div>
                         </div>
@@ -220,3 +220,4 @@ const Contact = () => {
 };
 
 export default Contact;
+
