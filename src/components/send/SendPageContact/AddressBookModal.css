@@ -1,0 +1,112 @@
+/* 모달 오버레이 스타일 */
+.address-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 모달 콘텐츠 스타일 */
+.address-modal-content {
+    width: 90vw; /* 전체 화면의 90% 너비 */
+    height: 90vh; /* 전체 화면의 90% 높이 */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 모달 닫기 버튼 스타일 */
+.address-modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+}
+
+.address-modal-close-button:hover {
+    color: #555;
+}
+
+/* 테이블 스타일 */
+.table-container2 {
+    max-height: 60%; /* 모달 내부에서 테이블 높이 제한 */
+    overflow-y: auto;
+    border: 1px solid #d1c8c8;
+    margin-bottom: 20px; /* 폴더 버튼과 테이블 사이 간격 */
+}
+
+.contact-table2 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contact-table2 th,
+.contact-table2 td {
+    border: 1px solid #d1c8c8;
+    padding: 20px;
+    text-align: left;
+}
+
+.contact-table2 th {
+    background-color: #f1f5f9;
+}
+
+/* 폴더 드롭다운 버튼 및 스타일 */
+.folder-dropdown-wrapper {
+    position: relative;
+    margin-bottom: 20px; /* 주소록 텍스트 아래 위치하도록 여백 추가 */
+}
+
+.folder-sort-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.arrow-icon {
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    padding: 10px 0;
+    margin-top: 10px;
+    list-style: none;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu li {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f1f1f1;
+}
