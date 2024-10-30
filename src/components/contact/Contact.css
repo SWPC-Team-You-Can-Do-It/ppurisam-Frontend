@@ -302,19 +302,19 @@
     border: 1px solid #d1c8c8;
 }
 
-.contact-table {
+.contact-table1 {
     width: 100%;
     border-collapse: collapse;
 }
 
-.contact-table th,
-.contact-table td {
+.contact-table1 th,
+.contact-table1 td {
     border: 1px solid #d1c8c8;
-    padding: 10px;
+    padding: 20px;
     text-align: left;
 }
 
-.contact-table th {
+.contact-table1 th {
     background-color: #f1f5f9;
 }
 

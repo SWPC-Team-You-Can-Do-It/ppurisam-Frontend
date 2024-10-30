@@ -60,7 +60,7 @@ function Header() {
           </ul>
         </nav>
         <div className="header__member">
-          <a onClick={() => navigate("/login")}>Login</a>
+          <a onClick={() => navigate("/login")}>Logout</a>
         </div>
       </div>
     </header>
