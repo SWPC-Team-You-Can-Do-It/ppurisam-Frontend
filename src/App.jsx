@@ -6,6 +6,7 @@ import TrackingPage from "./pages//TrackingPage/TrackingPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
+import MyPage from "./pages/MyPage/MyPage";
 import "./App.css"; // 스타일시트 임포트
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/mypage" element={<MyPage />} />
         {/* 필요한 다른 라우트 추가 */}
       </Routes>
     </Router>
