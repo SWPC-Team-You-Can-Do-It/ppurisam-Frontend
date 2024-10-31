@@ -43,7 +43,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/stt`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/stt`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -71,7 +71,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/image-ai`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/image-ai`,
         { prompt }
       );
 
