@@ -16,12 +16,12 @@
 
 .image-create-modal-content {
   width: 90vw; /* 화면의 90% 너비 */
-  max-width: 1159px; /* 최대 너비 */
+  max-width: 1150px; /* 최대 너비 */
   height: 90vh; /* 화면의 90% 높이 */
   max-height: 830px; /* 최대 높이 */
   background-color: #ffffff; /* 배경색 변경 */
   position: relative;
-  padding: 20px;
+  padding: 15px;
   box-sizing: border-box;
   border-radius: 8px;
   overflow-y: auto;
@@ -83,7 +83,7 @@
 .image-create-toggle-button {
   background: none;
   border: none;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 700; /* Bold */
   font-size: 25px;
   margin-right: 47px;
@@ -188,15 +188,14 @@
   color: #8e8e8f;
 }
 
-/* 버튼 스타일 */
-.image-create-generate-button {
+.image-create-button {
   width: 100%; /* 전체 너비 사용 */
   max-width: 471px; /* 최대 너비 설정 */
   height: 55px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
   font-size: 25px;
   font-weight: 700; /* Bold */
   color: #ffffff;
@@ -204,7 +203,23 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  margin-top: 15px;
+  margin-top: 7px;
+  transition: background-color 0.3s, color 0.3s;
+  box-sizing: border-box; /* box-sizing 추가 */
+}
+
+/* 이미지 생성하기 버튼 개별 스타일 */
+.image-create-generate-button {
+  background-color: #31a575;
+}
+
+/* 녹음 버튼 개별 스타일 */
+.image-create-mic-button {
+  background-color: #f5f5f5;
+  color: #31a575;
+  justify-content: center;
+  align-items: center;
+  padding: 0 172px;
 }
 
 /* 버튼이 비활성화 상태일 때 스타일 */
@@ -221,10 +236,8 @@
 .image-create-mic-button img {
   width: 23px;
   height: 37px;
-}
-
-.image-create-generate-button {
-  background-color: #31a575;
+  margin-right: 10px; /* 아이콘과 텍스트 간 간격 */
+  object-fit: contain; /* 이미지 비율 유지 */
 }
 
 /* 삭제 및 이미지 사용 버튼 */
@@ -236,14 +249,14 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
   font-weight: 700; /* Bold */
   font-size: 25px;
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .image-create-delete-button {
@@ -338,4 +351,3 @@
   font-size: 16px;
   margin-top: 10px;
 }
-

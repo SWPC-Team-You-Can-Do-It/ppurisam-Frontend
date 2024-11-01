@@ -187,28 +187,22 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
             </div>
             <div className="image-create-mic-section">
               <button
-                className="image-create-mic-button"
+                className="image-create-mic-button image-create-button"
                 onClick={handleMicClick}
                 aria-label="녹음"
               >
                 <img src={micIcon} alt="Mic" />
                 {isRecording ? "녹음 중지" : "녹음 시작"}
               </button>
+              {error && <div className="error-message">{error}</div>}
             </div>
             <button
-              className="image-create-generate-button"
+              className="image-create-generate-button image-create-button"
               onClick={handleGenerateImage}
               disabled={isLoading || !prompt.trim()}
             >
               {isLoading ? "생성 중..." : "이미지 생성하기"}
             </button>
-            {/* 오디오 미리보기 및 다운로드 링크 */}
-            {audioURL && (
-              <div className="audio-preview" style={{ marginTop: "10px" }}>
-                <audio controls src={audioURL}></audio>
-              </div>
-            )}
-            {error && <div className="error-message">{error}</div>}
           </div>
 
           {/* 오른쪽 섹션 */}
