@@ -39,13 +39,12 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
     setAudioURL(url); // 상태에 오디오 URL 저장
 
     const formData = new FormData();
-    formData.append("audio", file, file.name); // 파일 이름과 타입 일치
+    formData.append("file", file, file.name); // 파일 이름과 타입 일치
 
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/stt`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        formData
       );
 
       const transcription = response.data.text;
@@ -54,8 +53,27 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
       const byteLength = new Blob([transcription]).size;
       setByteCount(byteLength);
     } catch (err) {
-      console.error("파일 전송 오류:", err.response ? err.response.data : err);
-      setError("음성 파일을 전송하는 중 오류가 발생했습니다.");
+      console.error("파일 전송 오류:", err); // 전체 에러 객체를 로그
+      if (err.response) {
+        // 서버가 응답했으나 상태 코드가 2xx가 아닌 경우
+        console.error("응답 데이터:", err.response.data);
+        console.error("응답 상태:", err.response.status);
+        console.error("응답 헤더:", err.response.headers);
+        setError(
+          `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
+        );
+      } else if (err.request) {
+        // 요청이 만들어졌으나 응답을 받지 못한 경우
+        console.error(
+          "요청이 만들어졌으나 응답을 받지 못했습니다:",
+          err.request
+        );
+        setError("서버에 응답이 없습니다. 네트워크 상태를 확인해주세요.");
+      } else {
+        // 다른 오류
+        console.error("오류 메시지:", err.message);
+        setError(`오류 발생: ${err.message}`);
+      }
     }
   };
 
