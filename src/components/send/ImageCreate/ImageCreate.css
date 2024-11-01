@@ -18,7 +18,7 @@
   width: 90vw; /* 화면의 90% 너비 */
   max-width: 1159px; /* 최대 너비 */
   height: 90vh; /* 화면의 90% 높이 */
-  max-height: 890px; /* 최대 높이 */
+  max-height: 830px; /* 최대 높이 */
   background-color: #ffffff; /* 배경색 변경 */
   position: relative;
   padding: 20px;
@@ -83,7 +83,7 @@
 .image-create-toggle-button {
   background: none;
   border: none;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700; /* Bold */
   font-size: 25px;
   margin-right: 47px;
@@ -189,22 +189,22 @@
 }
 
 /* 버튼 스타일 */
-.image-create-mic-button,
 .image-create-generate-button {
   width: 100%; /* 전체 너비 사용 */
   max-width: 471px; /* 최대 너비 설정 */
   height: 55px;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
+  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
+  font-size: 25px;
   font-weight: 700; /* Bold */
-  font-size: 26px;
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 43px;
+  margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 /* 버튼이 비활성화 상태일 때 스타일 */
@@ -234,16 +234,16 @@
   max-width: 471px; /* 최대 너비 설정 */
   height: 55px;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
-  font-family: "Roboto", sans-serif;
+  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
   font-weight: 700; /* Bold */
-  font-size: 26px;
+  font-size: 25px;
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 43px;
+  margin-top: 20px;
 }
 
 .image-create-delete-button {
@@ -338,3 +338,4 @@
   font-size: 16px;
   margin-top: 10px;
 }
+
