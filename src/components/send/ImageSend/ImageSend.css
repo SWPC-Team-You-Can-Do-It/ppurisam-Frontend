@@ -50,7 +50,7 @@
 .ai-image-button {
   width: 100%;
   max-width: 470px;
-  height: 50px; /* 버튼 크기 줄임 */
+  height: 60px; /* 버튼 크기 줄임 */
   background-color: #31a575;
   color: #ffffff;
   border: none;
@@ -58,5 +58,6 @@
   font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
   font-size: 18px; /* 글자 크기 줄임 */
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 40px;
+  font-size: 25px;
 }
