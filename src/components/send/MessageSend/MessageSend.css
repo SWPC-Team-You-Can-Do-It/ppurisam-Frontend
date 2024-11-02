@@ -1,3 +1,5 @@
+/* src/components/main/Send/MessageSend/MessageSend.css */
+
 /* 최상위 컨테이너에 대한 스타일 */
 .message-send-container {
     background-color: transparent;
@@ -16,7 +18,7 @@
     color: #000000;
     margin-bottom: 20px;
     align-self: stretch;
-    margin-left:40px;
+    margin-left: 40px;
 }
 
 /* search-input-box 안의 자식 요소로서 스타일 적용 */
@@ -41,12 +43,35 @@
 }
 
 .search-input-box .mic-button {
-    width: 40px;
-    height: 40px;
-    background: url('@/assets/images/send/mic.png') no-repeat center;
-    background-size: contain;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #ffffff; */ /* 배경색 제거 */
+    padding: 0 10px; /* 텍스트가 있을 때 여유 공간 확보 */
+    border-radius: 5px;
+}
+
+/* 마이크 아이콘 스타일 */
+.mic-button img {
+    width: 23px;
+    height: 37px;
+    object-fit: contain;
+}
+
+/* 녹음 중일 때 스타일 */
+.mic-button.recording {
+    background-color: #ffffff; /* 흰색 배경 */
+    color: #31a575; /* 텍스트 색상 초록색 */
+    font-size: 14px; /* 폰트 크기 조정 */
+    width: auto; /* 너비 자동 조정 */
+    height: 40px; /* 높이 일정하게 유지 */
+}
+
+/* 녹음 중일 때 아이콘 숨기기 */
+.mic-button.recording img {
+    display: none;
 }
 
 /* large-message-box 스타일 */
@@ -96,13 +121,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ffffff;
+    background-color: #ffffff; /* 기본 배경색 */
+    padding: 0 10px; /* 텍스트가 있을 때 여유 공간 확보 */
 }
 
 /* mic-button2 안의 mic-icon 스타일 */
-.mic-icon {
+.mic-button2 .mic-icon {
     width: 35px;
     height: 35px;
+}
+
+/* mic-button2 녹음 중일 때 스타일 */
+.mic-button2.recording {
+    background-color: #ffffff; /* 흰색 배경 */
+    color: #31a575; /* 텍스트 색상 초록색 */
+    font-size: 16px; /* 폰트 크기 조정 */
+}
+
+/* 녹음 중일 때 아이콘 숨기기 */
+.mic-button2.recording .mic-icon {
+    display: none;
 }
 
 /* submit-button1 스타일 */
@@ -118,4 +156,12 @@
     font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
     font-size: 25px;
     cursor: pointer;
+}
+
+/* 에러 메시지 스타일 추가 */
+.error-message {
+    color: red;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
 }
