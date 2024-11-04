@@ -1,6 +1,6 @@
-/*SendPageContact.css*/
+/* SendPageContact.css */
 /* 전체 Wrapper */
-.contact-form-wrapper {
+.SendPageContact_contact-form-wrapper {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -9,30 +9,30 @@
 }
 
 /* 발신번호 섹션 */
-.sender-section2 {
+.SendPageContact_sender-section2 {
     width: 100%;
 }
 
-.sender-input-wrapper {
+.SendPageContact_sender-input-wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.input-field {
+.SendPageContact_input-field {
     flex: 1;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
 
-.sender-buttons {
+.SendPageContact_sender-buttons {
     display: flex;
     gap: 10px;
 }
 
-.delete-button,
-.register-button {
+.SendPageContact_delete-button,
+.SendPageContact_register-button {
     padding: 10px 20px;
     background-color: #f1f1f1;
     border: none;
@@ -41,7 +41,7 @@
 }
 
 /* 수신번호 및 연락처 섹션 래퍼 */
-.receiver-contact-wrapper {
+.SendPageContact_receiver-contact-wrapper {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -49,18 +49,18 @@
 }
 
 /* 수신번호 섹션 */
-.receiver-section {
+.SendPageContact_receiver-section {
     width: 48%;
 }
 
-.receiver-buttons {
+.SendPageContact_receiver-buttons {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
 }
 
-.address-button,
-.excel-button {
+.SendPageContact_address-button,
+.SendPageContact_excel-button {
     padding: 10px 20px;
     background-color: #ddd;
     border: none;
@@ -68,7 +68,7 @@
     cursor: pointer;
 }
 
-.phone-input {
+.SendPageContact_phone-input {
     width: 100%;
     height: 350px;
     border-radius: 5px;
@@ -76,7 +76,7 @@
     padding: 10px;
 }
 
-.add-number-button {
+.SendPageContact_add-number-button {
     margin-top: 10px;
     padding: 10px 20px;
     background-color: #2ecc71;
@@ -88,20 +88,18 @@
 }
 
 /* 연락처 섹션 */
-.contact-list-section {
+.SendPageContact_contact-list-section {
     margin-top: 70px;
     width: 48%;
-    max-height: 400px;
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
     border: 1px solid #ddd;
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* 테이블 스크롤 */
 }
 
-.contact-list-header {
+.SendPageContact_contact-list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -109,10 +107,10 @@
     position: sticky;
     top: 0;
     background-color: #f9f9f9;
-    z-index: 1; /* 헤더 고정 */
+    z-index: 1;
 }
 
-.clear-all-button {
+.SendPageContact_clear-all-button {
     background-color: #ff4d4d;
     color: white;
     border: none;
@@ -121,26 +119,31 @@
     cursor: pointer;
 }
 
-.contact-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed; /* 테이블 고정 너비 */
+/* 테이블 래퍼 - 스크롤 활성화 */
+.SendPageContact_table-scroll-wrapper {
+    max-height: 300px;
+    overflow-y: auto;
 }
 
-.contact-table th,
-.contact-table td {
+.SendPageContact_contact-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.SendPageContact_contact-table th,
+.SendPageContact_contact-table td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
-    min-height: 100px; /* 셀의 최소 높이 설정 */
 }
 
-.contact-table th {
+.SendPageContact_contact-table th {
     background-color: #f1f1f1;
 }
 
 /* 발송하기 버튼 */
-.submit-button2 {
+.SendPageContact_submit-button2 {
+
     width: 100%;
     padding: 15px;
     background-color: #2ecc71;
@@ -150,3 +153,4 @@
     cursor: pointer;
     margin-top: 20px;
 }
+
