@@ -4,9 +4,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 axiosInstance.interceptors.request.use(
@@ -24,7 +21,6 @@ axiosInstance.interceptors.request.use(
       console.log("authorization-token header added");
     }
 
-    console.log("Final headers:", config.headers);
     return config;
   },
   (error) => {
