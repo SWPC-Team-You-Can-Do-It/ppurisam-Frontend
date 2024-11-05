@@ -1,20 +1,37 @@
 // src/components/Header/Header.jsx
 
-import React from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 import loginIcon from "@/assets/images/Slider/mypage.png";
 import { useNavigate, NavLink } from "react-router-dom";
+import { AuthContext } from "../../login/AuthContext";
 
 function Header() {
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
 
   const handleLogoClick = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   const handleIconClick = () => {
     // 아이콘 클릭 시 원하는 동작 추가
-    navigate("/login");
+    navigate("/");
+  };
+
+  const handleLogout = () => {
+    // 토큰 제거
+    localStorage.removeItem("token");
+
+    // AuthContext 업데이트
+    setAuth({
+      access_token: null,
+      isAuthenticated: false,
+      error: null, // 필요에 따라 다른 상태도 초기화
+    });
+
+    // 로그인 페이지로 리디렉션
+    navigate("/", { replace: true });
   };
 
   return (
@@ -60,7 +77,9 @@ function Header() {
           </ul>
         </nav>
         <div className="header__member">
-          <a onClick={() => navigate("/login")}>Logout</a>
+          <button onClick={handleLogout} className="logoutButton">
+            Logout
+          </button>
         </div>
       </div>
     </header>
