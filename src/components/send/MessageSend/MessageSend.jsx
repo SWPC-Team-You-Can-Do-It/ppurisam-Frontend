@@ -4,6 +4,7 @@ import micIcon from "@/assets/images/send/mic.png";
 import MessageCreate from "../MessageCreate/MessageCreate";
 import axios from "axios";
 import useAudioRecorder from "@/utils/useAudioRecorder";
+import axiosInstance from "../../login/axiosInstance";
 
 const MessageSend = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,86 @@ const MessageSend = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // 오디오 파일을 서버로 전송하고 텍스트를 설정하는 함수
+  const handleAudioAvailable = async (file, target) => {
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("인증 토큰이 존재하지 않습니다. 로그인 상태를 확인해주세요.");
+        return;
+      }
+
+      const response = await axiosInstance.post(`/api/stt`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더 설정
+        },
+      });
+
+      const transcription = response.data.text;
+      if (target === "input") {
+        setInputText(transcription);
+      } else if (target === "textarea") {
+        setTextareaText(transcription);
+      }
+
+      // UTF-8 기준으로 바이트 수 계산 (필요 시 추가)
+      // const byteLength = new Blob([transcription]).size;
+      // setByteCount(byteLength);
+    } catch (err) {
+      console.error("파일 전송 오류:", err);
+      if (err.response) {
+        setError(
+          `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
+        );
+      } else if (err.request) {
+        setError("서버에 응답이 없습니다. 네트워크 상태를 확인해주세요.");
+      } else {
+        setError(`오류 발생: ${err.message}`);
+      }
+    }
+  };
+
+  // Input 필드용 마이크 버튼 핸들러
+  const handleMicInputClick = async () => {
+    if (isRecordingInput) {
+      try {
+        const file = await stopRecordingInput();
+        if (file) {
+          await handleAudioAvailable(file, "input");
+        } else {
+          setError("녹음된 파일이 없습니다.");
+        }
+      } catch (err) {
+        console.error("녹음 중지 오류:", err);
+        setError("녹음을 처리하는 중 오류가 발생했습니다.");
+      }
+    } else {
+      startRecordingInput();
+    }
+  };
+
+  // Textarea 필드용 마이크 버튼 핸들러
+  const handleMicTextareaClick = async () => {
+    if (isRecordingTextarea) {
+      try {
+        const file = await stopRecordingTextarea();
+        if (file) {
+          await handleAudioAvailable(file, "textarea");
+        } else {
+          setError("녹음된 파일이 없습니다.");
+        }
+      } catch (err) {
+        console.error("녹음 중지 오류:", err);
+        setError("녹음을 처리하는 중 오류가 발생했습니다.");
+      }
+    } else {
+      startRecordingTextarea();
+    }
+  };
+
   // 메시지 생성 완료 시 호출될 콜백 함수 정의
   const handleGeneratedMessage = (message) => {
     setTextareaText(message); // 생성된 메시지를 textarea에 설정
@@ -44,8 +125,9 @@ const MessageSend = () => {
         />
         <button
           className={`mic-button ${isRecordingInput ? "recording" : ""}`}
-          onClick={isRecordingInput ? stopRecordingInput : startRecordingInput}
+          onClick={handleMicInputClick}
           aria-label="녹음"
+          disabled={isModalOpen} // 모달이 열려있을 때 비활성화
         >
           {isRecordingInput ? (
             "녹음 종료"
@@ -66,10 +148,9 @@ const MessageSend = () => {
         </button>
         <button
           className={`mic-button2 ${isRecordingTextarea ? "recording" : ""}`}
-          onClick={
-            isRecordingTextarea ? stopRecordingTextarea : startRecordingTextarea
-          }
+          onClick={handleMicTextareaClick}
           aria-label="녹음"
+          disabled={isModalOpen} // 모달이 열려있을 때 비활성화
         >
           {isRecordingTextarea ? (
             "녹음 종료"
@@ -86,6 +167,7 @@ const MessageSend = () => {
             behavior: "smooth",
           })
         }
+        disabled={isModalOpen} // 모달이 열려있을 때 비활성화
       >
         작성 완료
       </button>

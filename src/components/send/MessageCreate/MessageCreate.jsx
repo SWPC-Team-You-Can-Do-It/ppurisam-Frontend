@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./MessageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
-// import axios from 'axios';
 import axiosInstance from "@/components/login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder";
 
@@ -19,6 +18,48 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
     const bytes = new Blob([prompt]).size;
     setByteCount(bytes);
   }, [prompt]);
+
+  const handleAudioAvailable = async (file) => {
+    if (!file) {
+      setError("녹음된 파일이 없습니다.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+
+    try {
+      setIsLoading(true);
+      setError("");
+
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.post("/api/stt", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더 설정
+        },
+      });
+
+      const transcription = response.data.text;
+      if (transcription) {
+        setPrompt(transcription);
+      } else {
+        setError("음성 인식에 실패했습니다.");
+      }
+    } catch (err) {
+      console.error("파일 전송 오류:", err);
+      if (err.response) {
+        setError(
+          `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
+        );
+      } else if (err.request) {
+        setError("서버에 응답이 없습니다. 네트워크 상태를 확인해주세요.");
+      } else {
+        setError(`오류 발생: ${err.message}`);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleGenerateMessage = async () => {
     if (!prompt.trim()) {
@@ -62,6 +103,21 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // 마이크 버튼 클릭 핸들러
+  const handleMicClick = async () => {
+    if (isRecording) {
+      try {
+        const file = await stopRecording();
+        await handleAudioAvailable(file);
+      } catch (err) {
+        console.error("녹음 중지 오류:", err);
+        setError("녹음을 처리하는 중 오류가 발생했습니다.");
+      }
+    } else {
+      startRecording();
     }
   };
 
@@ -133,7 +189,7 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
               className={`message-create-mic-button ${
                 isRecording ? "recording" : ""
               }`}
-              onClick={isRecording ? stopRecording : startRecording}
+              onClick={handleMicClick}
               aria-label="녹음"
               disabled={isLoading}
             >
