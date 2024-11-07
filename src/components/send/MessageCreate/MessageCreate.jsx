@@ -32,12 +32,7 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
       setIsLoading(true);
       setError("");
 
-      const token = localStorage.getItem("token");
-      const response = await axiosInstance.post("/api/stt", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Authorization 헤더 설정
-        },
-      });
+      const response = await axiosInstance.post("/api/stt", formData);
 
       const transcription = response.data.text;
       if (transcription) {
@@ -72,16 +67,9 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
     setGeneratedMessage("");
 
     try {
-      const token = localStorage.getItem("token");
-      const response = await axiosInstance.post(
-        "/api/text-ai",
-        { text: prompt },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Authorization 헤더 설정
-          },
-        }
-      );
+      const response = await axiosInstance.post("/api/text-ai", {
+        text: prompt,
+      });
 
       const message = response.data.generated_text;
       if (message) {

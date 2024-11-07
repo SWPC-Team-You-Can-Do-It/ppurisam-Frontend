@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import "./ImageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
-import axios from "axios";
+import axiosInstance from "../../login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder"; // 커스텀 훅 임포트
 
 const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
@@ -33,16 +33,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
     formData.append("file", file, file.name);
 
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/stt`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Authorization 헤더 설정
-          },
-        }
-      );
+      const response = await axiosInstance.post(`/api/stt`, formData);
 
       const transcription = response.data.text;
       setPrompt(transcription);
@@ -75,15 +66,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/image-ai`,
-        { prompt },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Authorization 헤더 설정
-          },
-        }
-      );
+      const response = await axiosInstance.post(`/api/image-ai`, { prompt });
 
       const imageUrl = response.data;
       console.log("Generated Image URL:", imageUrl);
