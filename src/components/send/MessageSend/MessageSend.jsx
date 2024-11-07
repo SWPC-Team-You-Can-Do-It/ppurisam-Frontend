@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "./MessageSend.css";
 import micIcon from "@/assets/images/send/mic.png";
 import MessageCreate from "../MessageCreate/MessageCreate";
-import axios from "axios";
 import useAudioRecorder from "@/utils/useAudioRecorder";
 import axiosInstance from "../../login/axiosInstance";
+import ImageCreate from "../ImageCreate/ImageCreate"; // ImageCreate 컴포넌트 추가
 
 const MessageSend = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,28 +32,14 @@ const MessageSend = () => {
     formData.append("file", file, file.name);
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("인증 토큰이 존재하지 않습니다. 로그인 상태를 확인해주세요.");
-        return;
-      }
-
-      const response = await axiosInstance.post(`/api/stt`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Authorization 헤더 설정
-        },
-      });
-
+      const response = await axiosInstance.post(`/api/stt`, formData);
       const transcription = response.data.text;
+
       if (target === "input") {
         setInputText(transcription);
       } else if (target === "textarea") {
         setTextareaText(transcription);
       }
-
-      // UTF-8 기준으로 바이트 수 계산 (필요 시 추가)
-      // const byteLength = new Blob([transcription]).size;
-      // setByteCount(byteLength);
     } catch (err) {
       console.error("파일 전송 오류:", err);
       if (err.response) {
@@ -119,7 +105,7 @@ const MessageSend = () => {
         <input
           type="text"
           className="search-input"
-          placeholder="내용을 입력해주세요."
+          placeholder="제목을 입력해주세요."
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
         />
@@ -179,6 +165,7 @@ const MessageSend = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         onGeneratedMessage={handleGeneratedMessage}
+        prompt={inputText || textareaText} // 전달된 텍스트를 prompt로 설정
       />
     </div>
   );
