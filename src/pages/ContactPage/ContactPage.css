@@ -1,4 +1,4 @@
-/* ContactPage.css */
+/* src/pages/ContactPage/ContactPage.css */
 
 /* 전체 페이지 컨테이너 */
 .contact-page-container {
@@ -8,29 +8,21 @@
     justify-content: center;
     align-items: center;
     padding-top: 80px;
-
 }
 
 /* 연락처 페이지의 콘텐츠 영역 */
 .contact-content {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     background-color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 60px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1160px;
+    min-height: 680px;
+    padding: 20px;  
 }
 
-
-/* Footer 스타일 */
-.footer {
-    width: 100%; /* 푸터가 전체 너비를 차지하도록 설정 */
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: auto; /* 푸터가 페이지 하단에 위치하도록 설정 */
-}
+/* Footer 스타일은 Header 컴포넌트에서 이미 포함되므로 별도 스타일 필요 없음 */
