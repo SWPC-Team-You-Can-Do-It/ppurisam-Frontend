@@ -1,3 +1,4 @@
+// src/components/login/Login.js
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginCheckIcon from "@/assets/images/login/check_circle.png";
@@ -97,8 +98,28 @@ const Login = () => {
         isAuthenticated: true,
       }));
 
-      // 메인 페이지로 리디렉션
-      navigate("/home");
+      // 뿌리오 토큰 요청
+      try {
+        const ppurioResponse = await axiosInstance.post(`/api/ppurio/token`);
+
+        console.log("Ppurio Response Data:", ppurioResponse.data);
+        const ppurioToken = ppurioResponse.data.token; // 토큰 필드명은 실제 응답에 따라 수정 필요
+
+        // 뿌리오 토큰을 로컬 스토리지에 저장
+        localStorage.setItem("ppurio_token", ppurioToken);
+
+        // AuthContext 업데이트
+        setAuth((prev) => ({
+          ...prev,
+          ppurio_token: ppurioToken,
+        }));
+
+        // 메인 페이지로 리디렉션
+        navigate("/home");
+      } catch (ppurioError) {
+        console.error("Ppurio token error:", ppurioError);
+        setError("Ppurio 토큰을 가져오는 중 오류가 발생했습니다.");
+      }
     } catch (err) {
       console.error("Login error:", err);
       if (err.response && err.response.data && err.response.data.message) {
@@ -114,66 +135,67 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <div className="headerBrand">Ppurisam</div>
-      <div className="loginBox">
-        <div className="brandWrapper">
-          <div className="brandName">Ppurisam</div>
-        </div>
-        <div className="welcomeText">돌아온 걸 환영해요!</div>
-        <form onSubmit={handleContinue}>
-          <div className="inputWrapper">
-            <input
-              type="email"
-              className={`emailInput ${
-                emailTouched && !isEmailValid ? "invalid" : ""
-              }`}
-              placeholder="Email"
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={handleEmailBlur}
-              required
-            />
-            {isEmailValid && (
-              <img
-                className="checkCircleIcon"
-                src={LoginCheckIcon}
-                alt="Valid"
+      <div className="container">
+        <div className="headerBrand">Ppurisam</div>
+        <div className="loginBox">
+          <div className="brandWrapper">
+            <div className="brandName">Ppurisam</div>
+          </div>
+          <div className="welcomeText">돌아온 걸 환영해요!</div>
+          <form onSubmit={handleContinue}>
+            <div className="inputWrapper">
+              <input
+                  type="email"
+                  className={`emailInput ${
+                      emailTouched && !isEmailValid ? "invalid" : ""
+                  }`}
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  onBlur={handleEmailBlur}
+                  required
               />
+              {isEmailValid && (
+                  <img
+                      className="checkCircleIcon"
+                      src={LoginCheckIcon}
+                      alt="Valid"
+                  />
+              )}
+            </div>
+            {emailTouched && !isEmailValid && (
+                <div className="errorText">유효한 이메일을 입력하세요.</div>
             )}
+            <div className="inputWrapper">
+              <input
+                  type={showPassword ? "text" : "password"}
+                  className="passwordInput"
+                  placeholder="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+              />
+              <img
+                  className="eyeIcon"
+                  src={EyeIcon}
+                  alt="Show Password"
+                  onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
+            <div className="continueButtonWrapper">
+              <button type="submit" className="continueButton" disabled={loading}>
+                {loading ? "로딩 중..." : "계속하기"}
+              </button>
+            </div>
+          </form>
+          {error && <div className="errorText">{error}</div>}
+          <div className="signupLinkWrapper">
+            <a href="/signup" className="signupLink">
+              회원가입
+            </a>
           </div>
-          {emailTouched && !isEmailValid && (
-            <div className="errorText">유효한 이메일을 입력하세요.</div>
-          )}
-          <div className="inputWrapper">
-            <input
-              type={showPassword ? "text" : "password"}
-              className="passwordInput"
-              placeholder="Password"
-              value={password} // 추가
-              onChange={handlePasswordChange} // 추가
-              required
-            />
-            <img
-              className="eyeIcon"
-              src={EyeIcon}
-              alt="Show Password"
-              onClick={() => setShowPassword(!showPassword)}
-            />
-          </div>
-          <div className="continueButtonWrapper">
-            <button type="submit" className="continueButton" disabled={loading}>
-              {loading ? "로딩 중..." : "계속하기"}
-            </button>
-          </div>
-        </form>
-        <div className="signupLinkWrapper">
-          <a href="/signup" className="signupLink">
-            회원가입
-          </a>
         </div>
       </div>
-    </div>
   );
 };
 

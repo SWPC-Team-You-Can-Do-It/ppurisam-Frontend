@@ -21,6 +21,14 @@ axiosInstance.interceptors.request.use(
       console.log("Authorization header added");
     }
 
+      if (config.url.startsWith("/api/ppurio/")) {
+          const ppurioToken = localStorage.getItem("ppurio_token");
+          if (ppurioToken && config.headers) {
+              config.headers["Authorization-ppurio"] = ppurioToken;
+              console.log("Authorization-ppurio header added");
+          }
+      }
+
     return config;
   },
   (error) => {
@@ -37,6 +45,7 @@ axiosInstance.interceptors.response.use(
       (error.response.status === 401 || error.response.status === 403)
     ) {
       localStorage.removeItem("token");
+        localStorage.removeItem("ppurio_token");
       window.location.href =
         "/login?message=토큰이 만료되었습니다. 다시 로그인해주세요.";
     }
