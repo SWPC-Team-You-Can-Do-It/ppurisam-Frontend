@@ -169,9 +169,7 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
               ></textarea>
-              <div className="message-create-byte-counter">
-                {byteCount} / 600byte
-              </div>
+              <div className="message-create-byte-counter"></div>
             </div>
             <button
               className={`message-create-mic-button ${
