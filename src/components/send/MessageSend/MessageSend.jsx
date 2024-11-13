@@ -94,7 +94,6 @@ const MessageSend = ({ onGeneratedMessage }) => {
 
   // 메시지 생성 완료 시 호출될 콜백 함수 정의
   const handleGeneratedMessage = (message) => {
-    console.log("Generated Message:", message);
     setTextareaText(message); // 생성된 메시지를 textarea에 설정
     onGeneratedMessage(message); // 생성된 프롬프트 상태 업데이트
     closeMessageModal(); // MessageCreate 모달 닫기
