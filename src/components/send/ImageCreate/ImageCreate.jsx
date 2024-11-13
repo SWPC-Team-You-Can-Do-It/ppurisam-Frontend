@@ -21,7 +21,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
   };
 
   const handlePromptChange = (e) => {
-    const text = e.target.value.slice(0, 200);
+    const text = e.target.value;
     setPrompt(text);
     // UTF-8 기준으로 바이트 수 계산
     const byteLength = new Blob([text]).size;
@@ -164,9 +164,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
                 value={prompt}
                 onChange={handlePromptChange}
               ></textarea>
-              <div className="image-create-byte-counter">
-                {byteCount} / 200byte
-              </div>
             </div>
             {/* 마이크 버튼 */}
             <button
