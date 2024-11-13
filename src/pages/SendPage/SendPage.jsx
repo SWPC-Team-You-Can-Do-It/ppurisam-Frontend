@@ -20,8 +20,6 @@ const SendPage = () => {
       <Header />
       <div className="send-content-wrapper">
         <div className="send-content">
-          {/* <MessageSend />
-          <ImageSend /> */}
           <MessageSend onGeneratedMessage={handleGeneratedMessage} />
           <ImageSend initialPrompt={generatedPrompt} />
         </div>
