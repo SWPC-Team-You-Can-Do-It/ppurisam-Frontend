@@ -18,7 +18,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
 
   useEffect(() => {
     if (initialPrompt) {
-      console.log("Initial Prompt Updated:", initialPrompt); // 디버깅용 로그 추가
       setPrompt(initialPrompt);
       const byteLength = new Blob([initialPrompt]).size;
       setByteCount(byteLength);
