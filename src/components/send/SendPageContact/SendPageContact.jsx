@@ -1,4 +1,5 @@
 // src/components/contact/SendPageContact.jsx
+
 import React, { useState } from "react";
 import * as XLSX from 'xlsx';
 import "./SendPageContact.css";
@@ -61,6 +62,13 @@ const SendPageContact = () => {
         reader.readAsArrayBuffer(file);
     };
 
+    // 주소록에서 선택된 번호를 수신번호 입력칸에 추가하는 함수
+    const handleSelectFromAddressBook = (selectedNumbers) => {
+        const currentNumbers = phoneNumbers.split('\n').filter(Boolean);
+        const allNumbers = Array.from(new Set([...currentNumbers, ...selectedNumbers]));
+        setPhoneNumbers(allNumbers.join('\n'));
+    };
+
     return (
         <div className="SendPageContact_contact-form-wrapper">
             {/* 발신번호 입력 */}
@@ -73,7 +81,7 @@ const SendPageContact = () => {
                         placeholder="발신번호를 입력해주세요"
                         value={senderNumber}
                         onChange={(e) => setSenderNumber(e.target.value)}
-                        disabled={!isEditable} // 입력 비활성화 여부
+                        disabled={!isEditable}
                     />
                     <div className="SendPageContact_sender-buttons">
                         <button className="SendPageContact_delete-button" onClick={handleDeleteSender}>삭제</button>
@@ -138,7 +146,11 @@ const SendPageContact = () => {
             <button className="SendPageContact_submit-button2">발송하기</button>
 
             {/* 주소록 모달 */}
-            <AddressBookModal isOpen={isModalOpen} onClose={closeModal} />
+            <AddressBookModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onSelect={handleSelectFromAddressBook}
+            />
         </div>
     );
 };

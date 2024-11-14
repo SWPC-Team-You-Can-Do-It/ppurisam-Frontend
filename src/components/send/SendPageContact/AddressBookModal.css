@@ -1,5 +1,7 @@
+/* src/components/contact/AddressBookModal.css */
+
 /* 모달 오버레이 스타일 */
-.address-modal-overlay {
+.AddressBookModal_address-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,20 +15,21 @@
 }
 
 /* 모달 콘텐츠 스타일 */
-.address-modal-content {
-    width: 90vw; /* 전체 화면의 90% 너비 */
-    height: 90vh; /* 전체 화면의 90% 높이 */
+.AddressBookModal_address-modal-content {
+    width: 90vw;
+    height: 90vh;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow: visible; /* 추가: 자식 요소가 넘칠 때 보이도록 설정 */
 }
 
 /* 모달 닫기 버튼 스타일 */
-.address-modal-close-button {
+.AddressBookModal_address-modal-close-button {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -37,76 +40,117 @@
     cursor: pointer;
 }
 
-.address-modal-close-button:hover {
+.AddressBookModal_address-modal-close-button:hover {
     color: #555;
 }
 
-/* 테이블 스타일 */
-.table-container2 {
-    max-height: 60%; /* 모달 내부에서 테이블 높이 제한 */
-    overflow-y: auto;
-    border: 1px solid #d1c8c8;
-    margin-bottom: 20px; /* 폴더 버튼과 테이블 사이 간격 */
-}
-
-.contact-table2 {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.contact-table2 th,
-.contact-table2 td {
-    border: 1px solid #d1c8c8;
-    padding: 20px;
-    text-align: left;
-}
-
-.contact-table2 th {
-    background-color: #f1f5f9;
-}
-
-/* 폴더 드롭다운 버튼 및 스타일 */
-.folder-dropdown-wrapper {
+/* 그룹 드롭다운 버튼 및 스타일 */
+.AddressBookModal_group-dropdown-wrapper {
     position: relative;
-    margin-bottom: 20px; /* 주소록 텍스트 아래 위치하도록 여백 추가 */
+    margin-bottom: 20px;
+    display: inline-block;
+    z-index: 1010; /* 추가: 드롭다운 메뉴가 테이블 위에 오도록 설정 */
 }
 
-.folder-sort-button {
+.AddressBookModal_group-select-button {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px 15px;
     background-color: #f1f5f9;
     border: 1px solid #d1c8c8;
     border-radius: 5px;
     cursor: pointer;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    white-space: nowrap;
+    width: 100px;
+    box-sizing: border-box;
 }
 
-.arrow-icon {
-    margin-left: 10px;
+.AddressBookModal_arrow-icon {
+    margin-left: auto;
     width: 16px;
     height: 16px;
 }
 
-.dropdown-menu {
+/* 드롭다운 메뉴 스타일 */
+.AddressBookModal_dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 2px);
     left: 0;
     background-color: #ffffff;
     border: 1px solid #d1c8c8;
     border-radius: 5px;
-    padding: 10px 0;
-    margin-top: 10px;
+    padding: 0;
+    margin: 0;
     list-style: none;
-    width: 100%;
+    width: 100px;
+    box-sizing: border-box;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1020; /* 수정: 드롭다운 메뉴의 z-index를 높여서 테이블 위에 오도록 */
 }
 
-.dropdown-menu li {
-    padding: 10px 20px;
+.AddressBookModal_dropdown-menu li {
+    padding: 10px 15px;
     cursor: pointer;
 }
 
-.dropdown-menu li:hover {
+.AddressBookModal_dropdown-menu li:hover {
     background-color: #f1f1f1;
+}
+
+/* 테이블 컨테이너 스타일 수정 */
+.AddressBookModal_table-container2 {
+    flex-grow: 1;
+    border: 1px solid #d1c8c8;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative; /* 추가: 새로운 스택 컨텍스트 생성 */
+    z-index: 1000; /* 추가: 테이블의 z-index를 낮게 설정 */
+}
+
+/* 테이블 스타일 */
+.AddressBookModal_contact-table2 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* 테이블 헤더 고정 및 본문 스크롤 */
+.AddressBookModal_contact-table2 thead {
+    background-color: #f1f5f9;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.AddressBookModal_contact-table2 tbody {
+    display: block;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.AddressBookModal_contact-table2 tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.AddressBookModal_contact-table2 th,
+.AddressBookModal_contact-table2 td {
+    border: 1px solid #d1c8c8;
+    padding: 10px;
+    text-align: left;
+    width: 25%;
+}
+
+/* 선택 완료 버튼 스타일 */
+.AddressBookModal_select-complete-button {
+    padding: 10px 20px;
+    background-color: #31a575;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 20px;
 }
