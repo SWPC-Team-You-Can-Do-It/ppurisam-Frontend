@@ -1,20 +1,28 @@
 // src/components/main/Send/ImageCreate/ImageCreate.jsx
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ImageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
 import axiosInstance from "../../login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder"; // 커스텀 훅 임포트
 
-const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
+const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [isCreateMode, setIsCreateMode] = useState(true);
-  const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState(initialPrompt || "");
   const [byteCount, setByteCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
 
   const { isRecording, startRecording, stopRecording } = useAudioRecorder();
+
+  useEffect(() => {
+    if (initialPrompt) {
+      setPrompt(initialPrompt);
+      const byteLength = new Blob([initialPrompt]).size;
+      setByteCount(byteLength);
+    }
+  }, [initialPrompt]);
 
   const handleToggle = () => {
     setIsCreateMode(!isCreateMode);
@@ -73,8 +81,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated }) => {
 
       if (imageUrl) {
         setImageUrl(imageUrl);
-        // 이미지 생성 후에는 onImageGenerated를 호출하지 않음
-        // onImageGenerated && onImageGenerated(imageUrl); // 이 줄을 주석 처리하거나 삭제합니다.
+        onImageGenerated && onImageGenerated(imageUrl); // 이 줄을 주석 처리하거나 삭제합니다.
       } else {
         setError("이미지 생성에 실패했습니다.");
       }

@@ -4,10 +4,9 @@ import micIcon from "@/assets/images/send/mic.png";
 import MessageCreate from "../MessageCreate/MessageCreate";
 import useAudioRecorder from "@/utils/useAudioRecorder";
 import axiosInstance from "../../login/axiosInstance";
-import ImageCreate from "../ImageCreate/ImageCreate"; // ImageCreate 컴포넌트 추가
 
-const MessageSend = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const MessageSend = ({ onGeneratedMessage }) => {
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [inputText, setInputText] = useState("");
   const [textareaText, setTextareaText] = useState("");
   const [error, setError] = useState("");
@@ -17,14 +16,15 @@ const MessageSend = () => {
     startRecording: startRecordingInput,
     stopRecording: stopRecordingInput,
   } = useAudioRecorder();
+
   const {
     isRecording: isRecordingTextarea,
     startRecording: startRecordingTextarea,
     stopRecording: stopRecordingTextarea,
   } = useAudioRecorder();
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openMessageModal = () => setIsMessageModalOpen(true);
+  const closeMessageModal = () => setIsMessageModalOpen(false);
 
   // 오디오 파일을 서버로 전송하고 텍스트를 설정하는 함수
   const handleAudioAvailable = async (file, target) => {
@@ -95,7 +95,8 @@ const MessageSend = () => {
   // 메시지 생성 완료 시 호출될 콜백 함수 정의
   const handleGeneratedMessage = (message) => {
     setTextareaText(message); // 생성된 메시지를 textarea에 설정
-    closeModal(); // 모달 닫기
+    onGeneratedMessage(message); // 생성된 프롬프트 상태 업데이트
+    closeMessageModal(); // MessageCreate 모달 닫기
   };
 
   return (
@@ -113,7 +114,7 @@ const MessageSend = () => {
           className={`mic-button ${isRecordingInput ? "recording" : ""}`}
           onClick={handleMicInputClick}
           aria-label="녹음"
-          disabled={isModalOpen} // 모달이 열려있을 때 비활성화
+          disabled={isMessageModalOpen} // 모달이 열려있을 때 비활성화
         >
           {isRecordingInput ? (
             "녹음 종료"
@@ -129,14 +130,14 @@ const MessageSend = () => {
         onChange={(e) => setTextareaText(e.target.value)}
       ></textarea>
       <div className="action-buttons">
-        <button className="action-button" onClick={openModal}>
+        <button className="action-button" onClick={openMessageModal}>
           AI 자동 생성
         </button>
         <button
           className={`mic-button2 ${isRecordingTextarea ? "recording" : ""}`}
           onClick={handleMicTextareaClick}
           aria-label="녹음"
-          disabled={isModalOpen} // 모달이 열려있을 때 비활성화
+          disabled={isMessageModalOpen} // 모달이 열려있을 때 비활성화
         >
           {isRecordingTextarea ? (
             "녹음 종료"
@@ -153,7 +154,7 @@ const MessageSend = () => {
             behavior: "smooth",
           })
         }
-        disabled={isModalOpen} // 모달이 열려있을 때 비활성화
+        disabled={isMessageModalOpen} // 모달이 열려있을 때 비활성화
       >
         작성 완료
       </button>
@@ -162,8 +163,8 @@ const MessageSend = () => {
 
       {/* 모달 컴포넌트, onGeneratedMessage 콜백 전달 */}
       <MessageCreate
-        isOpen={isModalOpen}
-        onClose={closeModal}
+        isOpen={isMessageModalOpen}
+        onClose={closeMessageModal}
         onGeneratedMessage={handleGeneratedMessage}
         prompt={inputText || textareaText} // 전달된 텍스트를 prompt로 설정
       />
