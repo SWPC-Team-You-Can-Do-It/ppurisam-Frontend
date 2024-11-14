@@ -1,0 +1,78 @@
+/* src/components/chatbot/Robot.css */
+
+/* 로봇 컨테이너 스타일 */
+.robot-wrapper {
+  width: 80px; /* 필요에 따라 크기 조정 */
+  height: auto;
+  cursor: pointer;
+}
+
+/* SVG 내부 요소에 대한 스타일 및 애니메이션 */
+.robot-wrapper #body {
+  animation: hover 1.1s ease-in-out 0s infinite alternate;
+}
+
+.robot-wrapper #head {
+  animation: hover 1.1s ease-in-out 0.05s infinite alternate;
+}
+
+.robot-wrapper #left_arm {
+  transform-origin: center right;
+  animation: arms_bounce_left 1.1s ease-in-out 0s infinite alternate;
+}
+
+.robot-wrapper #right_arm {
+  transform-origin: center left;
+  animation: arms_bounce_right 1.1s ease-in-out 0s infinite alternate;
+}
+
+.robot-wrapper #eyes ellipse {
+  transform-origin: center center;
+  animation: eyes_blink 2s ease-out 0s infinite alternate;
+}
+
+/* 애니메이션 키프레임 정의 */
+@keyframes hover {
+  0% {
+    transform: translate3d(0, 0px, 0);
+  }
+  100% {
+    transform: translate3d(0, -50px, 0);
+  }
+}
+
+
+
+@keyframes arms_bounce_left {
+  0% {
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(0, -50px, 0) rotate(-10deg);
+  }
+}
+
+@keyframes arms_bounce_right {
+  0% {
+    transform: translate3d(0, 0px, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(0, -50px, 0) rotate(10deg);
+  }
+}
+
+@keyframes eyes_blink {
+  0% {
+    transform: scale(1, 1);
+  }
+  90% {
+    transform: scale(1, 1);
+  }
+  95% {
+    transform: scale(0.8, 0);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+

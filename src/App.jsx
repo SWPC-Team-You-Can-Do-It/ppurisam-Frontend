@@ -14,6 +14,7 @@ import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import MyPage from "./pages/MyPage/MyPage";
 import "./App.css"; // 스타일시트 임포트
 import PrivateRoute from "./components/login/privateRoute";
+import Chatbot from "./components/chatbot/Chatbot";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
         {/* 필요한 다른 라우트도 동일하게 적용 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Chatbot />
     </Router>
   );
 }
