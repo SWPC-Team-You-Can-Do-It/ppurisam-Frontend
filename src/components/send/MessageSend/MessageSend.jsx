@@ -1,14 +1,16 @@
+// src/components/send/MessageSend/MessageSend.jsx
+
 import React, { useState } from "react";
 import "./MessageSend.css";
 import micIcon from "@/assets/images/send/mic.png";
 import MessageCreate from "../MessageCreate/MessageCreate";
-import useAudioRecorder from "@/utils/useAudioRecorder";
-import axiosInstance from "../../login/axiosInstance";
+import axiosInstance from "../../login/axiosInstance"; // 상대 경로 수정
+import useAudioRecorder from "@/utils/useAudioRecorder"; // 커스텀 훅 임포트
 
-const MessageSend = ({ onGeneratedMessage }) => {
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
-  const [inputText, setInputText] = useState("");
-  const [textareaText, setTextareaText] = useState("");
+const MessageSend = ({ onContentUpdate, messageTitle, messageContent }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [inputText, setInputText] = useState(messageTitle || "");
+  const [textareaText, setTextareaText] = useState(messageContent || "");
   const [error, setError] = useState("");
 
   const {
@@ -23,10 +25,10 @@ const MessageSend = ({ onGeneratedMessage }) => {
     stopRecording: stopRecordingTextarea,
   } = useAudioRecorder();
 
-  const openMessageModal = () => setIsMessageModalOpen(true);
-  const closeMessageModal = () => setIsMessageModalOpen(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
-  // 오디오 파일을 서버로 전송하고 텍스트를 설정하는 함수
+  // Handle audio recording
   const handleAudioAvailable = async (file, target) => {
     const formData = new FormData();
     formData.append("file", file, file.name);
@@ -37,14 +39,16 @@ const MessageSend = ({ onGeneratedMessage }) => {
 
       if (target === "input") {
         setInputText(transcription);
+        onContentUpdate(transcription, textareaText);
       } else if (target === "textarea") {
         setTextareaText(transcription);
+        onContentUpdate(inputText, transcription);
       }
     } catch (err) {
       console.error("파일 전송 오류:", err);
       if (err.response) {
         setError(
-          `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
+            `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
         );
       } else if (err.request) {
         setError("서버에 응답이 없습니다. 네트워크 상태를 확인해주세요.");
@@ -54,7 +58,7 @@ const MessageSend = ({ onGeneratedMessage }) => {
     }
   };
 
-  // Input 필드용 마이크 버튼 핸들러
+  // Handle mic button click for input
   const handleMicInputClick = async () => {
     if (isRecordingInput) {
       try {
@@ -73,7 +77,7 @@ const MessageSend = ({ onGeneratedMessage }) => {
     }
   };
 
-  // Textarea 필드용 마이크 버튼 핸들러
+  // Handle mic button click for textarea
   const handleMicTextareaClick = async () => {
     if (isRecordingTextarea) {
       try {
@@ -92,83 +96,76 @@ const MessageSend = ({ onGeneratedMessage }) => {
     }
   };
 
-  // 메시지 생성 완료 시 호출될 콜백 함수 정의
+  // Handle generated message from AI
   const handleGeneratedMessage = (message) => {
-    setTextareaText(message); // 생성된 메시지를 textarea에 설정
-    onGeneratedMessage(message); // 생성된 프롬프트 상태 업데이트
-    closeMessageModal(); // MessageCreate 모달 닫기
+    setTextareaText(message); // Set message content
+    onContentUpdate(inputText, message); // Pass to parent
+    closeModal(); // Close modal
+  };
+
+  // Handle text change in textarea
+  const handleTextChange = (e) => {
+    const text = e.target.value;
+    setTextareaText(text);
+    onContentUpdate(inputText, text);
+  };
+
+  // Handle text change in input
+  const handleTitleChange = (e) => {
+    const title = e.target.value;
+    setInputText(title);
+    onContentUpdate(title, textareaText);
   };
 
   return (
-    <div className="message-send-container">
-      <h2 className="message-send-title">메시지 입력</h2>
-      <div className="search-input-box">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="제목을 입력해주세요."
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
+      <div className="message-send-container">
+        <h2 className="message-send-title">메시지 입력</h2>
+        <div className="search-input-box">
+          <input
+              type="text"
+              className="search-input"
+              placeholder="제목을 입력해주세요."
+              value={inputText}
+              onChange={handleTitleChange}
+          />
+          <button
+              className={`mic-button ${isRecordingInput ? "recording" : ""}`}
+              onClick={handleMicInputClick}
+              aria-label="녹음"
+              disabled={isModalOpen} // Disable when modal is open
+          >
+            {isRecordingInput ? "녹음 종료" : <img src={micIcon} alt="Mic" />}
+          </button>
+        </div>
+        <textarea
+            className="large-message-box"
+            placeholder="내용을 입력해주세요."
+            value={textareaText}
+            onChange={handleTextChange}
+        ></textarea>
+        <div className="action-buttons">
+          <button className="action-button" onClick={openModal}>
+            AI 자동 생성
+          </button>
+          <button
+              className={`mic-button2 ${isRecordingTextarea ? "recording" : ""}`}
+              onClick={handleMicTextareaClick}
+              aria-label="녹음"
+              disabled={isModalOpen} // Disable when modal is open
+          >
+            {isRecordingTextarea ? "녹음 종료" : <img src={micIcon} alt="Mic" className="mic-icon" />}
+          </button>
+        </div>
+        {error && <div className="error-message">{error}</div>}
+
+        {/* Modal component for AI message creation */}
+        <MessageCreate
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onGeneratedMessage={handleGeneratedMessage}
+            prompt={messageTitle || messageContent} // Use props as prompt
         />
-        <button
-          className={`mic-button ${isRecordingInput ? "recording" : ""}`}
-          onClick={handleMicInputClick}
-          aria-label="녹음"
-          disabled={isMessageModalOpen} // 모달이 열려있을 때 비활성화
-        >
-          {isRecordingInput ? (
-            "녹음 종료"
-          ) : (
-            <img src={micIcon} alt="Mic Icon" />
-          )}
-        </button>
       </div>
-      <textarea
-        className="large-message-box"
-        placeholder="내용을 입력해주세요."
-        value={textareaText}
-        onChange={(e) => setTextareaText(e.target.value)}
-      ></textarea>
-      <div className="action-buttons">
-        <button className="action-button" onClick={openMessageModal}>
-          AI 자동 생성
-        </button>
-        <button
-          className={`mic-button2 ${isRecordingTextarea ? "recording" : ""}`}
-          onClick={handleMicTextareaClick}
-          aria-label="녹음"
-          disabled={isMessageModalOpen} // 모달이 열려있을 때 비활성화
-        >
-          {isRecordingTextarea ? (
-            "녹음 종료"
-          ) : (
-            <img src={micIcon} alt="Mic Icon" className="mic-icon" />
-          )}
-        </button>
-      </div>
-      <button
-        className="submit-button1"
-        onClick={() =>
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: "smooth",
-          })
-        }
-        disabled={isMessageModalOpen} // 모달이 열려있을 때 비활성화
-      >
-        작성 완료
-      </button>
-
-      {error && <div className="error-message">{error}</div>}
-
-      {/* 모달 컴포넌트, onGeneratedMessage 콜백 전달 */}
-      <MessageCreate
-        isOpen={isMessageModalOpen}
-        onClose={closeMessageModal}
-        onGeneratedMessage={handleGeneratedMessage}
-        prompt={inputText || textareaText} // 전달된 텍스트를 prompt로 설정
-      />
-    </div>
   );
 };
 

@@ -1,16 +1,25 @@
-// src/components/contact/SendPageContact.jsx
+// src/components/send/SendPageContact/SendPageContact.jsx
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import * as XLSX from 'xlsx';
 import "./SendPageContact.css";
 import AddressBookModal from './AddressBookModal';
+import axiosInstance from "../../login/axiosInstance";
+import { v4 as uuidv4 } from 'uuid';
+import { ImageContext } from '../../../contexts/ImageContext'; // ImageContext 임포트
 
-const SendPageContact = () => {
+const SendPageContact = ({ messageContent }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [senderNumber, setSenderNumber] = useState('');
     const [isEditable, setIsEditable] = useState(true);
-    const [phoneNumbers, setPhoneNumbers] = useState(''); // 다중 입력 필드 내용
-    const [contactList, setContactList] = useState([]); // 연락처 리스트
+    const [phoneNumbers, setPhoneNumbers] = useState('');
+    const [contactList, setContactList] = useState([]);
+    const [refKey] = useState(uuidv4().replace(/-/g, '').substring(0, 32));
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const account = import.meta.env.VITE_REACT_APP_PPURIO_ACCOUNT;
+
+    const { imageData } = useContext(ImageContext); // ImageContext 사용
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -22,7 +31,8 @@ const SendPageContact = () => {
 
     const handleRegisterSender = () => {
         if (senderNumber.trim()) {
-            setIsEditable(false); // 발신번호 입력 비활성화
+            setIsEditable(false);
+            handleContactUpdate(senderNumber, contactList);
         } else {
             alert('발신번호를 입력해주세요.');
         }
@@ -30,24 +40,27 @@ const SendPageContact = () => {
 
     const handleDeleteSender = () => {
         setSenderNumber('');
-        setIsEditable(true); // 발신번호 입력 활성화
+        setIsEditable(true);
+        handleContactUpdate('', contactList);
     };
 
     const handleAddNumbers = () => {
         const newNumbers = phoneNumbers
             .split('\n')
             .map((num) => num.trim())
-            .filter((num) => num); // 공백 필터링
+            .filter((num) => num);
 
-        setContactList((prevList) => [...prevList, ...newNumbers]);
-        setPhoneNumbers(''); // 입력 필드 초기화
+        const updatedList = [...contactList, ...newNumbers];
+        setContactList(updatedList);
+        setPhoneNumbers('');
+        handleContactUpdate(senderNumber, updatedList);
     };
 
     const handleClearAll = () => {
-        setContactList([]); // 연락처 리스트 초기화
+        setContactList([]);
+        handleContactUpdate(senderNumber, []);
     };
 
-    // 엑셀 파일 처리 함수
     const handleExcelUpload = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -57,7 +70,7 @@ const SendPageContact = () => {
             const worksheet = workbook.Sheets[workbook.SheetNames[0]];
             const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
             const numbers = sheetData.map(row => row[0]).filter(Boolean).join('\n');
-            setPhoneNumbers(numbers); // 텍스트 영역에 번호 추가
+            setPhoneNumbers(numbers);
         };
         reader.readAsArrayBuffer(file);
     };
@@ -69,8 +82,89 @@ const SendPageContact = () => {
         setPhoneNumbers(allNumbers.join('\n'));
     };
 
+    const handleContactUpdate = (sender, recipients) => {
+        // 필요한 경우 업데이트 로직 추가
+    };
+
+    const handleSendMessage = async () => {
+        // 필수 입력값 체크
+        if (!senderNumber) {
+            setError('발신번호를 입력해주세요.');
+            return;
+        }
+        if (contactList.length === 0) {
+            setError('수신번호를 입력해주세요.');
+            return;
+        }
+        if (!messageContent && !imageData.fileName) {
+            setError('메시지 내용 또는 이미지를 입력해주세요.');
+            return;
+        }
+
+        const formattedTargets = contactList.map((number, index) => ({
+            to: number,
+            name: `Name${index + 1}`,
+            changeWord: { [`var${index + 1}`]: `Name${index + 1}` },
+        }));
+
+        let imagePayload = null;
+
+        console.log('imageData:', imageData);
+
+        if (imageData.fileName) {
+            try {
+                const fileName = imageData.fileName;
+                const base64Data = imageData.base64Data;
+                const size = imageData.size;
+
+                imagePayload = {
+                    name: fileName,
+                    data: base64Data,
+                    size,
+                };
+            } catch (error) {
+                console.error("이미지 로드 오류:", error);
+                setError('이미지를 로드하는 중 오류가 발생했습니다.');
+                return;
+            }
+        }
+
+        const messageData = {
+            account,
+            messageType: imagePayload ? 'MMS' : 'SMS',
+            content: messageContent || "",
+            from: senderNumber,
+            duplicateFlag: 'Y',
+            targetCount: formattedTargets.length,
+            targets: formattedTargets,
+            refKey,
+            rejectType: 'AD',
+            sendTime: '',
+            subject: imagePayload ? '안녕하세요' : undefined,
+            files: imagePayload ? [imagePayload] : undefined,
+        };
+
+        console.log('imagePayload:', imagePayload);
+        console.log('messageType:', messageData.messageType);
+
+        try {
+            const response = await axiosInstance.post(`api/ppurio/send`, messageData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            setSuccess('메시지가 성공적으로 전송되었습니다.');
+            setError('');
+        } catch (error) {
+            console.error("메시지 전송 오류:", error.response ? error.response.data : error);
+            setError('메시지 전송에 실패했습니다.');
+            return;
+        }
+    };
+
     return (
         <div className="SendPageContact_contact-form-wrapper">
+
             {/* 발신번호 입력 */}
             <div className="SendPageContact_sender-section2">
                 <h2>발신번호</h2>
@@ -90,9 +184,8 @@ const SendPageContact = () => {
                 </div>
             </div>
 
-            {/* 수신번호 및 연락처 섹션을 감싸는 래퍼 */}
+            {/* 수신번호 입력 및 연락처 */}
             <div className="SendPageContact_receiver-contact-wrapper">
-                {/* 수신번호 입력 */}
                 <div className="SendPageContact_receiver-section">
                     <h2>수신번호 입력</h2>
                     <div className="SendPageContact_receiver-buttons">
@@ -117,7 +210,7 @@ const SendPageContact = () => {
                     <button className="SendPageContact_add-number-button" onClick={handleAddNumbers}>번호 추가+</button>
                 </div>
 
-                {/* 연락처 리스트 */}
+                {/* 연락처 목록 */}
                 <div className="SendPageContact_contact-list-section">
                     <div className="SendPageContact_contact-list-header">
                         <h2>받는사람</h2>
@@ -142,8 +235,14 @@ const SendPageContact = () => {
                 </div>
             </div>
 
-            {/* 발송하기 버튼 */}
-            <button className="SendPageContact_submit-button2">발송하기</button>
+            {/* 발송 버튼 */}
+            <button className="SendPageContact_submit-button2" onClick={handleSendMessage}>
+                발송하기
+            </button>
+
+            {/* 피드백 메시지 */}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {success && <p style={{ color: 'green' }}>{success}</p>}
 
             {/* 주소록 모달 */}
             <AddressBookModal
