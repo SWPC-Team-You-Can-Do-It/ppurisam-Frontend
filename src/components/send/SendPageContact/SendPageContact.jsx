@@ -1,5 +1,3 @@
-// src/components/send/SendPageContact/SendPageContact.jsx
-
 import React, { useState, useContext } from "react";
 import * as XLSX from 'xlsx';
 import "./SendPageContact.css";
@@ -22,13 +20,8 @@ const SendPageContact = ({ messageContent }) => {
 
     const { imageData } = useContext(ImageContext); // ImageContext 사용
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     const handleRegisterSender = () => {
         if (senderNumber.trim()) {
@@ -76,7 +69,6 @@ const SendPageContact = ({ messageContent }) => {
         reader.readAsArrayBuffer(file);
     };
 
-    // 주소록에서 선택된 번호를 수신번호 입력칸에 추가하는 함수
     const handleSelectFromAddressBook = (selectedNumbers) => {
         const currentNumbers = phoneNumbers.split('\n').filter(Boolean);
         const allNumbers = Array.from(new Set([...currentNumbers, ...selectedNumbers]));
@@ -84,11 +76,9 @@ const SendPageContact = ({ messageContent }) => {
     };
 
     const handleContactUpdate = (sender, recipients) => {
-        // 필요한 경우 업데이트 로직 추가
     };
 
     const handleSendMessage = async () => {
-        // 필수 입력값 체크
         if (!senderNumber) {
             setError('발신번호를 입력해주세요.');
             return;
@@ -97,7 +87,7 @@ const SendPageContact = ({ messageContent }) => {
             setError('수신번호를 입력해주세요.');
             return;
         }
-        if (!messageContent && !imageData.fileName) {
+        if (!messageContent && (!imageData || !imageData.fileName)) {
             setError('메시지 내용 또는 이미지를 입력해주세요.');
             return;
         }
@@ -110,18 +100,13 @@ const SendPageContact = ({ messageContent }) => {
 
         let imagePayload = null;
 
-        console.log('imageData:', imageData);
-
-        if (imageData.fileName) {
+        if (imageData?.fileName || imageData?.url) {
             try {
-                const fileName = imageData.fileName;
-                const base64Data = imageData.base64Data;
-                const size = imageData.size;
-
                 imagePayload = {
-                    name: fileName,
-                    data: base64Data,
-                    size,
+                    name: imageData.fileName,
+                    data: imageData.base64Data,
+                    size: imageData.size,
+                    url: imageData.url,
                 };
             } catch (error) {
                 console.error("이미지 로드 오류:", error);
@@ -145,8 +130,7 @@ const SendPageContact = ({ messageContent }) => {
             files: imagePayload ? [imagePayload] : undefined,
         };
 
-        console.log('imagePayload:', imagePayload);
-        console.log('messageType:', messageData.messageType);
+        console.log('Final messageData to send:', messageData);
 
         try {
             const response = await axiosInstance.post(`api/ppurio/send`, messageData, {
@@ -159,7 +143,6 @@ const SendPageContact = ({ messageContent }) => {
         } catch (error) {
             console.error("메시지 전송 오류:", error.response ? error.response.data : error);
             setError('메시지 전송에 실패했습니다.');
-            return;
         }
     };
 

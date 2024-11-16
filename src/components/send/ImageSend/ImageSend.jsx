@@ -51,6 +51,7 @@ const ImageSend = ({ messageContent }) => {
         fileName,
         base64Data,
         size,
+        url: serverImageUrl,
       });
     } catch (err) {
       console.error("이미지 다운로드 및 저장 중 오류 발생:", err);
@@ -87,6 +88,7 @@ const ImageSend = ({ messageContent }) => {
         fileName,
         base64Data: null, // 필요에 따라 Base64 변환 로직 추가
         size: file.size,
+        url: serverImageUrl,
       });
 
       alert("이미지가 성공적으로 업로드되었습니다!");
