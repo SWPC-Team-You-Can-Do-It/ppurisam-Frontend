@@ -7,7 +7,6 @@ import axiosInstance from "../../login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder"; // 커스텀 훅 임포트
 
 const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
-  const [isCreateMode, setIsCreateMode] = useState(true);
   const [prompt, setPrompt] = useState(initialPrompt || "");
   const [byteCount, setByteCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,10 +22,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       setByteCount(byteLength);
     }
   }, [initialPrompt]);
-
-  const handleToggle = () => {
-    setIsCreateMode(!isCreateMode);
-  };
 
   const handlePromptChange = (e) => {
     const text = e.target.value;
@@ -139,22 +134,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         </button>
 
         <div className="image-create-modal-header">
-          <button
-            className={`image-create-toggle-button ${
-              isCreateMode ? "active" : ""
-            }`}
-            onClick={() => !isCreateMode && handleToggle()}
-          >
-            이미지 생성하기
-          </button>
-          <button
-            className={`image-create-toggle-button ${
-              !isCreateMode ? "active" : ""
-            }`}
-            onClick={() => isCreateMode && handleToggle()}
-          >
-            이미지 수정하기
-          </button>
+          <span className="image-create-modal-title">이미지 생성하기</span>
         </div>
 
         <div className="image-create-body">
@@ -172,6 +152,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
                 onChange={handlePromptChange}
               ></textarea>
             </div>
+
             {/* 마이크 버튼 */}
             <button
               className={`image-create-mic-button ${
@@ -183,6 +164,23 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
             >
               {isRecording ? "녹음 종료" : <img src={micIcon} alt="Mic" />}
             </button>
+
+            {/* 테마 토글 버튼 추가 */}
+            <div className="theme-and-text-buttons">
+              <button
+                className="image-create-theme-toggle-button"
+                onClick={() => alert("테마 변경 기능 추가 예정!")}
+              >
+                테마 변경
+              </button>
+              <button
+                className="image-create-add-text-button"
+                onClick={() => alert("텍스트 추가 기능 추가 예정!")}
+              >
+                텍스트 추가
+              </button>
+            </div>
+
             {error && <div className="error-message">{error}</div>}
             <button
               className="image-create-generate-button"
@@ -210,16 +208,11 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
               )}
             </div>
             <button
-              className={`image-create-delete-button ${
-                !isCreateMode ? "green-button" : ""
-              }`}
-              onClick={() => {
-                if (isCreateMode) setImageUrl(null);
-                else handleToggle();
-              }}
+              className="image-create-delete-button"
+              onClick={() => setImageUrl(null)}
               disabled={!imageUrl}
             >
-              {isCreateMode ? "삭제" : "되돌리기"}
+              삭제
             </button>
             <button
               className="image-create-use-image-button"
