@@ -42,12 +42,6 @@ axiosInstance.interceptors.request.use(
       console.log("Authorization header added");
     }
 
-    // Ppurio 토큰 추가
-    const ppurioToken = localStorage.getItem("ppurioToken");
-    if (ppurioToken && config.headers) {
-      config.headers["Authorization-Ppurio"] = ppurioToken;
-    }
-
     return config;
   },
   (error) => {
