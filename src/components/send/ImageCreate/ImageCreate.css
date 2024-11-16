@@ -72,28 +72,20 @@
   }
 }
 
-/* 헤더 스타일 */
+/* 헤더 컨테이너 스타일 */
 .image-create-modal-header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 40px;
+  display: flex; /* 자식 요소 정렬을 위해 flexbox 사용 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  margin-bottom: 25px; /* 하단 여백 */
 }
 
-.image-create-toggle-button {
-  background: none;
-  border: none;
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  font-size: 25px;
-  margin-right: 47px;
-  cursor: pointer;
-  color: #8e8e8f;
-  transition: color 0.3s;
-}
-
-.image-create-toggle-button.active {
-  color: #31a575;
+/* 제목 스타일 */
+.image-create-modal-title {
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif; /* 폰트 */
+  font-size: 30px; /* 크기 */
+  font-weight: 700; /* 굵기 */
+  color: #31a575; /* 검정색 */
 }
 
 /* 바디 섹션 스타일 */
@@ -178,14 +170,45 @@
   background-color: #ffffff;
 }
 
-/* 바이트 카운터 스타일 */
-.image-create-byte-counter {
-  position: absolute;
-  bottom: 5px;
-  right: 10px;
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-  color: #8e8e8f;
+/* 테마 및 텍스트 추가 버튼 공통 스타일 */
+.theme-and-text-buttons {
+  display: flex;
+  gap: 10px; /* 버튼 간격 */
+  margin-top: 15px;
+  width: 100%; /* 부모 컨테이너 크기에 맞춤 */
+  max-width: 471px;
+}
+
+/* 테마 토글 버튼 스타일 */
+.image-create-theme-toggle-button {
+  flex: 1; /* 버튼이 동일하게 나눠짐 */
+  height: 40px; /* 크기를 절반으로 줄임 */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: #0056b3; /* 기본 테마 색상 */
+  color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* 텍스트 추가 버튼 스타일 */
+.image-create-add-text-button {
+  flex: 1; /* 버튼이 동일하게 나눠짐 */
+  height: 40px; /* 크기를 절반으로 줄임 */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: #31a575; /* 기본 텍스트 추가 색상 */
+  color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* 마이크 버튼 스타일 수정 */
@@ -294,10 +317,6 @@
 
 .image-create-delete-button {
   background-color: #d31660;
-}
-
-.green-button {
-  background-color: #31a575;
 }
 
 .image-create-use-image-button {

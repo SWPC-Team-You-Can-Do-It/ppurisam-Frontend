@@ -5,7 +5,6 @@ import axiosInstance from "@/components/login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder";
 
 const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
-  const [isCreateMode, setIsCreateMode] = useState(true);
   const [prompt, setPrompt] = useState("");
   const [byteCount, setByteCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -139,20 +138,10 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
 
         <div className="message-create-modal-header">
           <button
-            className={`message-create-toggle-button ${
-              isCreateMode ? "active" : ""
-            }`}
-            onClick={() => !isCreateMode && setIsCreateMode(true)}
+            className="message-create-toggle-button active"
+            onClick={() => {}}
           >
             메시지 생성하기
-          </button>
-          <button
-            className={`message-create-toggle-button ${
-              !isCreateMode ? "active" : ""
-            }`}
-            onClick={() => isCreateMode && setIsCreateMode(false)}
-          >
-            메시지 수정하기
           </button>
         </div>
 
@@ -203,13 +192,11 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
               )}
             </div>
             <button
-              className={`message-create-delete-button ${
-                !isCreateMode ? "green-button" : ""
-              }`}
+              className="message-create-delete-button"
               onClick={() => setGeneratedMessage("")}
               disabled={!generatedMessage}
             >
-              {isCreateMode ? "삭제" : "되돌리기"}
+              삭제
             </button>
             <button
               className="message-create-use-image-button"
