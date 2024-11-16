@@ -9,6 +9,7 @@ export const ImageProvider = ({ children }) => {
         fileName: '',
         base64Data: '',
         size: 0,
+        url: '',
     });
 
     return (
