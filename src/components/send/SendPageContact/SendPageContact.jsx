@@ -6,7 +6,7 @@ import "./SendPageContact.css";
 import AddressBookModal from './AddressBookModal';
 import axiosInstance from "../../login/axiosInstance";
 import { v4 as uuidv4 } from 'uuid';
-import { ImageContext } from '../../../contexts/ImageContext'; // ImageContext 임포트
+import { ImageContext } from '../../../contexts/ImageContext';
 
 const SendPageContact = ({ messageContent }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,6 +14,7 @@ const SendPageContact = ({ messageContent }) => {
     const [isEditable, setIsEditable] = useState(true);
     const [phoneNumbers, setPhoneNumbers] = useState('');
     const [contactList, setContactList] = useState([]);
+    const [messageTitle] = useState("");
     const [refKey] = useState(uuidv4().replace(/-/g, '').substring(0, 32));
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -140,7 +141,7 @@ const SendPageContact = ({ messageContent }) => {
             refKey,
             rejectType: 'AD',
             sendTime: '',
-            subject: imagePayload ? '안녕하세요' : undefined,
+            subject: messageTitle || undefined,
             files: imagePayload ? [imagePayload] : undefined,
         };
 
