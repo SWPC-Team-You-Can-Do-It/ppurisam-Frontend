@@ -1,0 +1,19 @@
+/* Frontend/src/components/chatbot/EasySmsButton/EasySmsButton.css */
+
+.easy-sms-button {
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.easy-sms-button:hover {
+  background-color: #1e88e5;
+}
+
+.chatbot-buttons .easy-sms-button {
+  margin-top: 10px;
+}

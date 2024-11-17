@@ -1,0 +1,93 @@
+/* Frontend/src/components/chatbot/Chatbot/Chatbot.css */
+
+/* 챗봇 컨테이너 스타일 */
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* 챗봇 대화 창 스타일 */
+.chatbot-window {
+  position: fixed;
+  bottom: 100px; /* 로봇 SVG 위에 나타나도록 설정 */
+  right: 20px;
+  width: 500px;
+  height: 700px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* 로봇 아이콘보다 앞에 나타나도록 설정 */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatbot-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.chatbot-messages {
+  flex: 1;
+  padding: 10px 20px 20px 20px; /* 초기 메시지 위 패딩 조정 */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* 버튼 그룹 스타일 */
+.chatbot-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  margin-bottom: 10px; /* 버튼과 메시지 사이 간격 */
+}
+
+.chatbot-buttons button {
+  /* 버튼 스타일 조정 가능 */
+}
+
+/* 입력 영역 스타일 */
+.chatbot-input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.chatbot-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.chatbot-send-button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 0 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.chatbot-send-button:hover {
+  background-color: #45a049;
+}
+
+/* 스크롤바 스타일 (선택 사항) */
+.chatbot-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}

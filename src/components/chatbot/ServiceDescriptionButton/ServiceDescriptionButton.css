@@ -1,0 +1,20 @@
+/* Frontend/src/components/chatbot/ServiceDescriptionButton/ServiceDescriptionButton.css */
+
+.service-description-button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .service-description-button:hover {
+    background-color: #45a049;
+  }
+  
+  .chatbot-buttons .service-description-button {
+    margin-top: 10px;
+  }
+  

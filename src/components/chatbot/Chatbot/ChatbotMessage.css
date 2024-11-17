@@ -1,0 +1,68 @@
+/* Frontend/src/components/chatbot/Chatbot/ChatbotMessage.css */
+
+.chatbot-message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.chatbot-message.bot {
+  flex-direction: row;
+}
+
+.chatbot-message.user {
+  flex-direction: row-reverse;
+}
+
+.chatbot-message .robot-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.chatbot-message.user .robot-icon {
+  display: none;
+}
+
+.message-content {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px 15px;
+  max-width: 70%;
+}
+
+.user-message {
+  background-color: #dcf8c6;
+  margin-left: 10px; /* 챗봇 메시지와 정렬을 맞추기 위한 왼쪽 마진 */
+}
+
+.bot-message {
+  margin-right: 10px;
+}
+
+.message-content p {
+  margin: 0;
+  word-wrap: break-word;
+}
+
+/* 로딩 애니메이션 스타일 */
+.loading {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid orange;
+  animation:
+    typing 2s steps(30, end) infinite,
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange; }
+}

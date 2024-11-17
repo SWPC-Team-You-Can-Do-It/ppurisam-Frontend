@@ -1,3 +1,5 @@
+// Frontend/src/App.jsx
+
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -14,7 +16,7 @@ import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import MyPage from "./pages/MyPage/MyPage";
 import "./App.css"; // 스타일시트 임포트
 import PrivateRoute from "./components/login/privateRoute";
-import Chatbot from "./components/chatbot/Chatbot";
+import Chatbot from "./components/chatbot/Chatbot/Chatbot";
 
 function App() {
   return (

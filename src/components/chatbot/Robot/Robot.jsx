@@ -1,4 +1,4 @@
-// src/components/chatbot/Robot.jsx
+// Frontend/src/components/chatbot/Robot/Robot.jsx
 
 import React from 'react';
 import './Robot.css';
