@@ -3,8 +3,11 @@
 import React, { useState, useEffect } from "react";
 import "./ImageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
-import axiosInstance from "../../login/axiosInstance";
-import useAudioRecorder from "@/utils/useAudioRecorder"; // 커스텀 훅 임포트
+import axiosInstance, {
+  fetchAndStorePpurioToken,
+} from "@/components/login/axiosInstance";
+import useAudioRecorder from "@/utils/useAudioRecorder";
+import ThemeSelectionModal from "@/components/send/ThemeSelection/ThemeSelectionModal";
 
 const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [prompt, setPrompt] = useState(initialPrompt || "");
@@ -12,6 +15,14 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
+
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState("");
+
+  // 테마 데이터 상태
+  const [themes, setThemes] = useState([]);
+  const [isLoadingThemes, setIsLoadingThemes] = useState(false);
+  const [themesError, setThemesError] = useState("");
 
   const { isRecording, startRecording, stopRecording } = useAudioRecorder();
 
@@ -22,6 +33,36 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       setByteCount(byteLength);
     }
   }, [initialPrompt]);
+
+  // ImageCreate가 열릴 때 테마 목록을 가져오고 기본 테마 설정
+  useEffect(() => {
+    if (isOpen) {
+      setIsLoadingThemes(true);
+      setThemesError("");
+      axiosInstance
+        .get("/api/image-ai/themes")
+        .then((response) => {
+          const fetchedThemes = response.data.map((item) => item.theme);
+          setThemes(fetchedThemes);
+
+          // 기본 테마 설정
+          if (fetchedThemes.includes("빈티지")) {
+            setSelectedTheme("빈티지");
+          } else if (fetchedThemes.includes("레트로")) {
+            setSelectedTheme("레트로");
+          } else if (fetchedThemes.length > 0) {
+            setSelectedTheme(fetchedThemes[0]);
+          }
+        })
+        .catch((err) => {
+          console.error("테마 로드 오류:", err);
+          setThemesError("테마를 불러오는 중 오류가 발생했습니다.");
+        })
+        .finally(() => {
+          setIsLoadingThemes(false);
+        });
+    }
+  }, [isOpen]);
 
   const handlePromptChange = (e) => {
     const text = e.target.value;
@@ -69,14 +110,17 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axiosInstance.post(`/api/image-ai`, { prompt });
+      const requestData = { prompt };
+      if (selectedTheme) {
+        requestData.theme = selectedTheme; // 테마 정보 추가
+      }
+      const response = await axiosInstance.post(`/api/image-ai`, requestData);
 
       const imageUrl = response.data;
-      console.log("Generated Image URL:", imageUrl);
 
       if (imageUrl) {
         setImageUrl(imageUrl);
-        onImageGenerated && onImageGenerated(imageUrl); // 이 줄을 주석 처리하거나 삭제합니다.
+        // onImageGenerated && onImageGenerated(imageUrl); // 이 줄을 주석 처리하거나 삭제합니다.
       } else {
         setError("이미지 생성에 실패했습니다.");
       }
@@ -112,11 +156,29 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     }
   };
 
+  const handleThemeSelect = (theme) => {
+    setSelectedTheme(theme);
+    setIsThemeModalOpen(false);
+    // 선택된 테마에 따라 추가 작업 수행 가능
+    // 예: 프롬프트에 테마 정보를 추가하거나 스타일 변경
+  };
+
+  // 로그인 후 Ppurio 토큰 저장 (예시)
+  useEffect(() => {
+    // 로그인 상태를 확인하고, 로그인 시 fetchAndStorePpurioToken 호출
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchAndStorePpurioToken();
+    }
+  }, [isOpen]); // isOpen 변경 시 확인 (필요에 따라 수정)
+
   if (!isOpen) return null;
 
   return (
     <div
-      className="image-create-modal-overlay"
+      className={`image-create-modal-overlay ${
+        selectedTheme ? `theme-${selectedTheme}` : ""
+      }`}
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -165,13 +227,13 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
               {isRecording ? "녹음 종료" : <img src={micIcon} alt="Mic" />}
             </button>
 
-            {/* 테마 토글 버튼 추가 */}
+            {/* 테마 및 텍스트 추가 버튼 */}
             <div className="theme-and-text-buttons">
               <button
                 className="image-create-theme-toggle-button"
-                onClick={() => alert("테마 변경 기능 추가 예정!")}
+                onClick={() => setIsThemeModalOpen(true)}
               >
-                테마 변경
+                {selectedTheme}
               </button>
               <button
                 className="image-create-add-text-button"
@@ -224,6 +286,17 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
           </div>
         </div>
       </div>
+
+      {/* 테마 선택 모달 컴포넌트 임포트 및 사용 */}
+      <ThemeSelectionModal
+        isOpen={isThemeModalOpen}
+        onClose={() => setIsThemeModalOpen(false)}
+        onSelectTheme={handleThemeSelect}
+        selectedTheme={selectedTheme}
+        themes={themes}
+        isLoading={isLoadingThemes}
+        error={themesError}
+      />
     </div>
   );
 };
