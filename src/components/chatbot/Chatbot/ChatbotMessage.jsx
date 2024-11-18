@@ -6,10 +6,10 @@ import './ChatbotMessage.css';
 
 const ChatbotMessage = ({ message, isUser, className = '' }) => {
   return (
-    <div className={`chatbot-message ${isUser ? 'user' : 'bot'}`}>
+    <div className={`chatbot-message ${isUser ? 'user' : 'bot'} ${className}`}>
       {!isUser && <RobotIcon />}
       <div className={`message-content ${isUser ? 'user-message' : 'bot-message'}`}>
-        <p className={className}>{message}</p>
+        <p>{message}</p>
       </div>
     </div>
   );
