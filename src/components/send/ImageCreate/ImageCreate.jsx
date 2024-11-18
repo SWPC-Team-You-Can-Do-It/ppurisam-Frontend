@@ -1,4 +1,4 @@
-// src/components/main/Send/ImageCreate/ImageCreate.jsx
+// src/components/send/ImageCreate/ImageCreate.jsx
 
 import React, { useState, useEffect } from "react";
 import "./ImageCreate.css";
@@ -24,7 +24,12 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [isLoadingThemes, setIsLoadingThemes] = useState(false);
   const [themesError, setThemesError] = useState("");
 
-  const { isRecording, startRecording, stopRecording } = useAudioRecorder();
+  // 녹음 종료 시 파일을 처리하기 위한 콜백 함수 전달
+  const { isRecording, startRecording, stopRecording } = useAudioRecorder(async (file) => {
+    if (file) {
+      await handleAudioAvailable(file);
+    }
+  });
 
   useEffect(() => {
     if (initialPrompt) {
@@ -40,27 +45,27 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       setIsLoadingThemes(true);
       setThemesError("");
       axiosInstance
-        .get("/api/image-ai/themes")
-        .then((response) => {
-          const fetchedThemes = response.data.map((item) => item.theme);
-          setThemes(fetchedThemes);
+          .get("/api/image-ai/themes")
+          .then((response) => {
+            const fetchedThemes = response.data.map((item) => item.theme);
+            setThemes(fetchedThemes);
 
-          // 기본 테마 설정
-          if (fetchedThemes.includes("빈티지")) {
-            setSelectedTheme("빈티지");
-          } else if (fetchedThemes.includes("레트로")) {
-            setSelectedTheme("레트로");
-          } else if (fetchedThemes.length > 0) {
-            setSelectedTheme(fetchedThemes[0]);
-          }
-        })
-        .catch((err) => {
-          console.error("테마 로드 오류:", err);
-          setThemesError("테마를 불러오는 중 오류가 발생했습니다.");
-        })
-        .finally(() => {
-          setIsLoadingThemes(false);
-        });
+            // 기본 테마 설정
+            if (fetchedThemes.includes("빈티지")) {
+              setSelectedTheme("빈티지");
+            } else if (fetchedThemes.includes("레트로")) {
+              setSelectedTheme("레트로");
+            } else if (fetchedThemes.length > 0) {
+              setSelectedTheme(fetchedThemes[0]);
+            }
+          })
+          .catch((err) => {
+            console.error("테마 로드 오류:", err);
+            setThemesError("테마를 불러오는 중 오류가 발생했습니다.");
+          })
+          .finally(() => {
+            setIsLoadingThemes(false);
+          });
     }
   }, [isOpen]);
 
@@ -88,7 +93,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       console.error("파일 전송 오류:", err);
       if (err.response) {
         setError(
-          `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
+            `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
         );
       } else if (err.request) {
         setError("서버에 응답이 없습니다. 네트워크 상태를 확인해주세요.");
@@ -109,7 +114,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     setImageUrl(null);
 
     try {
-      const token = localStorage.getItem("token");
       const requestData = { prompt };
       if (selectedTheme) {
         requestData.theme = selectedTheme; // 테마 정보 추가
@@ -120,7 +124,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
 
       if (imageUrl) {
         setImageUrl(imageUrl);
-        // onImageGenerated && onImageGenerated(imageUrl); // 이 줄을 주석 처리하거나 삭제합니다.
       } else {
         setError("이미지 생성에 실패했습니다.");
       }
@@ -132,18 +135,10 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     }
   };
 
-  // 녹음 중지 시 WebM 파일을 서버로 전송
-  const handleMicClick = async () => {
+  // 녹음 중지 시 파일을 처리
+  const handleMicClick = () => {
     if (isRecording) {
-      try {
-        const file = await stopRecording();
-        if (file) {
-          await handleAudioAvailable(file);
-        }
-      } catch (err) {
-        console.error("녹음 중지 오류:", err);
-        setError("녹음을 처리하는 중 오류가 발생했습니다.");
-      }
+      stopRecording(); // 녹음 종료 (수동)
     } else {
       startRecording();
     }
@@ -175,129 +170,130 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   if (!isOpen) return null;
 
   return (
-    <div
-      className={`image-create-modal-overlay ${
-        selectedTheme ? `theme-${selectedTheme}` : ""
-      }`}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-    >
       <div
-        className="image-create-modal-content"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="image-create-close-button"
+          className={`image-create-modal-overlay ${
+              selectedTheme ? `theme-${selectedTheme}` : ""
+          }`}
           onClick={onClose}
-          aria-label="나가기"
+          role="dialog"
+          aria-modal="true"
+      >
+        <div
+            className="image-create-modal-content"
+            onClick={(e) => e.stopPropagation()}
         >
-          나가기
-        </button>
+          <button
+              className="image-create-close-button"
+              onClick={onClose}
+              aria-label="나가기"
+          >
+            나가기
+          </button>
 
-        <div className="image-create-modal-header">
-          <span className="image-create-modal-title">이미지 생성하기</span>
-        </div>
-
-        <div className="image-create-body">
-          {/* 왼쪽 섹션 */}
-          <div className="left-section">
-            <div className="image-create-prompt-section">
-              <label className="image-create-prompt-label">
-                이미지 프롬프트 내용
-                <span className="image-create-required">*</span>
-              </label>
-              <textarea
-                className="image-create-prompt-textbox"
-                placeholder="프롬프트 할 내용을 적으시오"
-                value={prompt}
-                onChange={handlePromptChange}
-              ></textarea>
-            </div>
-
-            {/* 마이크 버튼 */}
-            <button
-              className={`image-create-mic-button ${
-                isRecording ? "recording" : ""
-              }`}
-              onClick={handleMicClick}
-              aria-label="녹음"
-              disabled={isLoading}
-            >
-              {isRecording ? "녹음 종료" : <img src={micIcon} alt="Mic" />}
-            </button>
-
-            {/* 테마 및 텍스트 추가 버튼 */}
-            <div className="theme-and-text-buttons">
-              <button
-                className="image-create-theme-toggle-button"
-                onClick={() => setIsThemeModalOpen(true)}
-              >
-                {selectedTheme}
-              </button>
-              <button
-                className="image-create-add-text-button"
-                onClick={() => alert("텍스트 추가 기능 추가 예정!")}
-              >
-                텍스트 추가
-              </button>
-            </div>
-
-            {error && <div className="error-message">{error}</div>}
-            <button
-              className="image-create-generate-button"
-              onClick={handleGenerateImage}
-              disabled={isLoading || !prompt.trim()}
-            >
-              {isLoading ? "생성 중..." : "이미지 생성하기"}
-            </button>
+          <div className="image-create-modal-header">
+            <span className="image-create-modal-title">이미지 생성하기</span>
           </div>
 
-          {/* 오른쪽 섹션 */}
-          <div className="right-section">
-            <span className="image-create-result-text">생성 결과</span>
-            <div className="image-create-image-display-box">
-              {imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt={`생성된 이미지: ${prompt}`}
-                  className="generated-image"
-                />
-              ) : (
-                <p className="placeholder-text">
-                  여기에 생성된 이미지가 표시됩니다.
-                </p>
-              )}
+          <div className="image-create-body">
+            {/* 왼쪽 섹션 */}
+            <div className="left-section">
+              <div className="image-create-prompt-section">
+                <label className="image-create-prompt-label">
+                  이미지 프롬프트 내용
+                  <span className="image-create-required">*</span>
+                </label>
+                <textarea
+                    className="image-create-prompt-textbox"
+                    placeholder="프롬프트 할 내용을 적으시오"
+                    value={prompt}
+                    onChange={handlePromptChange}
+                ></textarea>
+              </div>
+
+              {/* 마이크 버튼 */}
+              <button
+                  className={`image-create-mic-button ${
+                      isRecording ? "recording" : ""
+                  }`}
+                  onClick={handleMicClick}
+                  aria-label="녹음"
+                  disabled={isLoading}
+              >
+                <img src={micIcon} alt="Mic" />
+                {isRecording && <div className="recording-animation"></div>}
+              </button>
+
+              {/* 테마 및 텍스트 추가 버튼 */}
+              <div className="theme-and-text-buttons">
+                <button
+                    className="image-create-theme-toggle-button"
+                    onClick={() => setIsThemeModalOpen(true)}
+                >
+                  {selectedTheme}
+                </button>
+                <button
+                    className="image-create-add-text-button"
+                    onClick={() => alert("텍스트 추가 기능 추가 예정!")}
+                >
+                  텍스트 추가
+                </button>
+              </div>
+
+              {error && <div className="error-message">{error}</div>}
+              <button
+                  className="image-create-generate-button"
+                  onClick={handleGenerateImage}
+                  disabled={isLoading || !prompt.trim()}
+              >
+                {isLoading ? "생성 중..." : "이미지 생성하기"}
+              </button>
             </div>
-            <button
-              className="image-create-delete-button"
-              onClick={() => setImageUrl(null)}
-              disabled={!imageUrl}
-            >
-              삭제
-            </button>
-            <button
-              className="image-create-use-image-button"
-              onClick={handleUseImage}
-              disabled={!imageUrl}
-            >
-              이미지 사용하기
-            </button>
+
+            {/* 오른쪽 섹션 */}
+            <div className="right-section">
+              <span className="image-create-result-text">생성 결과</span>
+              <div className="image-create-image-display-box">
+                {imageUrl ? (
+                    <img
+                        src={imageUrl}
+                        alt={`생성된 이미지: ${prompt}`}
+                        className="generated-image"
+                    />
+                ) : (
+                    <p className="placeholder-text">
+                      여기에 생성된 이미지가 표시됩니다.
+                    </p>
+                )}
+              </div>
+              <button
+                  className="image-create-delete-button"
+                  onClick={() => setImageUrl(null)}
+                  disabled={!imageUrl}
+              >
+                삭제
+              </button>
+              <button
+                  className="image-create-use-image-button"
+                  onClick={handleUseImage}
+                  disabled={!imageUrl}
+              >
+                이미지 사용하기
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* 테마 선택 모달 컴포넌트 임포트 및 사용 */}
+        <ThemeSelectionModal
+            isOpen={isThemeModalOpen}
+            onClose={() => setIsThemeModalOpen(false)}
+            onSelectTheme={handleThemeSelect}
+            selectedTheme={selectedTheme}
+            themes={themes}
+            isLoading={isLoadingThemes}
+            error={themesError}
+        />
       </div>
-
-      {/* 테마 선택 모달 컴포넌트 임포트 및 사용 */}
-      <ThemeSelectionModal
-        isOpen={isThemeModalOpen}
-        onClose={() => setIsThemeModalOpen(false)}
-        onSelectTheme={handleThemeSelect}
-        selectedTheme={selectedTheme}
-        themes={themes}
-        isLoading={isLoadingThemes}
-        error={themesError}
-      />
-    </div>
   );
 };
 

@@ -64,3 +64,43 @@
   margin-top: 40px;
   font-size: 25px;
 }
+/* 녹음 중 애니메이션 스타일 */
+.recording-animation {
+  width: 20px;
+  height: 20px;
+  border: 5px solid #31a575;
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 10px; /* 마이크 아이콘과의 간격 조절 */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 마이크 버튼 내부의 아이콘 및 애니메이션 위치 조정을 위해 position 설정 */
+.message-create-mic-button,
+.image-create-mic-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-create-mic-button img,
+.image-create-mic-button img {
+  width: 23px;
+  height: 37px;
+}
+
+/* 녹음 중일 때 아이콘과 애니메이션 위치 조정 */
+.message-create-mic-button.recording img,
+.image-create-mic-button.recording img {
+  margin-right: 10px;
+}

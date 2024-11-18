@@ -13,21 +13,6 @@ const MessageSend = ({ onContentUpdate, messageTitle, messageContent }) => {
   const [textareaText, setTextareaText] = useState(messageContent || "");
   const [error, setError] = useState("");
 
-  const {
-    isRecording: isRecordingInput,
-    startRecording: startRecordingInput,
-    stopRecording: stopRecordingInput,
-  } = useAudioRecorder();
-
-  const {
-    isRecording: isRecordingTextarea,
-    startRecording: startRecordingTextarea,
-    stopRecording: stopRecordingTextarea,
-  } = useAudioRecorder();
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   // Handle audio recording
   const handleAudioAvailable = async (file, target) => {
     const formData = new FormData();
@@ -58,39 +43,40 @@ const MessageSend = ({ onContentUpdate, messageTitle, messageContent }) => {
     }
   };
 
+  // 입력 필드용 녹음기
+  const {
+    isRecording: isRecordingInput,
+    startRecording: startRecordingInput,
+    stopRecording: stopRecordingInput,
+  } = useAudioRecorder(async (file) => {
+    await handleAudioAvailable(file, "input");
+  });
+
+  // 텍스트 영역용 녹음기
+  const {
+    isRecording: isRecordingTextarea,
+    startRecording: startRecordingTextarea,
+    stopRecording: stopRecordingTextarea,
+  } = useAudioRecorder(async (file) => {
+    await handleAudioAvailable(file, "textarea");
+  });
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   // Handle mic button click for input
-  const handleMicInputClick = async () => {
+  const handleMicInputClick = () => {
     if (isRecordingInput) {
-      try {
-        const file = await stopRecordingInput();
-        if (file) {
-          await handleAudioAvailable(file, "input");
-        } else {
-          setError("녹음된 파일이 없습니다.");
-        }
-      } catch (err) {
-        console.error("녹음 중지 오류:", err);
-        setError("녹음을 처리하는 중 오류가 발생했습니다.");
-      }
+      stopRecordingInput(); // 녹음 종료 (수동)
     } else {
       startRecordingInput();
     }
   };
 
   // Handle mic button click for textarea
-  const handleMicTextareaClick = async () => {
+  const handleMicTextareaClick = () => {
     if (isRecordingTextarea) {
-      try {
-        const file = await stopRecordingTextarea();
-        if (file) {
-          await handleAudioAvailable(file, "textarea");
-        } else {
-          setError("녹음된 파일이 없습니다.");
-        }
-      } catch (err) {
-        console.error("녹음 중지 오류:", err);
-        setError("녹음을 처리하는 중 오류가 발생했습니다.");
-      }
+      stopRecordingTextarea(); // 녹음 종료 (수동)
     } else {
       startRecordingTextarea();
     }
@@ -98,9 +84,9 @@ const MessageSend = ({ onContentUpdate, messageTitle, messageContent }) => {
 
   // Handle generated message from AI
   const handleGeneratedMessage = (message) => {
-    setTextareaText(message); // Set message content
-    onContentUpdate(inputText, message); // Pass to parent
-    closeModal(); // Close modal
+    setTextareaText(message); // 메시지 내용 설정
+    onContentUpdate(inputText, message); // 부모 컴포넌트로 전달
+    closeModal(); // 모달 닫기
   };
 
   // Handle text change in textarea
@@ -132,9 +118,10 @@ const MessageSend = ({ onContentUpdate, messageTitle, messageContent }) => {
               className={`mic-button ${isRecordingInput ? "recording" : ""}`}
               onClick={handleMicInputClick}
               aria-label="녹음"
-              disabled={isModalOpen} // Disable when modal is open
+              disabled={isModalOpen} // 모달이 열려 있을 때는 비활성화
           >
-            {isRecordingInput ? "녹음 종료" : <img src={micIcon} alt="Mic" />}
+            <img src={micIcon} alt="Mic" className="mic-icon" />
+            {isRecordingInput && <div className="recording-animation"></div>}
           </button>
         </div>
         <textarea
@@ -151,19 +138,20 @@ const MessageSend = ({ onContentUpdate, messageTitle, messageContent }) => {
               className={`mic-button2 ${isRecordingTextarea ? "recording" : ""}`}
               onClick={handleMicTextareaClick}
               aria-label="녹음"
-              disabled={isModalOpen} // Disable when modal is open
+              disabled={isModalOpen} // 모달이 열려 있을 때는 비활성화
           >
-            {isRecordingTextarea ? "녹음 종료" : <img src={micIcon} alt="Mic" className="mic-icon" />}
+            <img src={micIcon} alt="Mic" className="mic-icon" />
+            {isRecordingTextarea && <div className="recording-animation"></div>}
           </button>
         </div>
         {error && <div className="error-message">{error}</div>}
 
-        {/* Modal component for AI message creation */}
+        {/* AI 메시지 생성 모달 컴포넌트 */}
         <MessageCreate
             isOpen={isModalOpen}
             onClose={closeModal}
             onGeneratedMessage={handleGeneratedMessage}
-            prompt={messageTitle || messageContent} // Use props as prompt
+            prompt={messageTitle || messageContent} // 프롬프트로 props 사용
         />
       </div>
   );
