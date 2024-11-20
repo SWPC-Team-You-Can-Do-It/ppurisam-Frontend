@@ -1,3 +1,5 @@
+/* src/components/main/Send/ImageSend/ImageSend.css */
+
 .image-send-container {
   background-color: transparent;
   border-radius: 20px;
@@ -9,20 +11,20 @@
 }
 
 .image-send-title {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: bold;
   font-size: 30px;
   color: #000000;
   text-align: left;
   margin-bottom: 20px;
   align-self: stretch;
-  margin-left:40px;
+  margin-left: 40px;
 }
 
 .image-upload-box {
   width: 100%;
   max-width: 470px;
-  height: 520px; /* 세로 길이 증가 */
+  height: 520px;
   background-color: #f2f3f5;
   border-radius: 10px;
   display: flex;
@@ -50,57 +52,64 @@
   border-radius: 10px;
 }
 
-.ai-image-button {
+/* 텍스트 추가 섹션 스타일 */
+.text-add-section {
   width: 100%;
   max-width: 470px;
-  height: 60px; /* 버튼 크기 줄임 */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px; /* 버튼 간의 간격 */
+  margin-bottom: 10px; /* 위, 아래 간격 */
+}
+
+.add-text-button {
+  flex: 1;
+  height: 45px; /* 버튼 높이 줄이기 */
   background-color: #31a575;
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
-  font-size: 18px; /* 글자 크기 줄임 */
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
   cursor: pointer;
-  margin-top: 40px;
-  font-size: 25px;
-}
-/* 녹음 중 애니메이션 스타일 */
-.recording-animation {
-  width: 20px;
-  height: 20px;
-  border: 5px solid #31a575;
-  border-top: 5px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-left: 10px; /* 마이크 아이콘과의 간격 조절 */
+  font-size: 18px;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* 마이크 버튼 내부의 아이콘 및 애니메이션 위치 조정을 위해 position 설정 */
-.message-create-mic-button,
-.image-create-mic-button {
-  position: relative;
+/* 텍스트 옵션 스타일 */
+.text-options {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row; /* 가로로 배치하여 텍스트 추가 버튼과 맞추기 */
+  align-items: left;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  gap: 10px;
 }
 
-.message-create-mic-button img,
-.image-create-mic-button img {
-  width: 23px;
-  height: 37px;
+.text-options label {
+  font-size: 14px;
+  margin-right: 5px; /* 레이블과 입력 간의 간격 */
 }
 
-/* 녹음 중일 때 아이콘과 애니메이션 위치 조정 */
-.message-create-mic-button.recording img,
-.image-create-mic-button.recording img {
-  margin-right: 10px;
+.text-options input[type="color"] {
+  margin-left: 0; /* 왼쪽 여백 제거로 완전 왼쪽 정렬 */
+  align-self: flex-start; /* 왼쪽 정렬을 확실히 설정 */
+}
+
+.text-options select {
+  margin-left: 0;
+  align-self: flex-start; /* 왼쪽 정렬을 확실히 설정 */
+}
+
+/* AI 이미지 생성 버튼 스타일 */
+.ai-image-button {
+  width: 100%;
+  max-width: 470px;
+  height: 50px;
+  background-color: #31a575;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 15px; /* 위 간격 줄이기 */
 }

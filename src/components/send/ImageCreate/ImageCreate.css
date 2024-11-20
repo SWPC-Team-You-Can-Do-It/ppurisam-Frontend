@@ -173,9 +173,12 @@
 /* 테마 및 텍스트 추가 버튼 공통 스타일 */
 .theme-and-text-buttons {
   display: flex;
-  gap: 10px; /* 버튼 간격 */
+  flex-direction: row; /* 버튼을 가로로 나열 */
+  align-items: center; /* 버튼의 수직 위치를 동일하게 */
+  justify-content: space-between; /* 버튼 사이 간격을 균등하게 */
+  gap: 10px; /* 버튼 간의 간격 */
   margin-top: 15px;
-  width: 100%; /* 부모 컨테이너 크기에 맞춤 */
+  width: 100%;
   max-width: 471px;
 }
 
@@ -195,6 +198,14 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* 텍스트 추가 섹션 스타일 */
+.text-add-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
 /* 텍스트 추가 버튼 스타일 */
 .image-create-add-text-button {
   flex: 1; /* 버튼이 동일하게 나눠짐 */
@@ -209,6 +220,23 @@
   color: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, color 0.3s;
+}
+
+.text-options {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.text-options label {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.text-options input[type="color"],
+.text-options select,
+.text-options input[type="number"] {
+  margin-left: 5px;
 }
 
 /* 마이크 버튼 스타일 수정 */
