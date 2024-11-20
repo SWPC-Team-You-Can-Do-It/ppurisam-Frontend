@@ -1,0 +1,17 @@
+/* src/components/send/ImageCreate/TextOptions.css */
+
+.text-options {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.text-option-label {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.text-option-label input[type="color"],
+.text-option-label select {
+  margin-left: 5px;
+}
