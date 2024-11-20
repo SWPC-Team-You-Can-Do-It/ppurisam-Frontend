@@ -41,7 +41,7 @@ const Chatbot = () => {
        recognition.current.onresult = (event) => {
          const transcript = event.results[event.results.length - 1][0].transcript.trim();
          console.log('인식된 텍스트:', transcript);
- 
+        
          // 키워드 "뿌리야"가 포함되어 있는지 확인
          if (transcript.includes('뿌리야')) {
            toggleChatbotByVoice();

@@ -1,5 +1,13 @@
 /* Frontend/src/components/chatbot/Chatbot/ChatbotMessage.css */
 
+.generated-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* 기존 스타일 유지 */
 .chatbot-message {
   display: flex;
   align-items: flex-start;
@@ -39,6 +47,11 @@
 
 .bot-message {
   margin-right: 10px;
+}
+
+.loading-message {
+  font-style: italic;
+  color: #888;
 }
 
 .message-content p {

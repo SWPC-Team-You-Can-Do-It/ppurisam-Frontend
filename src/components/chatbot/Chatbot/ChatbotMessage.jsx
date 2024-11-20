@@ -9,7 +9,11 @@ const ChatbotMessage = ({ message, isUser, className = '' }) => {
     <div className={`chatbot-message ${isUser ? 'user' : 'bot'} ${className}`}>
       {!isUser && <RobotIcon />}
       <div className={`message-content ${isUser ? 'user-message' : 'bot-message'}`}>
-        <p>{message}</p>
+        {className === 'image-message' ? (
+          <img src={message} alt="생성된 이미지" className="generated-image" />
+        ) : (
+          <p>{message}</p>
+        )}
       </div>
     </div>
   );
