@@ -5,8 +5,6 @@ import "./Tracking.css";
 import PolygonIcon from "@/assets/images/tracking/Polygon.png";
 import axiosInstance from "../login/axiosInstance"; // Axios 인스턴스 import
 
-const BACKEND_BASE_URL = "https://your-backend.com"; // 실제 백엔드 URL로 변경
-
 const Tracking = () => {
   // 상태 관리
   const [searchTerm, setSearchTerm] = useState("");
