@@ -7,7 +7,7 @@ import axiosInstance, {
   fetchAndStorePpurioToken,
 } from "@/components/login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder";
-import ThemeSelectionModal from "@/components/send/ThemeSelection/ThemeSelectionModal";
+import ThemeSelectionModal from "@/components/send/ThemeSelection/ImageThemeSelectionModal";
 import TextOptions from "../TextImage/TextOptions";
 import TextOverlay from "../TextImage/TextOverlay";
 import html2canvas from "html2canvas";

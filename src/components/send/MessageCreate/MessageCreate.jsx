@@ -5,6 +5,7 @@ import "./MessageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
 import axiosInstance from "@/components/login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder";
+import TextThemeSelectionModal from "../ThemeSelection/TextThemeSelectionModal";
 
 const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
   const [prompt, setPrompt] = useState("");
@@ -13,13 +14,17 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
   const [error, setError] = useState("");
   const [generatedMessage, setGeneratedMessage] = useState("");
 
-  // 녹음 종료 시 파일을 처리하기 위한 콜백 함수 전달
-  const { isRecording, startRecording, stopRecording } = useAudioRecorder(async (file) => {
-    await handleAudioAvailable(file);
-  });
+  // 텍스트 테마 관련 상태
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+  const [selectedTextTheme, setSelectedTextTheme] = useState("기본"); // 초기값 기본 테마
+
+  const { isRecording, startRecording, stopRecording } = useAudioRecorder(
+    async (file) => {
+      await handleAudioAvailable(file);
+    }
+  );
 
   useEffect(() => {
-    // 바이트 카운트 업데이트
     const bytes = new Blob([prompt]).size;
     setByteCount(bytes);
   }, [prompt]);
@@ -38,7 +43,6 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
       setError("");
 
       const response = await axiosInstance.post("/api/stt", formData);
-
       const transcription = response.data.text;
       if (transcription) {
         setPrompt(transcription);
@@ -49,7 +53,7 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
       console.error("파일 전송 오류:", err);
       if (err.response) {
         setError(
-            `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
+          `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
         );
       } else if (err.request) {
         setError("서버에 응답이 없습니다. 네트워크 상태를 확인해주세요.");
@@ -74,6 +78,7 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
     try {
       const response = await axiosInstance.post("/api/text-ai", {
         text: prompt,
+        theme: selectedTextTheme, // 선택된 텍스트 테마 전달
       });
 
       const message = response.data.generated_text;
@@ -85,13 +90,10 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
     } catch (err) {
       console.error("메시지 생성 오류:", err);
       if (err.response) {
-        // 서버가 응답했으나 상태 코드가 2xx가 아닌 경우
         setError(err.response.data.message || "서버 오류가 발생했습니다.");
       } else if (err.request) {
-        // 요청이 이루어졌으나 응답을 받지 못한 경우
         setError("서버로부터 응답을 받지 못했습니다.");
       } else {
-        // 오류를 발생시킨 요청 설정 중 문제가 있는 경우
         setError("요청 설정 중 오류가 발생했습니다.");
       }
     } finally {
@@ -118,98 +120,120 @@ const MessageCreate = ({ isOpen, onClose, onGeneratedMessage }) => {
   if (!isOpen) return null;
 
   return (
+    <div
+      className="message-create-modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
       <div
-          className="message-create-modal-overlay"
-          onClick={onClose}
-          role="dialog"
-          aria-modal="true"
+        className="message-create-modal-content"
+        onClick={(e) => e.stopPropagation()}
       >
-        <div
-            className="message-create-modal-content"
-            onClick={(e) => e.stopPropagation()}
+        <button
+          className="message-create-close-button"
+          onClick={onClose}
+          aria-label="나가기"
         >
+          나가기
+        </button>
+
+        <div className="message-create-modal-header">
           <button
-              className="message-create-close-button"
-              onClick={onClose}
-              aria-label="나가기"
+            className="message-create-toggle-button active"
+            onClick={() => {}}
           >
-            나가기
+            메시지 생성하기
           </button>
+        </div>
 
-          <div className="message-create-modal-header">
-            <button
-                className="message-create-toggle-button active"
-                onClick={() => {}}
-            >
-              메시지 생성하기
-            </button>
-          </div>
-
-          <div className="message-create-body">
-            <div className="left-section">
-              <div className="message-create-prompt-section">
-                <label className="message-create-prompt-label">
-                  메시지 프롬프트 내용
-                  <span className="message-create-required">*</span>
-                </label>
-                <textarea
-                    className="message-create-prompt-textbox"
-                    placeholder="프롬프트 할 내용을 적으시오"
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                ></textarea>
-                <div className="message-create-byte-counter"></div>
+        <div className="message-create-body">
+          <div className="left-section">
+            <div className="message-create-prompt-section">
+              <label className="message-create-prompt-label">
+                메시지 프롬프트 내용
+                <span className="message-create-required">*</span>
+              </label>
+              <textarea
+                className="message-create-prompt-textbox"
+                placeholder="프롬프트 할 내용을 적으시오"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+              ></textarea>
+              <div className="message-create-byte-counter">
+                바이트 수: {byteCount}
               </div>
-              <button
+            </div>
+
+            <div className="button-row">
+              <div className="button-container">
+                <button
                   className={`message-create-mic-button ${
-                      isRecording ? "recording" : ""
+                    isRecording ? "recording" : ""
                   }`}
                   onClick={handleMicClick}
                   aria-label="녹음"
                   disabled={isLoading}
-              >
-                <img src={micIcon} alt="Mic" />
-                {isRecording && <div className="recording-animation"></div>}
-              </button>
-              <button
-                  className="message-create-generate-button"
-                  onClick={handleGenerateMessage}
-                  disabled={isLoading || !prompt.trim()}
-              >
-                {isLoading ? "생성 중..." : "메시지 생성하기"}
-              </button>
-              {error && <div className="error-message">{error}</div>}
+                >
+                  <img src={micIcon} alt="Mic" />
+                </button>
+                <button
+                  className="message-create-theme-button"
+                  onClick={() => setIsThemeModalOpen(true)}
+                >
+                  {selectedTextTheme || "테마 선택"}
+                </button>
+              </div>
             </div>
 
-            <div className="right-section">
-              <span className="message-create-result-text">생성 결과</span>
-              <div className="message-create-image-display-box">
-                {generatedMessage ? (
-                    <p className="generated-message">{generatedMessage}</p>
-                ) : (
-                    <p className="placeholder-text">
-                      여기에 생성된 메시지가 표시됩니다.
-                    </p>
-                )}
-              </div>
-              <button
-                  className="message-create-delete-button"
-                  onClick={() => setGeneratedMessage("")}
-                  disabled={!generatedMessage}
-              >
-                삭제
-              </button>
-              <button
-                  className="message-create-use-image-button"
-                  disabled={!generatedMessage}
-                  onClick={handleUseMessage}
-              >
-                메시지 사용하기
-              </button>
+            <button
+              className="message-create-generate-button"
+              onClick={handleGenerateMessage}
+              disabled={isLoading || !prompt.trim()}
+            >
+              {isLoading ? "생성 중..." : "메시지 생성하기"}
+            </button>
+            {error && <div className="error-message">{error}</div>}
+          </div>
+
+          <div className="right-section">
+            <span className="message-create-result-text">생성 결과</span>
+            <div className="message-create-result-display">
+              {isLoading ? (
+                <p className="loading-message">생성 중...</p>
+              ) : generatedMessage ? (
+                <p className="generated-message">{generatedMessage}</p>
+              ) : (
+                <p className="placeholder-text">
+                  여기에 생성된 메시지가 표시됩니다.
+                </p>
+              )}
             </div>
+            <button
+              className="message-create-delete-button"
+              onClick={() => setGeneratedMessage("")}
+              disabled={!generatedMessage}
+            >
+              삭제
+            </button>
+            <button
+              className="message-create-use-button"
+              onClick={handleUseMessage}
+              disabled={!generatedMessage}
+            >
+              메시지 사용하기
+            </button>
           </div>
         </div>
       </div>
+
+      <TextThemeSelectionModal
+        isOpen={isThemeModalOpen}
+        onClose={() => setIsThemeModalOpen(false)}
+        onSelectTheme={setSelectedTextTheme}
+        selectedTheme={selectedTextTheme}
+      />
+    </div>
   );
 };
 

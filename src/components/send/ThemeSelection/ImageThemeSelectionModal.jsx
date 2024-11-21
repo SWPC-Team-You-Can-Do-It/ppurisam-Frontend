@@ -1,8 +1,8 @@
-// src/components/main/Send/ImageCreate/ThemeSelectionModal.jsx
+/* src/components/send/ThemeSelection/ImageThemeSelectionModal.jsx */
 
 import React from "react";
 import PropTypes from "prop-types";
-import "./ThemeSelectionModal.css"; // 별도의 CSS 파일 생성
+import "./ImageThemeSelectionModal.css"; // 별도의 CSS 파일 생성
 
 const ThemeSelectionModal = ({
   isOpen,
