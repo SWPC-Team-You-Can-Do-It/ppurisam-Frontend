@@ -30,7 +30,6 @@ const TextOverlay = ({ text, index, handleTextChange }) => {
         handleTextChange(index, "fontSize", newFontSize);
         handleTextChange(index, "position", position);
       }}
-      bounds="parent"
       minWidth={100}
       minHeight={30}
       className="text-rnd"

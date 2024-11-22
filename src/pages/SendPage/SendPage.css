@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   padding-top: 80px;
+  scroll-behavior: smooth;
 }
 
 /* 두 컴포넌트를 감싸는 wrapper */
@@ -89,7 +90,7 @@
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
   font-size: 20px;
   cursor: pointer;
 }

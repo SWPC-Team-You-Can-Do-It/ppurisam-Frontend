@@ -10,7 +10,7 @@ export default defineConfig({
     hmr: {
       host: "localhost",
       port: 3000,
-      protocaol: "ws",
+      protocol: "ws",
     },
     watch: {
       usePolling: true, // 도커 파일 시스템 변경 감지를 위한 설정

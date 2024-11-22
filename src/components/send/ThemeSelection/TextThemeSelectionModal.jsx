@@ -9,7 +9,7 @@ const TextThemeSelectionModal = ({
   isOpen,
   onClose,
   onSelectTheme,
-  selectedTheme,
+  selectedTheme = "기본", // 기본 매개변수로 설정
 }) => {
   const [themes, setThemes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -95,10 +95,6 @@ TextThemeSelectionModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSelectTheme: PropTypes.func.isRequired,
   selectedTheme: PropTypes.string,
-};
-
-TextThemeSelectionModal.defaultProps = {
-  selectedTheme: "기본",
 };
 
 export default TextThemeSelectionModal;

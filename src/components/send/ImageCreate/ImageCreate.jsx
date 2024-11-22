@@ -154,12 +154,16 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         });
         const dataUrl = canvas.toDataURL("image/png");
 
-        const response = await axiosInstance.post("/api/save-image", {
-          image: dataUrl,
-        });
+        const response = await axiosInstance.post(
+          "/api/image/download-and-save",
+          {
+            image: dataUrl,
+          }
+        );
+        console.log(response);
 
         if (onImageGenerated) {
-          onImageGenerated(response.data.imageUrl);
+          onImageGenerated(response.data); // 수정된 백엔드 응답에 맞게 변경
         }
 
         onClose();

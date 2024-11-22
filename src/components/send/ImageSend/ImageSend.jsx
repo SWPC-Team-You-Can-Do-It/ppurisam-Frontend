@@ -8,6 +8,7 @@ import { ImageContext } from "../../../contexts/ImageContext";
 import ImageCreate from "../ImageCreate/ImageCreate";
 import TextOptions from "../TextImage/TextOptions";
 import TextOverlay from "../TextImage/TextOverlay";
+import html2canvas from "html2canvas"; // 필요 시 import
 
 const ImageSend = ({ messageContent }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -2,181 +2,209 @@
 
 /* 최상위 컨테이너에 대한 스타일 */
 .message-send-container {
-    background-color: transparent;
-    border-radius: 20px;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: none;
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: none;
 }
 
 .message-send-title {
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 30px;
-    color: #000000;
-    margin-bottom: 20px;
-    align-self: stretch;
-    margin-left: 40px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  color: #000000;
+  margin-bottom: 20px;
+  align-self: stretch;
+  margin-left: 40px;
 }
 
 /* search-input-box 안의 자식 요소로서 스타일 적용 */
 .search-input-box {
-    width: 100%;
-    max-width: 470px;
-    height: 60px;
-    background-color: #f2f3f5;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-bottom: 20px;
+  width: 100%;
+  max-width: 470px;
+  height: 60px;
+  background-color: #f2f3f5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .search-input-box .search-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    outline: none;
-    font-size: 20px;
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 20px;
 }
 
 .search-input-box .mic-button {
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* background-color: #ffffff; */ /* 배경색 제거 */
-    padding: 0 10px; /* 텍스트가 있을 때 여유 공간 확보 */
-    border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #ffffff; */ /* 배경색 제거 */
+  padding: 0 10px; /* 텍스트가 있을 때 여유 공간 확보 */
+  border-radius: 5px;
 }
 
 /* 마이크 아이콘 스타일 */
 .mic-button img {
-    width: 23px;
-    height: 37px;
-    object-fit: contain;
+  width: 23px;
+  height: 37px;
+  object-fit: contain;
 }
 
 /* 녹음 중일 때 스타일 */
 .mic-button.recording {
-    background-color: #ffffff; /* 흰색 배경 */
-    color: #31a575; /* 텍스트 색상 초록색 */
-    font-size: 14px; /* 폰트 크기 조정 */
-    width: auto; /* 너비 자동 조정 */
-    height: 40px; /* 높이 일정하게 유지 */
+  background-color: #ffffff; /* 흰색 배경 */
+  color: #31a575; /* 텍스트 색상 초록색 */
+  font-size: 14px; /* 폰트 크기 조정 */
+  width: auto; /* 너비 자동 조정 */
+  height: 40px; /* 높이 일정하게 유지 */
 }
 
 /* 녹음 중일 때 아이콘 숨기기 */
 .mic-button.recording img {
-    display: none;
+  display: none;
 }
 
 /* large-message-box 스타일 */
 .large-message-box {
-    width: 100%;
-    max-width: 470px;
-    height: 400px;
-    background-color: #f2f3f5;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
-    font-size: 20px;
-    color: #000;
-    padding: 20px;
-    box-sizing: border-box;
-    border: 0px solid #ccc;
-    resize: none;
-    outline: none;
+  width: 100%;
+  max-width: 470px;
+  height: 400px;
+  background-color: #f2f3f5;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
+  font-size: 20px;
+  color: #000;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 0px solid #ccc;
+  resize: none;
+  outline: none;
 }
 
 /* action-buttons 안의 action-button 스타일 */
 .action-buttons {
-    width: 100%;
-    max-width: 470px;
-    display: flex;
-    gap: 10px;
+  width: 100%;
+  max-width: 470px;
+  display: flex;
+  gap: 10px;
 }
 
 .action-buttons .action-button {
-    flex: 2;
-    height: 55px;
-    background-color: #31a575;
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
-    cursor: pointer;
-    font-size: 25px;
+  flex: 2;
+  height: 55px;
+  background-color: #31a575;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
+  cursor: pointer;
+  font-size: 23px;
 }
 
 .action-buttons .mic-button2 {
-    flex: 1;
-    height: 55px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff; /* 기본 배경색 */
-    padding: 0 10px; /* 텍스트가 있을 때 여유 공간 확보 */
+  flex: 1;
+  height: 55px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; /* 기본 배경색 */
+  padding: 0 10px; /* 텍스트가 있을 때 여유 공간 확보 */
 }
 
 /* mic-button2 안의 mic-icon 스타일 */
 .mic-button2 .mic-icon {
-    width: 35px;
-    height: 35px;
+  width: 35px;
+  height: 35px;
 }
 
 /* mic-button2 녹음 중일 때 스타일 */
 .mic-button2.recording {
-    background-color: #ffffff; /* 흰색 배경 */
-    color: #31a575; /* 텍스트 색상 초록색 */
-    font-size: 16px; /* 폰트 크기 조정 */
+  background-color: #ffffff; /* 흰색 배경 */
+  color: #31a575; /* 텍스트 색상 초록색 */
+  font-size: 16px; /* 폰트 크기 조정 */
 }
 
 /* 녹음 중일 때 아이콘 숨기기 */
 .mic-button2.recording .mic-icon {
-    display: none;
+  display: none;
 }
 
 /* submit-button1 스타일 */
 .submit-button1 {
-    margin-top: 10px;
-    width: 100%;
-    max-width: 470px;
-    height: 55px;
-    background-color: #31a575;
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    font-family: 'NEXON Lv1 Gothic OTP', sans-serif;
-    font-size: 25px;
-    cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 470px;
+  height: 55px;
+  background-color: #31a575;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
+  font-size: 25px;
+  cursor: pointer;
 }
 
 /* 에러 메시지 스타일 추가 */
 .error-message {
-    color: red;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    margin-top: 10px;
+  color: red;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 /* 녹음 중 애니메이션 스타일 */
 .recording-animation {
-    width: 20px;
-    height: 20px;
-    border: 5px solid #31a575;
-    border-top: 5px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  width: 20px;
+  height: 20px;
+  border: 5px solid #31a575;
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* "작성 완료" 버튼의 컨테이너 스타일 */
+.complete-button-container {
+  margin-top: 25px; /* 버튼 위쪽에 여백을 더 추가 */
+  text-align: right; /* 버튼을 오른쪽으로 정렬 */
+  display: flex;
+  justify-content: flex-end;
+  width: 86%;
+}
+
+/* "작성 완료" 버튼의 스타일 */
+.complete-button {
+  flex: 1; /* flex 값을 2에서 3으로 증가하여 더 넓은 공간 차지 */
+  height: 55px; /* 높이를 55px에서 70px으로 증가 */
+  padding: 5px 25px; /* 상하 10px, 좌우 30px의 패딩 추가 */
+  background-color: #31a575; /* 기존 녹색 배경 유지 */
+  color: #ffffff; /* 흰색 텍스트 유지 */
+  border: none; /* 테두리 제거 */
+  border-radius: 10px; /* 모서리를 10px에서 15px으로 증가하여 더 둥글게 */
+  font-family: "NEXON Lv1 Gothic OTP", sans-serif; /* 기존 폰트 유지 */
+  cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+  font-size: 23px; /* 글자 크기를 25px에서 28px으로 증가 */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* 배경색 및 변형 전환 효과 추가 */
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
