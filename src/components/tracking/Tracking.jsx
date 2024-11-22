@@ -236,24 +236,27 @@ const Tracking = () => {
                               loading="lazy" // Lazy Loading 적용
                             />
                           </div>
-                          <div className="sender-section">
-                            <strong>발신번호:</strong>{" "}
-                            <span className="sender-number">
-                              {item.from_phone_number}
-                            </span>
-                          </div>
-                          <div className="recipients-section">
-                            <button
-                              className="recipients-button"
-                              onClick={(e) => {
-                                e.stopPropagation(); // 행 클릭 이벤트 방지
-                                openModal(item.receivers);
-                              }}
-                              aria-haspopup="dialog"
-                              aria-controls={`recipients-modal-${globalIndex}`}
-                            >
-                              수신자 목록
-                            </button>
+                          {/* info-section 추가 */}
+                          <div className="info-section">
+                            <div className="sender-section">
+                              <strong>발신번호:</strong>{" "}
+                              <span className="sender-number">
+                                {item.from_phone_number}
+                              </span>
+                            </div>
+                            <div className="recipients-section">
+                              <button
+                                className="recipients-button"
+                                onClick={(e) => {
+                                  e.stopPropagation(); // 행 클릭 이벤트 방지
+                                  openModal(item.receivers);
+                                }}
+                                aria-haspopup="dialog"
+                                aria-controls={`recipients-modal-${globalIndex}`}
+                              >
+                                수신자 목록
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>

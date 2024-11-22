@@ -1,4 +1,4 @@
-/* Tracking.css */
+/* src/components/tracking/Tracking.css */
 
 /* 전역적으로 박스 사이징을 border-box로 설정 */
 *,
@@ -8,7 +8,6 @@
 }
 
 body {
-  font-family: "NEXON Lv1 Gothic OTF", sans-serif;
   background-color: #e4f3ed;
   margin: 0;
   padding: 0;
@@ -97,7 +96,7 @@ body {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 500px; /* 고정 높이 유지 */
   overflow: hidden;
 }
 
@@ -174,8 +173,9 @@ body {
   background-color: #f9f9f9;
   padding: 10px 20px;
   border-bottom: 1px solid #e0e0e0;
-  max-height: 200px; /* 필요 시 조정 */
-  overflow: auto; /* 내용이 길어질 경우 내부 스크롤 */
+  /* max-height: 200px; */ /* 제거 */
+  /* overflow: auto; */ /* 제거 */
+  /* 확장된 내용이 자연스럽게 표시되도록 설정 */
 }
 
 .expanded-content {
@@ -194,27 +194,47 @@ body {
 .right-section {
   flex: 1;
   display: flex;
+  flex-direction: row; /* 가로로 배치 */
+  gap: 20px;
+  align-items: flex-start; /* 상단 정렬 */
+}
+
+/* 이미지 섹션의 스타일 조정 */
+.image-section {
+  width: 50%; /* right-section의 절반 너비 */
+  max-width: 200px; /* 이미지의 최대 너비을 200px으로 증가 */
+}
+
+.image-section img {
+  width: 100%; /* image-section의 전체 너비 사용 */
+  height: auto; /* 자동 높이 유지 */
+  object-fit: cover; /* 이미지 비율 유지 및 자르기 */
+  border-radius: 5px;
+}
+
+/* info-section 추가 */
+.info-section {
+  width: 50%; /* right-section의 절반 너비 */
+  display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.image-section img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
-
+/* 발신번호 섹션 스타일 */
 .sender-section {
   font-size: 0.95rem;
   background-color: #31446c; /* 배경색 변경 */
   padding: 8px 12px; /* 내부 여백 추가 */
   border-radius: 5px; /* 테두리 반경 추가 */
   color: #ffffff; /* 텍스트 색상 변경 */
-  display: inline-block; /* 텍스트 주변에 여백을 추가하려면 필요 시 */
+  width: 100%; /* 전체 너비 사용 */
+  margin-top: 10px;
 }
 
+/* 수신자 목록 버튼 섹션 스타일 */
 .recipients-section {
   font-size: 0.95rem;
+  margin-top: 10px; /* 발신번호 섹션과의 간격 확보 */
 }
 
 /* 수신자 목록 버튼 스타일 */
@@ -227,7 +247,7 @@ body {
   cursor: pointer;
   font-size: 0.95rem;
   transition: background-color 0.3s ease;
-  margin-top: 10px;
+  /* margin-top: 10px; */ /* 이미 .recipients-section에 마진 추가 */
 }
 
 .recipients-button:hover {
@@ -382,6 +402,20 @@ body {
   .expanded-content {
     font-size: 0.95rem;
   }
+
+  /* 반응형 이미지 크기 조정 */
+  .image-section img {
+    max-width: 180px; /* 최대 너비 증가 */
+  }
+
+  /* image-section과 info-section의 너비 유지 */
+  .image-section {
+    width: 50%; /* 절반 너비 유지 */
+  }
+
+  .info-section {
+    width: 50%; /* 절반 너비 유지 */
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -406,6 +440,20 @@ body {
 
   .expanded-content {
     font-size: 0.9rem;
+  }
+
+  /* 반응형 이미지 크기 조정 */
+  .image-section img {
+    max-width: 150px; /* 최대 너비 증가 */
+  }
+
+  /* image-section과 info-section의 너비 유지 */
+  .image-section {
+    width: 50%; /* 절반 너비 유지 */
+  }
+
+  .info-section {
+    width: 50%; /* 절반 너비 유지 */
   }
 }
 
@@ -434,5 +482,23 @@ body {
   .expanded-content {
     font-size: 0.85rem;
     flex-direction: column;
+  }
+
+  /* 반응형 이미지 크기 조정 */
+  .image-section img {
+    max-width: 120px; /* 최대 너비 증가 */
+  }
+
+  /* image-section과 info-section의 너비 조정 */
+  .image-section {
+    width: 100%; /* 이미지 섹션 전체 너비 사용 */
+  }
+
+  .info-section {
+    width: 100%; /* 전체 너비 사용 */
+  }
+
+  .right-section {
+    flex-direction: column; /* 모바일에서는 세로로 배치 */
   }
 }
