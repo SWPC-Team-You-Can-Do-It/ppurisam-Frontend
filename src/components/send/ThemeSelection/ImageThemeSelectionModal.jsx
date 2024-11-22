@@ -10,8 +10,8 @@ const ThemeSelectionModal = ({
   onSelectTheme,
   selectedTheme,
   themes, // 외부에서 전달받은 테마 목록
-  isLoading, // 테마 로딩 상태
-  error, // 테마 로딩 오류 메시지
+  isLoading = false, // 테마 로딩 상태
+  error = "", // 테마 로딩 오류 메시지
 }) => {
   if (!isOpen) return null;
 
@@ -63,11 +63,6 @@ ThemeSelectionModal.propTypes = {
   themes: PropTypes.arrayOf(PropTypes.string).isRequired,
   isLoading: PropTypes.bool,
   error: PropTypes.string,
-};
-
-ThemeSelectionModal.defaultProps = {
-  isLoading: false,
-  error: "",
 };
 
 export default ThemeSelectionModal;

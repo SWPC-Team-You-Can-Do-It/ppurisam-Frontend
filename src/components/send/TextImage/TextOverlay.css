@@ -1,14 +1,15 @@
 /* src/components/send/ImageCreate/TextOverlay.css */
 
 .text-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
+  user-select: none;
+  pointer-events: auto;
   padding: 5px;
-  box-sizing: border-box;
-  word-wrap: break-word;
+  border: 1px dashed transparent;
+  transition: border 0.2s ease;
+}
+
+.text-overlay:hover {
+  border: 1px dashed #31a575;
 }
 
 .text-rnd {
