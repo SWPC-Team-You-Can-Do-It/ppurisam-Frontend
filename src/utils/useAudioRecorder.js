@@ -71,7 +71,7 @@ const useAudioRecorder = (onRecordingStop) => {
 
           // 파일 생성
           const file = new File([blob], "recording.webm", {
-            type: "audio/wav",
+            type: "audio/wabm",
           });
 
           // 추가된 부분: 콜백 호출

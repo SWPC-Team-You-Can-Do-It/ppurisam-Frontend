@@ -140,26 +140,33 @@
 .My_modify-button {
     width: 298px;
     height: 44px;
-    background-color: #36bb84;
+    background-color: #31A575; /* 변경된 배경색 */
     color: #fff;
+    border: none; /* 테두리 제거 */
     border-radius: 10px;
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
-    text-align: center;
+    display: flex; /* 내용 가운데 정렬 */
+    align-items: center;
+    justify-content: center;
 }
 
 .My_withdraw-button {
     width: 143px;
     height: 44px;
-    background-color: #ff3b30;
+    background-color: #D31660; /* 변경된 배경색 */
     color: #fff;
+    border: none; /* 테두리 제거 */
     border-radius: 10px;
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
-    text-align: center;
+    display: flex; /* 내용 가운데 정렬 */
+    align-items: center;
+    justify-content: center;
 }
+
 /* 비밀번호 일치/불일치 메시지 스타일 */
 .My_password-match-message.match {
     font-size: 14px;
@@ -172,9 +179,6 @@
     color: red;
     margin-top: 5px;
 }
-/* My.css */
-
-/* My.css */
 
 /* 모달 오버레이 */
 .My_modal-overlay {
