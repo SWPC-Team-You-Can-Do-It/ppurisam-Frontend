@@ -27,15 +27,8 @@ const Tracking = () => {
         params: { page: page - 1 }, // API는 0부터 페이지 번호 시작
       });
 
-      // 콘솔 로그로 응답 데이터 확인 (디버깅용)
-      console.log("API Response:", response.data);
-
       // total_pages가 유효한 숫자인지 확인하고 최소 1로 설정
       const fetchedTotalPages = Number(response.data.total_pages);
-      const fetchedTotalElements = Number(response.data.total_elements);
-      console.log(`Fetched Total Pages: ${fetchedTotalPages}`);
-      console.log(`Fetched Total Elements: ${fetchedTotalElements}`);
-
       setTotalPages(
         !isNaN(fetchedTotalPages) && fetchedTotalPages > 0
           ? fetchedTotalPages
@@ -55,9 +48,8 @@ const Tracking = () => {
 
   // 컴포넌트가 마운트되거나 currentPage가 변경될 때마다 메시지 데이터를 가져옵니다.
   useEffect(() => {
-    console.log(`Current Page: ${currentPage}, Total Pages: ${totalPages}`);
     fetchMessages(currentPage);
-  }, [currentPage]); // 의존성을 currentPage로만 설정
+  }, [currentPage]);
 
   // 검색어를 기준으로 메시지 필터링
   const filteredData = messages.filter((item) =>
@@ -125,7 +117,7 @@ const Tracking = () => {
   // 이미지 URL 변환 함수
   const getImageUrl = (url) => {
     if (!url) return "https://via.placeholder.com/150";
-    // Check if the URL is absolute
+    // 절대 경로인지 확인
     if (url.startsWith("http://") || url.startsWith("https://")) {
       return url;
     } else {
@@ -176,7 +168,7 @@ const Tracking = () => {
             <div className="error">{error}</div>
           ) : paginatedData.length > 0 ? (
             paginatedData.map((item, index) => {
-              const globalIndex = (currentPage - 1) * 6 + index; // itemsPerPage=6을 기준으로 글로벌 인덱스 계산
+              const globalIndex = (currentPage - 1) * 6 + index;
               const isExpanded = expandedRow === globalIndex;
               const imageUrl = getImageUrl(
                 item.images && item.images.length > 0 ? item.images[0].url : null
@@ -197,7 +189,11 @@ const Tracking = () => {
                     aria-expanded={isExpanded}
                   >
                     <div className="table-column title">{item.title}</div>
-                    <div className={`table-column status ${item.status ? "completed" : "failed"}`}>
+                    <div
+                      className={`table-column status ${
+                        item.status ? "completed" : "failed"
+                      }`}
+                    >
                       {item.status ? "전송 완료" : "전송 실패"}
                     </div>
                     <div className="table-column date">
@@ -209,9 +205,11 @@ const Tracking = () => {
                       <img
                         src={PolygonIcon}
                         alt="세부사항 아이콘"
-                        className={`detail-icon ${isExpanded ? "rotated" : ""}`}
+                        className={`detail-icon ${
+                          isExpanded ? "rotated" : ""
+                        }`}
                         onClick={(e) => {
-                          e.stopPropagation(); // 행 클릭 이벤트 방지
+                          e.stopPropagation();
                           toggleExpandRow(globalIndex);
                         }}
                         title="세부사항 보기"
@@ -225,18 +223,20 @@ const Tracking = () => {
                           <p>{item.content}</p>
                         </div>
                         <div className="right-section">
+                          {/* 이미지가 왼쪽에 위치 */}
                           <div className="image-section">
                             <img
                               src={imageUrl}
                               alt={`${item.title} 이미지`}
                               onError={(e) => {
                                 console.error(`이미지 로딩 실패: ${imageUrl}`);
-                                e.target.src = "https://via.placeholder.com/150"; // 로딩 실패 시 대체 이미지
+                                e.target.src =
+                                  "https://via.placeholder.com/150";
                               }}
-                              loading="lazy" // Lazy Loading 적용
+                              loading="lazy"
                             />
                           </div>
-                          {/* info-section 추가 */}
+                          {/* 발신번호와 수신자 목록이 오른쪽에 위치 */}
                           <div className="info-section">
                             <div className="sender-section">
                               <strong>발신번호:</strong>{" "}
@@ -248,7 +248,7 @@ const Tracking = () => {
                               <button
                                 className="recipients-button"
                                 onClick={(e) => {
-                                  e.stopPropagation(); // 행 클릭 이벤트 방지
+                                  e.stopPropagation();
                                   openModal(item.receivers);
                                 }}
                                 aria-haspopup="dialog"
@@ -282,7 +282,7 @@ const Tracking = () => {
           </button>
           {[...Array(totalPages)].map((_, index) => (
             <span
-              key={index + 1} // 페이지 번호를 키로 사용
+              key={index + 1}
               onClick={() => handlePageClick(index + 1)}
               className={
                 currentPage === index + 1 ? "active-page" : "pagination-page"
@@ -313,7 +313,7 @@ const Tracking = () => {
         >
           <div
             className="modal-content"
-            onClick={(e) => e.stopPropagation()} // 모달 내용 클릭 시 닫히지 않도록 방지
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="modal-close-button"
