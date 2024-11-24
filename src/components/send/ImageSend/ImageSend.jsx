@@ -1,14 +1,9 @@
-// src/components/send/ImageSend/ImageSend.jsx
-
 import React, { useState, useRef, useContext } from "react";
 import "./ImageSend.css";
 import imageButton from "@/assets/images/send/imagebutton.png";
 import axiosInstance from "../../login/axiosInstance";
 import { ImageContext } from "../../../contexts/ImageContext";
 import ImageCreate from "../ImageCreate/ImageCreate";
-import TextOptions from "../TextImage/TextOptions";
-import TextOverlay from "../TextImage/TextOverlay";
-import html2canvas from "html2canvas"; // 필요 시 import
 
 const ImageSend = ({ messageContent }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,10 +11,6 @@ const ImageSend = ({ messageContent }) => {
   const fileInputRef = useRef(null);
 
   const { setImageData } = useContext(ImageContext);
-
-  const [texts, setTexts] = useState([]);
-  const [textColor, setTextColor] = useState("#000000");
-  const [textFont, setTextFont] = useState("Arial");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -107,48 +98,6 @@ const ImageSend = ({ messageContent }) => {
     }
   };
 
-  // 텍스트 추가 버튼 핸들러
-  const handleAddText = () => {
-    setTexts([
-      ...texts,
-      {
-        content: "텍스트 입력",
-        color: textColor,
-        fontFamily: textFont,
-        x: 50,
-        y: 50,
-        width: 200,
-        height: 50,
-      },
-    ]);
-  };
-
-  // 텍스트 상태 업데이트 핸들러
-  const handleTextChange = (index, field, value) => {
-    const updatedTexts = texts.map((text, idx) => {
-      if (idx === index) {
-        if (field === "position") {
-          return { ...text, x: value.x, y: value.y };
-        }
-        if (field === "size") {
-          return { ...text, width: value.width, height: value.height };
-        }
-        if (field === "content") {
-          return { ...text, content: value };
-        }
-        if (field === "color") {
-          return { ...text, color: value };
-        }
-        if (field === "fontFamily") {
-          return { ...text, fontFamily: value };
-        }
-        return { ...text, [field]: value };
-      }
-      return text;
-    });
-    setTexts(updatedTexts);
-  };
-
   return (
     <div className="image-send-container">
       <h2 className="image-send-title">이미지 첨부</h2>
@@ -160,14 +109,6 @@ const ImageSend = ({ messageContent }) => {
               alt="Uploaded"
               className="uploaded-image"
             />
-            {texts.map((text, index) => (
-              <TextOverlay
-                key={index}
-                text={text}
-                index={index}
-                handleTextChange={handleTextChange}
-              />
-            ))}
           </div>
         ) : (
           <div
@@ -183,22 +124,6 @@ const ImageSend = ({ messageContent }) => {
           ref={fileInputRef}
           style={{ display: "none" }}
           onChange={handleFileChange} // onChange 핸들러 추가
-        />
-      </div>
-
-      {/* 텍스트 추가 버튼 및 옵션 */}
-      <div className="text-add-section">
-        <button
-          className="ai-image-button add-text-button"
-          onClick={handleAddText}
-        >
-          텍스트 추가
-        </button>
-        <TextOptions
-          textColor={textColor}
-          setTextColor={setTextColor}
-          textFont={textFont}
-          setTextFont={setTextFont}
         />
       </div>
 
