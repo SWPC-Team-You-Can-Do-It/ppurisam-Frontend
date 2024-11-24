@@ -1,5 +1,3 @@
-// src/components/send/MessageSend/MessageSend.jsx
-
 import React, { useState } from "react";
 import "./MessageSend.css";
 import micIcon from "@/assets/images/send/mic.png";
@@ -8,12 +6,7 @@ import axiosInstance from "../../login/axiosInstance";
 import useAudioRecorder from "@/utils/useAudioRecorder";
 import PropTypes from "prop-types";
 
-const MessageSend = ({
-  onContentUpdate,
-  messageTitle,
-  messageContent,
-  onComplete,
-}) => {
+const MessageSend = ({ onContentUpdate, messageTitle, messageContent }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputText, setInputText] = useState(messageTitle || "");
   const [textareaText, setTextareaText] = useState(messageContent || "");
@@ -152,13 +145,6 @@ const MessageSend = ({
         </button>
       </div>
 
-      {/* "작성 완료" 버튼 추가 */}
-      <div className="complete-button-container">
-        <button className="complete-button" onClick={onComplete}>
-          작성 완료
-        </button>
-      </div>
-
       {/* 에러 및 성공 메시지 */}
       {error && <div className="error-message">{error}</div>}
       {success && <div className="success-message">{success}</div>}
@@ -179,7 +165,6 @@ MessageSend.propTypes = {
   onContentUpdate: PropTypes.func.isRequired,
   messageTitle: PropTypes.string,
   messageContent: PropTypes.string,
-  onComplete: PropTypes.func.isRequired, // 새로운 prop
 };
 
 export default MessageSend;
