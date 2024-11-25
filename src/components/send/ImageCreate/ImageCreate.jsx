@@ -1,5 +1,3 @@
-// src/components/send/ImageCreate/ImageCreate.jsx
-
 import React, { useState, useEffect } from "react";
 import "./ImageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
@@ -10,7 +8,6 @@ import useAudioRecorder from "@/utils/useAudioRecorder";
 import ThemeSelectionModal from "@/components/send/ThemeSelection/ImageThemeSelectionModal";
 import TextOptions from "../TextImage/TextOptions";
 import TextOverlay from "../TextImage/TextOverlay";
-import html2canvas from "html2canvas";
 
 const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [prompt, setPrompt] = useState(initialPrompt || "");
@@ -37,7 +34,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [texts, setTexts] = useState([]);
   const [textColor, setTextColor] = useState("#000000");
   const [textFont, setTextFont] = useState("Arial");
-  // textSize 상태 제거
+  const [textSize, setTextSize] = useState(16);
 
   useEffect(() => {
     if (initialPrompt) {
@@ -129,6 +126,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       } else {
         setError("이미지 생성에 실패했습니다.");
       }
+      console.log(imageUrl);
     } catch (err) {
       console.error("Axios Error:", err.response ? err.response.data : err);
       setError("이미지 생성 중 오류가 발생했습니다.");
@@ -145,32 +143,9 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     }
   };
 
-  const handleUseImage = async () => {
-    if (imageUrl) {
-      const imageContainer = document.querySelector(".image-container");
-      try {
-        const canvas = await html2canvas(imageContainer, {
-          useCORS: true,
-        });
-        const dataUrl = canvas.toDataURL("image/png");
-
-        const response = await axiosInstance.post(
-          "/api/image/download-and-save",
-          {
-            image: dataUrl,
-          }
-        );
-        console.log(response);
-
-        if (onImageGenerated) {
-          onImageGenerated(response.data); // 수정된 백엔드 응답에 맞게 변경
-        }
-
-        onClose();
-      } catch (err) {
-        console.error("이미지 합성 오류:", err);
-        setError("이미지를 저장하는 중 오류가 발생했습니다.");
-      }
+  const handleUseImage = () => {
+    if (imageUrl && onImageGenerated) {
+      onImageGenerated(imageUrl);
     }
   };
 
@@ -179,6 +154,12 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     setIsThemeModalOpen(false);
   };
 
+  // 텍스트 삭제 핸들러
+  const handleDeleteText = (index) => {
+    setTexts((prevTexts) => prevTexts.filter((_, idx) => idx !== index));
+  };
+
+  // 텍스트 추가 버튼 핸들러
   const handleAddText = () => {
     setTexts([
       ...texts,
@@ -186,6 +167,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         content: "텍스트 입력",
         color: textColor,
         fontFamily: textFont,
+        fontSize: textSize, // 폰트 크기 추가
         x: 50,
         y: 50,
         width: 200,
@@ -194,24 +176,10 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     ]);
   };
 
+  // 텍스트 상태 업데이트 핸들러
   const handleTextChange = (index, field, value) => {
     const updatedTexts = texts.map((text, idx) => {
       if (idx === index) {
-        if (field === "position") {
-          return { ...text, x: value.x, y: value.y };
-        }
-        if (field === "size") {
-          return { ...text, width: value.width, height: value.height };
-        }
-        if (field === "content") {
-          return { ...text, content: value };
-        }
-        if (field === "color") {
-          return { ...text, color: value };
-        }
-        if (field === "fontFamily") {
-          return { ...text, fontFamily: value };
-        }
         return { ...text, [field]: value };
       }
       return text;
@@ -254,7 +222,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         </div>
 
         <div className="image-create-body">
-          {/* 왼쪽 섹션 */}
           <div className="left-section">
             <div className="image-create-prompt-section">
               <label className="image-create-prompt-label">
@@ -269,7 +236,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
               ></textarea>
             </div>
 
-            {/* 마이크 버튼 */}
             <button
               className={`image-create-mic-button ${
                 isRecording ? "recording" : ""
@@ -282,7 +248,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
               {isRecording && <div className="recording-animation"></div>}
             </button>
 
-            {/* 테마 및 텍스트 추가 버튼 */}
             <div className="theme-and-text-buttons">
               <button
                 className="image-create-theme-toggle-button image-create-button"
@@ -291,7 +256,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
                 {selectedTheme || "테마 선택"}
               </button>
 
-              {/* 텍스트 추가 버튼 및 옵션 */}
               <button
                 className="image-create-add-text-button image-create-button"
                 onClick={handleAddText}
@@ -304,6 +268,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
                 setTextColor={setTextColor}
                 textFont={textFont}
                 setTextFont={setTextFont}
+                setTextSize={setTextSize}
               />
             </div>
 
@@ -317,7 +282,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
             </button>
           </div>
 
-          {/* 오른쪽 섹션 */}
           <div className="right-section">
             <span className="image-create-result-text">생성 결과</span>
             <div className="image-create-image-display-box">
@@ -337,6 +301,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
                       text={text}
                       index={index}
                       handleTextChange={handleTextChange}
+                      handleDeleteText={handleDeleteText}
                     />
                   ))}
                 </div>
@@ -364,7 +329,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         </div>
       </div>
 
-      {/* 테마 선택 모달 컴포넌트 임포트 및 사용 */}
       <ThemeSelectionModal
         isOpen={isThemeModalOpen}
         onClose={() => setIsThemeModalOpen(false)}

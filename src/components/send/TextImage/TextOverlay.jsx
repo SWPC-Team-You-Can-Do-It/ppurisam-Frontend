@@ -1,12 +1,9 @@
-// src/components/send/ImageCreate/TextOverlay.jsx
-
 import React from "react";
 import PropTypes from "prop-types";
 import { Rnd } from "react-rnd";
 import "./TextOverlay.css";
 
-const TextOverlay = ({ text, index, handleTextChange }) => {
-  // 폰트 크기를 Rnd의 width를 기준으로 계산
+const TextOverlay = ({ text, index, handleTextChange, handleDeleteText }) => {
   const calculateFontSize = (width) => {
     return Math.max(10, Math.min(100, Math.floor(width / 10)));
   };
@@ -35,22 +32,40 @@ const TextOverlay = ({ text, index, handleTextChange }) => {
       className="text-rnd"
     >
       <div
-        className="text-overlay"
+        className="text-overlay-wrapper"
         style={{
-          color: text.color,
-          fontSize: `${text.fontSize}px`,
-          fontFamily: text.fontFamily,
           width: "100%",
           height: "100%",
-          cursor: "move",
-          userSelect: "none",
-          overflow: "hidden",
         }}
-        contentEditable
-        suppressContentEditableWarning
-        onBlur={(e) => handleTextChange(index, "content", e.target.innerText)}
       >
-        {text.content}
+        {/* 텍스트 영역 */}
+        <div
+          className="text-overlay"
+          style={{
+            color: text.color,
+            fontSize: `${text.fontSize}px`,
+            fontFamily: text.fontFamily,
+            userSelect: "none",
+            overflow: "hidden",
+          }}
+          contentEditable
+          suppressContentEditableWarning
+          onBlur={(e) => handleTextChange(index, "content", e.target.innerText)}
+        >
+          {text.content}
+        </div>
+
+        {/* 삭제 버튼 */}
+        <button
+          className="text-delete-button"
+          onClick={(e) => {
+            e.stopPropagation(); // 버튼 클릭 시 부모 Rnd 이벤트 차단
+            handleDeleteText(index); // 삭제 핸들러 호출
+          }}
+          aria-label="텍스트 삭제"
+        >
+          X
+        </button>
       </div>
     </Rnd>
   );
@@ -69,6 +84,7 @@ TextOverlay.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   handleTextChange: PropTypes.func.isRequired,
+  handleDeleteText: PropTypes.func.isRequired, // 삭제 핸들러 추가
 };
 
 export default TextOverlay;
