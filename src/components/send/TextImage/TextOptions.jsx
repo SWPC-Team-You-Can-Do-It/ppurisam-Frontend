@@ -14,23 +14,39 @@ const TextOptions = ({
 }) => {
   return (
     <div className="text-options">
-      <label className="text-option-label">
-        색상:
+      <div className="text-option">
+        <label htmlFor="text-color">색상:</label>
         <input
           type="color"
+          id="text-color"
           value={textColor}
           onChange={(e) => setTextColor(e.target.value)}
         />
-      </label>
-      <label className="text-option-label">
-        폰트:
-        <select value={textFont} onChange={(e) => setTextFont(e.target.value)}>
+      </div>
+      <div className="text-option">
+        <label htmlFor="text-font">폰트:</label>
+        <select
+          id="text-font"
+          value={textFont}
+          onChange={(e) => setTextFont(e.target.value)}
+        >
           <option value="Arial">Arial</option>
-          <option value="Helvetica">Helvetica</option>
           <option value="Times New Roman">Times New Roman</option>
-          {/* 추가 폰트 옵션 */}
+          <option value="Courier New">Courier New</option>
+          <option value="Verdana">Verdana</option>
         </select>
-      </label>
+      </div>
+      <div className="text-option">
+        <label htmlFor="text-size">크기:</label>
+        <input
+          type="number"
+          id="text-size"
+          value={textSize}
+          onChange={(e) => setTextSize(Number(e.target.value))}
+          min="10"
+          max="100"
+        />
+      </div>
     </div>
   );
 };

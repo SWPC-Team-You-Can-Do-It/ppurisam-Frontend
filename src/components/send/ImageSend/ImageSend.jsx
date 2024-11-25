@@ -55,7 +55,6 @@ const ImageSend = ({ messageContent }) => {
       });
     } catch (err) {
       console.error("이미지 다운로드 및 저장 중 오류 발생:", err);
-      alert("AI 이미지 다운로드 및 저장 중 오류가 발생했습니다.");
     }
     setIsModalOpen(false);
   };
@@ -90,11 +89,8 @@ const ImageSend = ({ messageContent }) => {
         size: file.size,
         url: serverImageUrl,
       });
-
-      alert("이미지가 성공적으로 업로드되었습니다!");
     } catch (error) {
       console.error("이미지 업로드 중 오류 발생:", error);
-      alert("이미지 업로드에 실패했습니다.");
     }
   };
 
