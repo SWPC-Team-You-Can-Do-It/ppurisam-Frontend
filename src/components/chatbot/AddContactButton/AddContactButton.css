@@ -1,19 +1,8 @@
 /* Frontend/src/components/chatbot/AddContactButton/AddContactButton.css */
-
 .add-contact-button {
-  background-color: #ff9800;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 14px;
+  background-color: #ff9800 !important;
 }
 
 .add-contact-button:hover {
   background-color: #fb8c00;
-}
-
-.chatbot-buttons .add-contact-button {
-  margin-top: 10px;
 }

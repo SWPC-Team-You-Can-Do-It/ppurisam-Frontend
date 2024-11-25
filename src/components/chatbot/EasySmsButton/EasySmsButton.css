@@ -1,21 +1,8 @@
 /* Frontend/src/components/chatbot/EasySmsButton/EasySmsButton.css */
-
 .easy-sms-button {
-  background-color: #2196f3;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px; /* 기존 크기로 복원 */
-  cursor: pointer;
-  font-size: 14px;
-  min-width: 100px; /* 버튼의 최소 너비 설정 */
+  background-color: #2196f3 !important;
 }
 
 .easy-sms-button:hover {
   background-color: #1e88e5;
-}
-
-.easy-sms-button:disabled {
-  background-color: #90caf9;
-  cursor: not-allowed;
 }

@@ -14,9 +14,10 @@
 
 .Contacts_tab-item {
     cursor: pointer;
-    font-size: 18px;
+    font-size: 23px;
     padding-bottom: 5px;
     color: #000;
+
 }
 
 .Contacts_tab-item.active {

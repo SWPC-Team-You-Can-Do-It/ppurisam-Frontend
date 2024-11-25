@@ -20,7 +20,7 @@ const ServiceDescriptionButton = forwardRef(({ addBotMessage }, ref) => {
   };
 
   return (
-    <button className="service-description-button" onClick={handleClick}>
+    <button className="service-description-button chatbot-action-button" onClick={handleClick}>
       서비스 설명
     </button>
   );
