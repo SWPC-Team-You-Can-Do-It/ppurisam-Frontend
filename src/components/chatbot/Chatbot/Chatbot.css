@@ -46,13 +46,52 @@
 /* 버튼 그룹 스타일 */
 .chatbot-buttons {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between; /* space-between으로 변경하여 버튼 간격 고르게 분배 */
   padding: 10px 0;
   margin-bottom: 10px; /* 버튼과 메시지 사이 간격 */
 }
 
 .chatbot-buttons button {
-  /* 버튼 스타일 조정 가능 */
+  flex: 1; /* 모든 버튼이 동일한 비율로 공간을 차지하도록 설정 */
+  margin: 0 20px; /* 버튼 간 좌우 간격 설정 */
+  padding: 10px 0; /* 버튼의 상하 패딩 동일하게 설정 */
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #4caf50; /* 기본 배경색 설정 (개별 버튼에서 덮어씌워질 수 있음) */
+  transition: background-color 0.3s ease;
+}
+
+/* 버튼 호버 효과 */
+.chatbot-buttons button:hover {
+  opacity: 0.9;
+}
+
+/* 개별 버튼의 배경색 덮어씌우기 */
+.service-description-button {
+  background-color: #4caf50; /* 서비스 설명 버튼 색상 */
+}
+
+.service-description-button:hover {
+  background-color: #45a049;
+}
+
+.add-contact-button {
+  background-color: #ff9800; /* 연락처 추가 버튼 색상 */
+}
+
+.add-contact-button:hover {
+  background-color: #fb8c00;
+}
+
+.easy-sms-button {
+  background-color: #2196f3; /* 간편 문자 전송 버튼 색상 */
+}
+
+.easy-sms-button:hover {
+  background-color: #1e88e5;
 }
 
 /* 입력 영역 스타일 */
@@ -112,7 +151,6 @@
     opacity: 1;
   }
 }
-
 
 .chatbot-send-button {
   background-color: #4caf50;

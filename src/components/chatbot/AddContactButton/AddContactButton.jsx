@@ -81,7 +81,7 @@ const AddContactButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
   }));
 
   return (
-    <button className="add-contact-button" onClick={() => {
+    <button className="add-contact-button chatbot-action-button" onClick={() => {
       if (ref.current) {
         ref.current.startAddContact();
       }

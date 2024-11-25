@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 const EasySmsButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [smsError, setSmsError] = useState('');
-  const [success, setSuccess] = useState('');
   const senderNumber = '01067064512'; // 발신번호 기본값
 
   // AI 생성된 텍스트 저장
@@ -70,7 +69,6 @@ const EasySmsButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
     try {
       setIsProcessing(true);
       setSmsError('');
-      setSuccess('');
 
       // AI 텍스트 생성 엔드포인트 호출 (/api/text-ai) with text and theme
       const textResponse = await axiosInstance.post('/api/text-ai', {
@@ -207,7 +205,6 @@ const EasySmsButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
     try {
       setIsProcessing(true);
       setSmsError('');
-      setSuccess('');
 
       // SendRequest 객체 생성
       const sendRequest = {
@@ -251,9 +248,9 @@ const EasySmsButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
 
       console.log('SendMessage API 응답 데이터:', response.data);
 
-      setSuccess('메시지가 성공적으로 전송되었습니다.');
-      setSmsError('');
-      addBotMessage('메시지가 성공적으로 전송되었습니다.');
+      // 성공 시, 오류 메시지 제거 및 성공 메시지 추가
+      addBotMessage('문자 전송이 완료되었습니다!');
+
       setChatState('idle'); // 상태를 'idle'로 되돌림
     } catch (error) {
       console.error('메시지 전송 오류:', error);
@@ -271,7 +268,7 @@ const EasySmsButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
   };
 
   return (
-    <button className="easy-sms-button" onClick={startEasySms} disabled={isProcessing}>
+    <button className="easy-sms-button chatbot-action-button" onClick={startEasySms} disabled={isProcessing}>
       간편 문자 전송
     </button>
   );
