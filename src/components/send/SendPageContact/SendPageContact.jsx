@@ -23,6 +23,8 @@ const SendPageContact = forwardRef(({ messageTitle, messageContent }, ref) => {
 
   const { imageData } = useContext(ImageContext); // ImageContext 사용
 
+  console.log("ImageData:", imageData);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
