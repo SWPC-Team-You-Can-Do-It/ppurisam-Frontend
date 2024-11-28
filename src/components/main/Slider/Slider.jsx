@@ -1,3 +1,4 @@
+// Slider.jsx
 import React, { useState, useEffect, useRef } from "react";
 import "./Slider.css";
 import slides from "./slider_data";
@@ -22,7 +23,7 @@ function Slider() {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex((prevIndex) =>
-        prevIndex === 0 ? slideLength - 1 : prevIndex - 1
+      prevIndex === 0 ? slideLength - 1 : prevIndex - 1
     );
   };
 
@@ -62,76 +63,76 @@ function Slider() {
   }, []);
 
   return (
-      <section id="sliderType" className="slider__wrap nexon">
-        <h2 className="blind">슬라이드 유형</h2>
-        <div className="slider__inner">
-          <div className="slider">
-            <div className="slider__img-wrapper">
-              {slides.map((slide, index) => {
-                let className = "slider__img";
-                if (index === currentIndex) {
-                  className += " active";
-                } else if (
-                    index === (currentIndex - 1 + slideLength) % slideLength
-                ) {
-                  className += " prevSlide";
-                } else if (index === (currentIndex + 1) % slideLength) {
-                  className += " nextSlide";
-                }
+    <section id="sliderType" className="slider__wrap nexon">
+      <h2 className="blind"></h2>
+      <div className="slider__inner">
+        <div className="slider">
+          <div className="slider__img-wrapper">
+            {slides.map((slide, index) => {
+              let className = "slider__img";
+              if (index === currentIndex) {
+                className += " active";
+              } else if (
+                index === (currentIndex - 1 + slideLength) % slideLength
+              ) {
+                className += " prevSlide";
+              } else if (index === (currentIndex + 1) % slideLength) {
+                className += " nextSlide";
+              }
 
-                return (
-                    <div key={slide.id} className={className}>
-                      <div className="desc">
-                        <h3>{slide.title}</h3>
-                        <p>{slide.description}</p>
-                      </div>
-                      <div className="image-wrapper">
-                        <img src={slide.image} alt={slide.title} />
-                      </div>
-                    </div>
-                );
-              })}
+              return (
+                <div key={slide.id} className={className}>
+                  <div className="desc">
+                    <h3>{slide.title}</h3>
+                    <p>{slide.description}</p>
+                  </div>
+                  <div className="image-wrapper">
+                    <img src={slide.image} alt={slide.title} />
+                  </div>
+                </div>
+              );
+            })}
 
-              {/* 화살표 버튼 */}
-              <div className="slider__arrow">
+            {/* 화살표 버튼 */}
+            <div className="slider__arrow">
+              <button
+                onClick={() => {
+                  prevSlide();
+                  resetAutoSlide();
+                }}
+                className="slider__arrow-button left"
+              >
+                <img src={leftArrow} alt="이전 이미지" />
+              </button>
+              <button
+                onClick={() => {
+                  nextSlide();
+                  resetAutoSlide();
+                }}
+                className="slider__arrow-button right"
+              >
+                <img src={rightArrow} alt="다음 이미지" />
+              </button>
+            </div>
+
+            {/* 도트 버튼 */}
+            <div className="slider__dot">
+              {slides.map((slide, index) => (
                 <button
-                    onClick={() => {
-                      prevSlide();
-                      resetAutoSlide();
-                    }}
-                    className="slider__arrow-button left"
-                >
-                  <img src={leftArrow} alt="이전 이미지" />
-                </button>
-                <button
-                    onClick={() => {
-                      nextSlide();
-                      resetAutoSlide();
-                    }}
-                    className="slider__arrow-button right"
-                >
-                  <img src={rightArrow} alt="다음 이미지" />
-                </button>
-              </div>
-
-              {/* 도트 버튼 */}
-              <div className="slider__dot">
-                {slides.map((slide, index) => (
-                    <button
-                        key={slide.id}
-                        className={`dot ${currentIndex === index ? "active" : ""}`}
-                        onClick={() => {
-                          if (isAnimating || index === currentIndex) return;
-                          setCurrentIndex(index);
-                          resetAutoSlide(); // 타이머 재설정
-                        }}
-                    />
-                ))}
-              </div>
+                  key={slide.id}
+                  className={`dot ${currentIndex === index ? "active" : ""}`}
+                  onClick={() => {
+                    if (isAnimating || index === currentIndex) return;
+                    setCurrentIndex(index);
+                    resetAutoSlide(); // 타이머 재설정
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
   );
 }
 

@@ -1,17 +1,20 @@
+/* Slider.css */
+
 /* 슬라이드 이미지 래퍼 */
 .slider__img-wrapper {
     width: 100%;
-    height: 529px;
+    height: 529px; /* 높이 유지 */
     overflow: hidden;
     position: relative;
-    margin-top: 234px; /* 상단 마진 234px 설정 */
-    background-color: #36BB84;
-}
-
-/* 슬라이드 이미지 */
-.slider__img {
+    background-color: #36bb84;
+    display: flex; /* 추가 */
+    align-items: center; /* 수직 중앙 정렬 */
+  }
+  
+  /* 슬라이드 이미지 */
+  .slider__img {
     width: 100%;
-    height: 100%;
+    height: 100%; /* 높이 추가 */
     position: absolute;
     left: 0;
     top: 0;
@@ -19,25 +22,26 @@
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     transform: translateX(100%);
     z-index: 1;
-    /* 배경 이미지 관련 속성 제거 */
-}
-
-.slider__img.active {
+    display: flex; /* 추가 */
+    align-items: center; /* 내부 콘텐츠 수직 중앙 정렬 */
+  }
+  
+  .slider__img.active {
     opacity: 1;
     transform: translateX(0);
     z-index: 2;
-}
-
-.slider__img.prevSlide {
+  }
+  
+  .slider__img.prevSlide {
     transform: translateX(-100%);
-}
-
-.slider__img.nextSlide {
+  }
+  
+  .slider__img.nextSlide {
     transform: translateX(100%);
-}
-
-/* 온보딩 텍스트 위치 조정 */
-.slider__img .desc {
+  }
+  
+  /* 온보딩 텍스트 위치 조정 */
+  .slider__img .desc {
     position: absolute;
     top: 50%;
     left: 378px; /* 좌측 마진 378px 설정 */
@@ -46,50 +50,50 @@
     color: #fff;
     z-index: 3;
     margin: 0; /* 여백 제거 */
-}
-
-.slider__img .desc h3 {
+  }
+  
+  .slider__img .desc h3 {
     font-size: 110px;
     font-weight: 700;
     margin-bottom: 40px; /* 하단 여백 40px 설정 */
     color: #fff; /* 헤딩은 흰색 */
     font-family: 'Pretendard-SemiBold', sans-serif;
-}
-
-.slider__img .desc p {
+  }
+  
+  .slider__img .desc p {
     font-size: 20px;
     font-weight: 400;
     margin: 0;
     color: #000000; /* 글자색 검정 */
     font-family: 'Pretendard-Regular', sans-serif;
-}
-
-/* 이미지 래퍼 */
-.slider__img .image-wrapper {
+  }
+  
+  /* 이미지 래퍼 */
+  .slider__img .image-wrapper {
     position: absolute;
     bottom: 0;
     right: 0;
     width: 686px;
     height: 494px;
     z-index: 2;
-}
-
-.slider__img .image-wrapper img {
+  }
+  
+  .slider__img .image-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* 필요에 따라 contain으로 변경 가능 */
-}
-
-/* 화살표 버튼 스타일 */
-.slider__arrow {
+  }
+  
+  /* 화살표 버튼 스타일 */
+  .slider__arrow {
     position: absolute;
     top: 50%;
     width: 100%;
     transform: translateY(-50%);
     z-index: 5;
-}
-
-.slider__arrow button {
+  }
+  
+  .slider__arrow button {
     background: none;
     border: none;
     cursor: pointer;
@@ -98,23 +102,23 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-}
-
-.slider__arrow .left {
+  }
+  
+  .slider__arrow .left {
     left: 20px;
-}
-
-.slider__arrow .right {
+  }
+  
+  .slider__arrow .right {
     right: 20px;
-}
-
-.slider__arrow img {
+  }
+  
+  .slider__arrow img {
     width: 100%;
     height: 100%;
-}
-
-/* 도트 버튼 스타일 */
-.slider__dot {
+  }
+  
+  /* 도트 버튼 스타일 */
+  .slider__dot {
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -123,9 +127,9 @@
     align-items: center;
     justify-content: center;
     z-index: 4;
-}
-
-.slider__dot button {
+  }
+  
+  .slider__dot button {
     display: inline-block;
     width: 16px;
     height: 16px;
@@ -135,125 +139,126 @@
     margin: 0 5px;
     cursor: pointer;
     vertical-align: middle;
-}
-
-.slider__dot button.active {
+  }
+  
+  .slider__dot button.active {
     background: url('../../../../../../ppurisam/Frontend/src/assets/images/Slider/listicon2.png') no-repeat center;
     background-size: 12px 12px;
-}
-
-/* 기본 태그의 여백 제거 */
-h1, h2, h3, h4, h5, h6, p {
+  }
+  
+  /* 기본 태그의 여백 제거 */
+  h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     padding: 0;
-}
-
-/* 반응형 웹을 위한 미디어 쿼리 */
-@media screen and (max-width: 1024px) {
+  }
+  
+  /* 반응형 웹을 위한 미디어 쿼리 */
+  @media screen and (max-width: 1024px) {
     .slider__img-wrapper {
-        height: 400px;
+      height: 400px;
     }
-
+  
     .slider__img .desc h3 {
-        font-size: 80px;
+      font-size: 80px;
     }
-
+  
     .slider__img .desc p {
-        font-size: 18px;
+      font-size: 18px;
     }
-
+  
     .slider__img .desc {
-        left: 50px;
+      left: 50px;
     }
-
+  
     .slider__img .image-wrapper {
-        width: 600px;
-        height: 416px;
+      width: 600px;
+      height: 416px;
     }
-
+  
     .slider__arrow button {
-        width: 40px;
-        height: 40px;
+      width: 40px;
+      height: 40px;
     }
-
+  
     .slider__arrow .left {
-        left: 15px;
+      left: 15px;
     }
-
+  
     .slider__arrow .right {
-        right: 15px;
+      right: 15px;
     }
-}
-
-@media screen and (max-width: 768px) {
+  }
+  
+  @media screen and (max-width: 768px) {
     .slider__img-wrapper {
-        height: 300px;
+      height: 300px;
     }
-
+  
     .slider__img .desc h3 {
-        font-size: 60px;
+      font-size: 60px;
     }
-
+  
     .slider__img .desc p {
-        font-size: 16px;
+      font-size: 16px;
     }
-
+  
     .slider__img .desc {
-        left: 30px;
+      left: 30px;
     }
-
+  
     .slider__img .image-wrapper {
-        width: 400px;
-        height: 277px;
+      width: 400px;
+      height: 277px;
     }
-
+  
     .slider__arrow button {
-        width: 30px;
-        height: 30px;
+      width: 30px;
+      height: 30px;
     }
-
+  
     .slider__arrow .left {
-        left: 10px;
+      left: 10px;
     }
-
+  
     .slider__arrow .right {
-        right: 10px;
+      right: 10px;
     }
-
+  
     .slider__dot {
-        bottom: 15px;
+      bottom: 15px;
     }
-}
-
-@media screen and (max-width: 480px) {
+  }
+  
+  @media screen and (max-width: 480px) {
     .slider__img-wrapper {
-        height: 200px;
+      height: 200px;
     }
-
+  
     .slider__img .desc h3 {
-        font-size: 40px;
+      font-size: 40px;
     }
-
+  
     .slider__img .desc p {
-        font-size: 14px;
+      font-size: 14px;
     }
-
+  
     .slider__img .desc {
-        left: 20px;
+      left: 20px;
     }
-
+  
     .slider__img .image-wrapper {
-        width: 300px;
-        height: 208px;
+      width: 300px;
+      height: 208px;
     }
-
+  
     .slider__arrow button {
-        width: 20px;
-        height: 20px;
+      width: 20px;
+      height: 20px;
     }
-
+  
     .slider__dot button {
-        width: 12px;
-        height: 12px;
+      width: 12px;
+      height: 12px;
     }
-}
+  }
+  

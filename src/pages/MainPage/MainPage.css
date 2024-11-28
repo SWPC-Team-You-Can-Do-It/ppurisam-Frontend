@@ -3,14 +3,15 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* 화면 전체 높이 확보 */
-}
-
-.content {
+  }
+  
+  .content {
     flex: 1; /* 남은 공간을 모두 차지하여 Footer를 아래로 밀어냄 */
     display: flex; /* 콘텐츠가 최소 높이를 가지도록 설정 */
     flex-direction: column; /* 콘텐츠의 방향을 수직으로 설정 */
+    margin-top: 120px;
 }
-
+  
 .footer {
     margin-top: auto; /* Footer를 아래로 배치 */
     background-color: #333; /* 배경색 예시 */

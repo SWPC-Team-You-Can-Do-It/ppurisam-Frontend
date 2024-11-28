@@ -1,8 +1,7 @@
+// src/components/signup/SignUp.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../login/axiosInstance";
-import LoginCheckIcon from "@/assets/images/login/check_circle.png";
-import EyeIcon from "@/assets/images/login/Show.png"; // 패스워드 보기 아이콘 추가
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -58,7 +57,7 @@ const SignUp = () => {
           <div className="brandName">Ppurisam 회원가입</div>
         </div>
         <form onSubmit={handleSignup}>
-          <div className="inputWrapper">
+          <div className="inputGroup">
             <label className="inputLabel">이름</label>
             <input
               type="text"
@@ -68,7 +67,7 @@ const SignUp = () => {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="inputWrapper">
+          <div className="inputGroup">
             <label className="inputLabel">이메일</label>
             <input
               type="email"
@@ -78,7 +77,7 @@ const SignUp = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="inputWrapper">
+          <div className="inputGroup">
             <label className="inputLabel">비밀번호</label>
             <input
               type="password"
@@ -88,7 +87,7 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="inputWrapper">
+          <div className="inputGroup">
             <label className="inputLabel">전화번호</label>
             <input
               type="text"

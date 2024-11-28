@@ -1,5 +1,10 @@
 /* src/components/contact/ManageContacts/ManageContacts.css */
 
+/* 전역적으로 박스 사이징을 border-box로 설정 */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 .ManageContacts_wrapper {
     display: flex;
     width: 100%;
@@ -182,23 +187,55 @@
     box-sizing: border-box;
 }
 
-.ManageContacts_search-and-actions {
+/* 검색 및 액션 섹션 */
+.header-section {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px; /* 간격 조정 */
+}
+
+.search-bar {
+    width: 80%;
+    height: 40px;
+    display: flex;
     align-items: center;
-    width: 100%;
-}
-
-.ManageContacts_search-bar {
-    flex-grow: 1;
-}
-
-.ManageContacts_search-input {
-    width: 70%;
+    background: #f2f2f7;
     padding: 8px;
-    border: 1px solid #d1c8c8;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 10px;
+    position: relative; /* 'x' 버튼을 절대 위치로 배치하기 위해 relative 설정 */
+}
+
+.search-bar .search-icon {
+    margin-left: 5px;
+    font-size: 1.2rem;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    margin-left: 10px;
+    flex-grow: 1;
+    font-size: 1rem;
+    color: #3c3c4399;
+    padding-right: 25px; /* 'x' 버튼 공간 확보 */
+}
+
+.clear-button {
+    position: absolute;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.clear-button:hover {
+    color: #555;
 }
 
 /* 연락처 컨테이너: 연락처 목록과 액션 버튼을 옆에 배치 */
@@ -220,6 +257,41 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.ManageContacts_contact-item {
+    display: flex;
+    align-items: flex-start; /* 상단 정렬 */
+    padding: 10px 15px;
+    background-color: #fff;
+    border: 1px solid #d1c8c8;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    justify-content: space-between;
+    width: 100%; /* 전체 너비 사용 */
+}
+
+.ManageContacts_contact-checkbox {
+    margin-right: 10px;
+    margin-top: 5px; /* 체크박스 상단 여백 */
+}
+
+.ManageContacts_contact-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.ManageContacts_contact-name {
+    font-weight: bold;
+}
+
+.ManageContacts_contact-extra {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #555;
 }
 
 /* 액션 버튼 */
@@ -258,41 +330,6 @@
 .ManageContacts_delete-button:disabled {
     background-color: #ef9a9a;
     cursor: not-allowed;
-}
-
-.ManageContacts_contact-item {
-    display: flex;
-    align-items: flex-start; /* 상단 정렬 */
-    padding: 10px 15px;
-    background-color: #fff;
-    border: 1px solid #d1c8c8;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    font-size: 16px;
-    justify-content: space-between;
-    width: 100%; /* 전체 너비 사용 */
-}
-
-.ManageContacts_contact-checkbox {
-    margin-right: 10px;
-    margin-top: 5px; /* 체크박스 상단 여백 */
-}
-
-.ManageContacts_contact-details {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.ManageContacts_contact-name {
-    font-weight: bold;
-}
-
-.ManageContacts_contact-extra {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #555;
 }
 
 .ManageContacts_pagination {
@@ -364,4 +401,15 @@
     text-align: center;
     font-size: 18px;
     color: #555;
+}
+
+/* 반응형 디자인 조정 */
+@media screen and (max-width: 768px) {
+    .header-title {
+        font-size: 1.5rem;
+    }
+
+    .search-bar {
+        width: 80%;
+    }
 }

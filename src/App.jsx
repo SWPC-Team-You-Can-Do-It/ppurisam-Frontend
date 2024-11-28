@@ -1,11 +1,10 @@
-// Frontend/src/App.jsx
-
 import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import MainPage from "./pages/MainPage/MainPage";
 import SendPage from "./pages/SendPage/SendPage";
@@ -21,6 +20,19 @@ import Chatbot from "./components/chatbot/Chatbot/Chatbot";
 function App() {
   return (
     <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+
+  const isLoginOrSignupPage =
+    location.pathname === "/login" || location.pathname === "/signup";
+
+  return (
+    <>
       <Routes>
         {/* 공개 라우트 */}
         <Route path="/login" element={<LoginPage />} />
@@ -71,8 +83,8 @@ function App() {
         {/* 필요한 다른 라우트도 동일하게 적용 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <Chatbot />
-    </Router>
+      {!isLoginOrSignupPage && <Chatbot />}
+    </>
   );
 }
 
