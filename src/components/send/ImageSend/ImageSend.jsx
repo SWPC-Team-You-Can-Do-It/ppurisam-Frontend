@@ -20,47 +20,29 @@ const ImageSend = ({ messageContent }) => {
     setIsModalOpen(false);
   };
 
-  const handleImageGenerated = async (imageUrlObject) => {
-    // 기존 AI 이미지 생성 로직 유지
-    const imageUrl = imageUrlObject;
+  // handleImageGenerated 함수 유지
+  const handleImageGenerated = async (imageData) => {
+    // imageData는 { fileName, base64Data, size, url } 형태
+    const { fileName, base64Data, size, url } = imageData;
+
     try {
-      const response = await axiosInstance.post(
-        `/api/image/download-and-save`,
-        null,
-        {
-          params: { url: imageUrl },
-        }
-      );
+      // ImageSend의 상태를 업데이트하거나 컨텍스트에 저장
+      setUploadedImageUrl(url);
 
-      const filePath = response.data;
-      const fileName = filePath.split("/").pop();
-      console.log("Received fileName from server:", fileName);
-
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
-      const serverImageUrl = `${backendUrl}/images/${fileName}`;
-
-      setUploadedImageUrl(serverImageUrl);
-
-      const base64Response = await axiosInstance.get(`/api/image/load-image`, {
-        params: { fileName },
-      });
-      const base64Data = base64Response.data;
-
-      const size = Math.floor((base64Data.length * 3) / 4);
-
+      // ImageContext에 이미지 데이터 설정
       setImageData({
         fileName,
         base64Data,
         size,
-        url: serverImageUrl,
+        url,
       });
     } catch (err) {
-      console.error("이미지 다운로드 및 저장 중 오류 발생:", err);
+      console.error("이미지 처리 중 오류 발생:", err);
     }
+
+    // 모달 닫기
     setIsModalOpen(false);
   };
-
-  const initialPrompt = messageContent;
 
   // 이미지 파일을 JPEG로 변환하는 유틸리티 함수
   const convertImageToJpeg = (file) => {
@@ -243,8 +225,8 @@ const ImageSend = ({ messageContent }) => {
       <ImageCreate
         isOpen={isModalOpen}
         onClose={closeModal}
-        onImageGenerated={handleImageGenerated}
-        initialPrompt={initialPrompt}
+        onImageGenerated={handleImageGenerated} // 콜백 전달
+        initialPrompt={messageContent}
       />
     </div>
   );
