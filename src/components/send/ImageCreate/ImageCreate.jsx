@@ -19,6 +19,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
+  const [isTextAdded, setIsTextAdded] = useState(false);
 
   const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState("");
@@ -28,19 +29,19 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [themesError, setThemesError] = useState("");
 
   const { isRecording, startRecording, stopRecording } = useAudioRecorder(
-    async (file) => {
-      if (file) {
-        await handleAudioAvailable(file);
+      async (file) => {
+        if (file) {
+          await handleAudioAvailable(file);
+        }
       }
-    }
   );
 
   const [texts, setTexts] = useState([]);
   const [textColor, setTextColor] = useState("#000000");
-  const [textFont, setTextFont] = useState("프리텐다드"); // 기본값을 프리텐다드로 설정
+  const [textFont, setTextFont] = useState("프리텐다드");
   const [textSize, setTextSize] = useState(16);
 
-  const imageContainerRef = useRef(null); // 이미지 및 텍스트 영역 참조
+  const imageContainerRef = useRef(null);
 
   useEffect(() => {
     if (initialPrompt) {
@@ -55,26 +56,26 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       setIsLoadingThemes(true);
       setThemesError("");
       axiosInstance
-        .get("/api/image-ai/themes")
-        .then((response) => {
-          const fetchedThemes = response.data.map((item) => item.theme);
-          setThemes(fetchedThemes);
+          .get("/api/image-ai/themes")
+          .then((response) => {
+            const fetchedThemes = response.data.map((item) => item.theme);
+            setThemes(fetchedThemes);
 
-          if (fetchedThemes.includes("빈티지")) {
-            setSelectedTheme("빈티지");
-          } else if (fetchedThemes.includes("레트로")) {
-            setSelectedTheme("레트로");
-          } else if (fetchedThemes.length > 0) {
-            setSelectedTheme(fetchedThemes[0]);
-          }
-        })
-        .catch((err) => {
-          console.error("테마 로드 오류:", err);
-          setThemesError("테마를 불러오는 중 오류가 발생했습니다.");
-        })
-        .finally(() => {
-          setIsLoadingThemes(false);
-        });
+            if (fetchedThemes.includes("빈티지")) {
+              setSelectedTheme("빈티지");
+            } else if (fetchedThemes.includes("레트로")) {
+              setSelectedTheme("레트로");
+            } else if (fetchedThemes.length > 0) {
+              setSelectedTheme(fetchedThemes[0]);
+            }
+          })
+          .catch((err) => {
+            console.error("테마 로드 오류:", err);
+            setThemesError("테마를 불러오는 중 오류가 발생했습니다.");
+          })
+          .finally(() => {
+            setIsLoadingThemes(false);
+          });
     }
   }, [isOpen]);
 
@@ -99,7 +100,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       console.error("파일 전송 오류:", err);
       if (err.response) {
         setError(
-          `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
+            `서버 오류: ${err.response.data.message || "알 수 없는 오류"}`
         );
       } else if (err.request) {
         setError("서버에 응답이 없습니다. 네트워크 상태를 확인해주세요.");
@@ -120,7 +121,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     setImageUrl(null);
 
     try {
-      // Step 1: AI를 사용하여 이미지 생성
       const requestData = { prompt };
       if (selectedTheme) {
         requestData.theme = selectedTheme;
@@ -129,13 +129,12 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       const generatedImageUrl = response.data;
 
       if (generatedImageUrl) {
-        // Step 2: 생성된 이미지를 백엔드에 업로드
         const uploadResponse = await axiosInstance.post(
-          `/api/image/download-and-save`,
-          null,
-          {
-            params: { url: generatedImageUrl },
-          }
+            `/api/image/download-and-save`,
+            null,
+            {
+              params: { url: generatedImageUrl },
+            }
         );
 
         const filePath = uploadResponse.data;
@@ -145,7 +144,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
         const savedImageUrl = `${backendUrl}/images/${fileName}`;
 
-        // Step 3: 저장된 이미지 URL을 상태로 설정하여 표시
         setImageUrl(savedImageUrl);
       } else {
         setError("이미지 생성에 실패했습니다.");
@@ -156,8 +154,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       setError("이미지 생성 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
-      // 모달을 유지하여 사용자가 결과를 확인할 수 있도록 합니다.
-      // onClose(); // 필요 시 주석 해제
     }
   };
 
@@ -174,17 +170,15 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     setIsThemeModalOpen(false);
   };
 
-  // 텍스트 삭제 핸들러
   const handleDeleteText = (index) => {
     setTexts((prevTexts) => prevTexts.filter((_, idx) => idx !== index));
   };
 
-  // 텍스트 추가 버튼 핸들러
   const handleAddText = () => {
     setTexts([
       ...texts,
       {
-        id: uuidv4(), // 고유한 id 생성
+        id: uuidv4(),
         content: "텍스트 입력",
         color: textColor,
         fontFamily: textFont,
@@ -195,22 +189,21 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         height: 50,
       },
     ]);
+    setIsTextAdded(true);
   };
 
-  // 텍스트 상태 업데이트 핸들러
   const handleTextChange = (index, field, value) => {
     setTexts((prevTexts) =>
-      prevTexts.map((text, idx) => {
-        if (idx === index) {
-          console.log(`Updating text ${idx}: ${field} to`, value);
-          return { ...text, [field]: value };
-        }
-        return text;
-      })
+        prevTexts.map((text, idx) => {
+          if (idx === index) {
+            console.log(`Updating text ${idx}: ${field} to`, value);
+            return { ...text, [field]: value };
+          }
+          return text;
+        })
     );
   };
 
-  // 파일을 Base64로 변환하는 유틸리티 함수
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -219,7 +212,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
 
       reader.onload = () => {
         const result = reader.result;
-        const base64String = result.split(",")[1]; // "data:image/jpeg;base64," 부분 제거
+        const base64String = result.split(",")[1];
         resolve(base64String);
       };
 
@@ -229,29 +222,28 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     });
   };
 
-  // Helper 함수: 캔버스를 Blob으로 변환하며 크기가 300KB 이하가 될 때까지 품질을 낮춤
   const getCompressedBlob = (canvas, maxSizeKB = 300) => {
     return new Promise((resolve, reject) => {
-      let quality = 0.95; // 초기 품질
-      const step = 0.05; // 품질 감소 단계
+      let quality = 0.95;
+      const step = 0.05;
 
       const attempt = () => {
         canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              reject(new Error("캔버스 Blob 변환 실패"));
-              return;
-            }
+            (blob) => {
+              if (!blob) {
+                reject(new Error("캔버스 Blob 변환 실패"));
+                return;
+              }
 
-            if (blob.size / 1024 <= maxSizeKB || quality <= 0.1) {
-              resolve(blob);
-            } else {
-              quality -= step;
-              attempt();
-            }
-          },
-          "image/jpeg",
-          quality
+              if (blob.size / 1024 <= maxSizeKB || quality <= 0.1) {
+                resolve(blob);
+              } else {
+                quality -= step;
+                attempt();
+              }
+            },
+            "image/jpeg",
+            quality
         );
       };
 
@@ -259,73 +251,82 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     });
   };
 
-  // "이미지 사용하기" 버튼 핸들러
   const handleUseImage = async () => {
     if (!imageUrl) {
       setError("사용할 이미지가 없습니다.");
       return;
     }
 
-    // imageContainerRef를 사용하여 이미지와 텍스트 캡쳐
+    // 텍스트가 추가되지 않은 경우, 원본 이미지를 그대로 사용
+    if (!isTextAdded) {
+      if (onImageGenerated) {
+        onImageGenerated({
+          fileName: imageUrl.split("/").pop(),
+          base64Data: null,
+          size: null,
+          url: imageUrl,
+        });
+      }
+      return;
+    }
+
+    // 텍스트가 추가된 경우 캡처
     if (imageContainerRef.current) {
       try {
+        // 이미지가 완전히 로드되었는지 확인
+        const img = imageContainerRef.current.querySelector("img");
+        if (!img || !img.complete) {
+          setError("이미지가 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
+          return;
+        }
+
+        // 캡처 영역을 설정: 컨테이너 전체 (이미지 + 텍스트)
         const canvas = await html2canvas(imageContainerRef.current, {
-          useCORS: true, // CORS 설정이 필요한 경우
-          scale: 1, // 캔버스 스케일 조정 (필요 시 변경)
+          useCORS: true, // CORS 문제를 해결
+          scale: 2, // 고해상도 캡처
+          backgroundColor: null, // 배경 투명화 (필요 시)
         });
 
-        // 캔버스를 Blob으로 변환하면서 크기 제한
-        const blob = await getCompressedBlob(canvas, 300); // 300KB 이하
+        // 캡처한 Canvas를 Blob으로 변환
+        const blob = await getCompressedBlob(canvas, 300); // 최대 크기: 300KB
 
         if (blob) {
-          // 새로운 이미지 파일 생성
           const newImageFile = new File([blob], "captured_image.jpg", {
             type: "image/jpeg",
           });
 
-          // 백엔드에 업로드
+          // 캡처된 이미지를 서버로 업로드
           const formData = new FormData();
           formData.append("file", newImageFile);
 
-          try {
-            const uploadResponse = await axiosInstance.post(
+          const response = await axiosInstance.post(
               "/api/image/upload",
               formData,
               {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
+                headers: { "Content-Type": "multipart/form-data" },
               }
-            );
+          );
 
-            const fileUrl = uploadResponse.data; // 예: '/images/captured_image_12345.jpg'
-            const backendUrl = import.meta.env.VITE_BACKEND_URL;
-            const serverImageUrl = `${backendUrl}${fileUrl}`;
+          const fileUrl = response.data;
+          const backendUrl = import.meta.env.VITE_BACKEND_URL;
+          const serverImageUrl = `${backendUrl}${fileUrl}`;
 
-            // ImageSend으로 전송
-            if (onImageGenerated) {
-              const base64Data = await convertFileToBase64(newImageFile);
-              onImageGenerated({
-                fileName: fileUrl.split("/").pop(),
-                base64Data,
-                size: blob.size,
-                url: serverImageUrl,
-              });
-            }
-
-            // 필요한 경우 상태 업데이트
-            setImageUrl(serverImageUrl);
-            setError(""); // 에러 초기화
-          } catch (uploadError) {
-            console.error("이미지 업로드 오류:", uploadError);
-            setError("이미지 사용 중 업로드 오류가 발생했습니다.");
+          // onImageGenerated 콜백 호출
+          if (onImageGenerated) {
+            const base64Data = await convertFileToBase64(newImageFile);
+            onImageGenerated({
+              fileName: fileUrl.split("/").pop(),
+              base64Data,
+              size: blob.size,
+              url: serverImageUrl,
+            });
           }
         } else {
-          setError("이미지를 캡쳐할 수 없습니다.");
+          setError("이미지를 캡처할 수 없습니다.");
         }
-      } catch (captureError) {
-        console.error("캡쳐 오류:", captureError);
-        setError("이미지를 캡쳐하는 중 오류가 발생했습니다.");
+      } catch (error) {
+        console.error("캡처 오류:", error);
+        setError("이미지를 캡처하는 중 오류가 발생했습니다.");
       }
     }
   };
@@ -340,152 +341,156 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   if (!isOpen) return null;
 
   return (
-    <div
-      className={`image-create-modal-overlay ${
-        selectedTheme ? `theme-${selectedTheme}` : ""
-      }`}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-    >
       <div
-        className="image-create-modal-content"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="image-create-close-button"
+          className={`image-create-modal-overlay ${
+              selectedTheme ? `theme-${selectedTheme}` : ""
+          }`}
           onClick={onClose}
-          aria-label="나가기"
+          role="dialog"
+          aria-modal="true"
+      >
+        <div
+            className="image-create-modal-content"
+            onClick={(e) => e.stopPropagation()}
         >
-          나가기
-        </button>
+          <button
+              className="image-create-close-button"
+              onClick={onClose}
+              aria-label="나가기"
+          >
+            나가기
+          </button>
 
-        <div className="image-create-modal-header">
-          <span className="image-create-modal-title">이미지 생성하기</span>
-        </div>
+          <div className="image-create-modal-header">
+            <span className="image-create-modal-title">이미지 생성하기</span>
+          </div>
 
-        <div className="image-create-body">
-          <div className="left-section">
-            <div className="image-create-prompt-section">
-              <label className="image-create-prompt-label">
-                이미지 프롬프트 내용
-                <span className="image-create-required">*</span>
-              </label>
-              <textarea
-                className="image-create-prompt-textbox"
-                placeholder="프롬프트 할 내용을 적으시오"
-                value={prompt}
-                onChange={handlePromptChange}
-              ></textarea>
-            </div>
+          <div className="image-create-body">
+            <div className="left-section">
+              <div className="image-create-prompt-section">
+                <label className="image-create-prompt-label">
+                  이미지 프롬프트 내용
+                  <span className="image-create-required">*</span>
+                </label>
+                <textarea
+                    className="image-create-prompt-textbox"
+                    placeholder="프롬프트 할 내용을 적으시오"
+                    value={prompt}
+                    onChange={handlePromptChange}
+                ></textarea>
+              </div>
 
-            <button
-              className={`image-create-mic-button ${
-                isRecording ? "recording" : ""
-              }`}
-              onClick={handleMicClick}
-              aria-label="녹음"
-              disabled={isLoading}
-            >
-              <img src={micIcon} alt="Mic" />
-              {isRecording && <div className="recording-animation"></div>}
-            </button>
-
-            <div className="theme-and-text-buttons">
+              {/* 마이크 버튼 */}
               <button
-                className="image-create-theme-toggle-button image-create-button"
-                onClick={() => setIsThemeModalOpen(true)}
+                  className={`image-create-mic-button ${
+                      isRecording ? "recording" : ""
+                  }`}
+                  onClick={handleMicClick}
+                  aria-label="녹음"
+                  disabled={isLoading}
               >
-                {selectedTheme || "테마 선택"}
+                <img src={micIcon} alt="Mic" />
+                {isRecording && <div className="recording-animation"></div>}
               </button>
 
-              <button
-                className="image-create-add-text-button image-create-button"
-                onClick={handleAddText}
-              >
-                텍스트 추가
-              </button>
-
+              {/* 텍스트 옵션 */}
               <TextOptions
-                textColor={textColor}
-                setTextColor={setTextColor}
-                textFont={textFont}
-                setTextFont={setTextFont}
-                textSize={textSize}
-                setTextSize={setTextSize}
+                  textColor={textColor}
+                  setTextColor={setTextColor}
+                  textFont={textFont}
+                  setTextFont={setTextFont}
+                  textSize={textSize}
+                  setTextSize={setTextSize}
               />
-            </div>
 
-            {error && <div className="error-message">{error}</div>}
-            <button
-              className="image-create-generate-button"
-              onClick={handleGenerateImage}
-              disabled={isLoading || !prompt.trim()}
-            >
-              {isLoading ? "생성 중..." : "이미지 생성하기"}
-            </button>
-          </div>
-
-          <div className="right-section">
-            <span className="image-create-result-text">생성 결과</span>
-            <div
-              className="image-create-image-display-box"
-              ref={imageContainerRef} // ref 추가
-            >
-              {imageUrl ? (
-                <div
-                  className="image-container"
-                  style={{ position: "relative" }}
+              {/* 테마 및 텍스트 추가 버튼 */}
+              <div className="theme-and-text-buttons">
+                <button
+                    className="image-create-theme-toggle-button image-create-button"
+                    onClick={() => setIsThemeModalOpen(true)}
                 >
-                  <img
-                    src={imageUrl}
-                    alt={`생성된 이미지: ${prompt}`}
-                    className="generated-image"
-                  />
-                  {texts.map((text, index) => (
-                    <TextOverlay
-                      key={text.id} // 고유한 id 사용
-                      text={text}
-                      index={index}
-                      handleTextChange={handleTextChange}
-                      handleDeleteText={handleDeleteText}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="placeholder-text">
-                  여기에 생성된 이미지가 표시됩니다.
-                </p>
-              )}
+                  {selectedTheme || "테마 선택"}
+                </button>
+
+                <button
+                    className="image-create-add-text-button image-create-button"
+                    onClick={handleAddText}
+                >
+                  텍스트 추가
+                </button>
+              </div>
+
+              {error && <div className="error-message">{error}</div>}
+
+              <button
+                  className="image-create-generate-button"
+                  onClick={handleGenerateImage}
+                  disabled={isLoading || !prompt.trim()}
+              >
+                {isLoading ? "생성 중..." : "이미지 생성하기"}
+              </button>
             </div>
-            <button
-              className="image-create-delete-button"
-              onClick={() => setImageUrl(null)}
-              disabled={!imageUrl}
-            >
-              삭제
-            </button>
-            <button
-              className="image-create-use-image-button"
-              onClick={handleUseImage} // 수정된 핸들러 연결
-              disabled={!imageUrl}
-            >
-              이미지 사용하기
-            </button>
+
+            <div className="right-section">
+              <span className="image-create-result-text">생성 결과</span>
+              <div
+                  className="image-create-image-display-box"
+                  ref={imageContainerRef}
+              >
+                {imageUrl ? (
+                    <div
+                        className="image-container"
+                        style={{ position: "relative" }}
+                    >
+                      <img
+                          src={imageUrl}
+                          alt={`생성된 이미지: ${prompt}`}
+                          className="generated-image"
+                      />
+                      {texts.map((text, index) => (
+                          <TextOverlay
+                              key={text.id}
+                              text={text}
+                              index={index}
+                              handleTextChange={handleTextChange}
+                              handleDeleteText={handleDeleteText}
+                          />
+                      ))}
+                    </div>
+                ) : (
+                    <p className="placeholder-text">
+                      여기에 생성된 이미지가 표시됩니다.
+                    </p>
+                )}
+              </div>
+              <button
+                  className="image-create-delete-button"
+                  onClick={() => setImageUrl(null)}
+                  disabled={!imageUrl}
+              >
+                삭제
+              </button>
+              <button
+                  className="image-create-use-image-button"
+                  onClick={handleUseImage}
+                  disabled={!imageUrl}
+              >
+                이미지 사용하기
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <ThemeSelectionModal
-        isOpen={isThemeModalOpen}
-        onClose={() => setIsThemeModalOpen(false)}
-        onSelectTheme={handleThemeSelect}
-        selectedTheme={selectedTheme}
-        themes={themes}
-        isLoading={isLoadingThemes}
-        error={themesError}
-      />
-    </div>
+        <ThemeSelectionModal
+            isOpen={isThemeModalOpen}
+            onClose={() => setIsThemeModalOpen(false)}
+            onSelectTheme={handleThemeSelect}
+            selectedTheme={selectedTheme}
+            themes={themes}
+            isLoading={isLoadingThemes}
+            error={themesError}
+        />
+      </div>
   );
 };
 
