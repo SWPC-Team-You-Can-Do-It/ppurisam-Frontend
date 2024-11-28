@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./ImageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
 import axiosInstance, {
@@ -9,6 +9,7 @@ import ThemeSelectionModal from "@/components/send/ThemeSelection/ImageThemeSele
 import TextOptions from "../TextImage/TextOptions";
 import TextOverlay from "../TextImage/TextOverlay";
 import { v4 as uuidv4 } from "uuid"; // uuid 라이브러리 추가
+import html2canvas from "html2canvas"; // html2canvas 임포트
 
 const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [prompt, setPrompt] = useState(initialPrompt || "");
@@ -36,6 +37,8 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [textColor, setTextColor] = useState("#000000");
   const [textFont, setTextFont] = useState("Arial");
   const [textSize, setTextSize] = useState(16);
+
+  const imageContainerRef = useRef(null); // 이미지 및 텍스트 영역 참조
 
   useEffect(() => {
     if (initialPrompt) {
@@ -115,24 +118,44 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     setImageUrl(null);
 
     try {
+      // Step 1: AI를 사용하여 이미지 생성
       const requestData = { prompt };
       if (selectedTheme) {
         requestData.theme = selectedTheme;
       }
       const response = await axiosInstance.post(`/api/image-ai`, requestData);
-      const imageUrl = response.data;
+      const generatedImageUrl = response.data;
 
-      if (imageUrl) {
-        setImageUrl(imageUrl);
+      if (generatedImageUrl) {
+        // Step 2: 생성된 이미지를 백엔드에 업로드
+        const uploadResponse = await axiosInstance.post(
+          `/api/image/download-and-save`,
+          null,
+          {
+            params: { url: generatedImageUrl },
+          }
+        );
+
+        const filePath = uploadResponse.data;
+        const fileName = filePath.split("/").pop();
+        console.log("Received fileName from server:", fileName);
+
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const savedImageUrl = `${backendUrl}/images/${fileName}`;
+
+        // Step 3: 저장된 이미지 URL을 상태로 설정하여 표시
+        setImageUrl(savedImageUrl);
       } else {
         setError("이미지 생성에 실패했습니다.");
       }
-      console.log(imageUrl);
+      console.log(generatedImageUrl);
     } catch (err) {
       console.error("Axios Error:", err.response ? err.response.data : err);
       setError("이미지 생성 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
+      // 모달을 유지하여 사용자가 결과를 확인할 수 있도록 합니다.
+      // onClose(); // 필요 시 주석 해제
     }
   };
 
@@ -141,12 +164,6 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       stopRecording();
     } else {
       startRecording();
-    }
-  };
-
-  const handleUseImage = () => {
-    if (imageUrl && onImageGenerated) {
-      onImageGenerated(imageUrl);
     }
   };
 
@@ -189,6 +206,99 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
         return text;
       })
     );
+  };
+
+  // 파일을 Base64로 변환하는 유틸리티 함수
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        const result = reader.result;
+        const base64String = result.split(",")[1]; // "data:image/jpeg;base64," 부분 제거
+        resolve(base64String);
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  // "이미지 사용하기" 버튼 핸들러
+  const handleUseImage = async () => {
+    if (!imageUrl) {
+      setError("사용할 이미지가 없습니다.");
+      return;
+    }
+
+    // imageContainerRef를 사용하여 이미지와 텍스트 캡쳐
+    if (imageContainerRef.current) {
+      try {
+        const canvas = await html2canvas(imageContainerRef.current, {
+          useCORS: true, // CORS 설정이 필요한 경우
+        });
+
+        // 캔버스를 Blob으로 변환
+        canvas.toBlob(
+          async (blob) => {
+            if (blob) {
+              // 새로운 이미지 파일 생성
+              const newImageFile = new File([blob], "captured_image.jpg", {
+                type: "image/jpeg",
+              });
+
+              // 백엔드에 업로드
+              const formData = new FormData();
+              formData.append("file", newImageFile);
+
+              try {
+                const uploadResponse = await axiosInstance.post(
+                  "/api/image/upload",
+                  formData,
+                  {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  }
+                );
+
+                const fileUrl = uploadResponse.data; // 예: '/images/captured_image_12345.jpg'
+                const backendUrl = import.meta.env.VITE_BACKEND_URL;
+                const serverImageUrl = `${backendUrl}${fileUrl}`;
+
+                // ImageSend으로 전송
+                if (onImageGenerated) {
+                  const base64Data = await convertFileToBase64(newImageFile);
+                  onImageGenerated({
+                    fileName: fileUrl.split("/").pop(),
+                    base64Data,
+                    size: blob.size,
+                    url: serverImageUrl,
+                  });
+                }
+
+                // 필요한 경우 상태 업데이트
+                setImageUrl(serverImageUrl);
+                setError(""); // 에러 초기화
+              } catch (uploadError) {
+                console.error("이미지 업로드 오류:", uploadError);
+                setError("이미지 사용 중 업로드 오류가 발생했습니다.");
+              }
+            } else {
+              setError("이미지를 캡쳐할 수 없습니다.");
+            }
+          },
+          "image/jpeg",
+          0.95
+        );
+      } catch (captureError) {
+        console.error("캡쳐 오류:", captureError);
+        setError("이미지를 캡쳐하는 중 오류가 발생했습니다.");
+      }
+    }
   };
 
   useEffect(() => {
@@ -288,7 +398,10 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
 
           <div className="right-section">
             <span className="image-create-result-text">생성 결과</span>
-            <div className="image-create-image-display-box">
+            <div
+              className="image-create-image-display-box"
+              ref={imageContainerRef} // ref 추가
+            >
               {imageUrl ? (
                 <div
                   className="image-container"
@@ -324,7 +437,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
             </button>
             <button
               className="image-create-use-image-button"
-              onClick={handleUseImage}
+              onClick={handleUseImage} // 수정된 핸들러 연결
               disabled={!imageUrl}
             >
               이미지 사용하기
