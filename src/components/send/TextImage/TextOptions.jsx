@@ -15,7 +15,7 @@ const TextOptions = ({
   return (
     <div className="text-options">
       <div className="text-option">
-        <label htmlFor="text-color">색상:</label>
+        <label htmlFor="text-color">색상</label>
         <input
           type="color"
           id="text-color"
@@ -24,7 +24,7 @@ const TextOptions = ({
         />
       </div>
       <div className="text-option">
-        <label htmlFor="text-font">폰트:</label>
+        <label htmlFor="text-font">폰트</label>
         <select
           id="text-font"
           value={textFont}
@@ -36,7 +36,7 @@ const TextOptions = ({
         </select>
       </div>
       <div className="text-option">
-        <label htmlFor="text-size">크기:</label>
+        <label htmlFor="text-size">크기</label>
         <input
           type="number"
           id="text-size"
