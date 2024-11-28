@@ -2,16 +2,24 @@
 
 .text-options {
   display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.text-option {
+  display: flex;
   flex-direction: column;
-  margin-left: 10px;
+  align-items: flex-start;
 }
 
-.text-option-label {
-  margin-bottom: 5px;
-  font-size: 18px;
+.text-option label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
-.text-option-label input[type="color"],
-.text-option-label select {
-  margin-left: 5px;
+.text-option input,
+.text-option select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
