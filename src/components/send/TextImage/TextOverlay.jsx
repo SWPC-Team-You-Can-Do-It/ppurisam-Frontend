@@ -4,6 +4,7 @@ import { Rnd } from "react-rnd";
 import "./TextOverlay.css";
 
 const TextOverlay = ({ text, index, handleTextChange, handleDeleteText }) => {
+  // 폰트 크기 계산 함수
   const calculateFontSize = (width) => {
     return Math.max(10, Math.min(100, Math.floor(width / 10)));
   };
@@ -13,20 +14,31 @@ const TextOverlay = ({ text, index, handleTextChange, handleDeleteText }) => {
       size={{ width: text.width, height: text.height }}
       position={{ x: text.x, y: text.y }}
       onDragStop={(e, d) => {
-        handleTextChange(index, "position", { x: d.x, y: d.y });
+        // 드래그 종료 시 위치 업데이트
+        console.log("Drag stopped:", d.x, d.y);
+        handleTextChange(index, "x", d.x);
+        handleTextChange(index, "y", d.y);
       }}
       onResizeStop={(e, direction, ref, delta, position) => {
         const newWidth = parseInt(ref.style.width, 10);
         const newHeight = parseInt(ref.style.height, 10);
         const newFontSize = calculateFontSize(newWidth);
 
-        handleTextChange(index, "size", {
-          width: newWidth,
-          height: newHeight,
-        });
+        console.log(
+          "Resize stopped:",
+          newWidth,
+          newHeight,
+          position.x,
+          position.y
+        );
+
+        handleTextChange(index, "width", newWidth);
+        handleTextChange(index, "height", newHeight);
         handleTextChange(index, "fontSize", newFontSize);
-        handleTextChange(index, "position", position);
+        handleTextChange(index, "x", position.x);
+        handleTextChange(index, "y", position.y);
       }}
+      // bounds="parent" // 부모 컨테이너 내에서만 이동 가능
       minWidth={100}
       minHeight={30}
       className="text-rnd"
@@ -38,7 +50,7 @@ const TextOverlay = ({ text, index, handleTextChange, handleDeleteText }) => {
           height: "100%",
         }}
       >
-        {/* 텍스트 영역 */}
+        {/* 텍스트 표시 영역 */}
         <div
           className="text-overlay"
           style={{
@@ -59,8 +71,8 @@ const TextOverlay = ({ text, index, handleTextChange, handleDeleteText }) => {
         <button
           className="text-delete-button"
           onClick={(e) => {
-            e.stopPropagation(); // 버튼 클릭 시 부모 Rnd 이벤트 차단
-            handleDeleteText(index); // 삭제 핸들러 호출
+            e.stopPropagation(); // Rnd 이벤트 차단
+            handleDeleteText(index); // 삭제 처리
           }}
           aria-label="텍스트 삭제"
         >
@@ -84,7 +96,7 @@ TextOverlay.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   handleTextChange: PropTypes.func.isRequired,
-  handleDeleteText: PropTypes.func.isRequired, // 삭제 핸들러 추가
+  handleDeleteText: PropTypes.func.isRequired,
 };
 
 export default TextOverlay;

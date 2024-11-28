@@ -8,6 +8,7 @@ import useAudioRecorder from "@/utils/useAudioRecorder";
 import ThemeSelectionModal from "@/components/send/ThemeSelection/ImageThemeSelectionModal";
 import TextOptions from "../TextImage/TextOptions";
 import TextOverlay from "../TextImage/TextOverlay";
+import { v4 as uuidv4 } from "uuid"; // uuid 라이브러리 추가
 
 const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
   const [prompt, setPrompt] = useState(initialPrompt || "");
@@ -164,10 +165,11 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     setTexts([
       ...texts,
       {
+        id: uuidv4(), // 고유한 id 생성
         content: "텍스트 입력",
         color: textColor,
         fontFamily: textFont,
-        fontSize: textSize, // 폰트 크기 추가
+        fontSize: textSize,
         x: 50,
         y: 50,
         width: 200,
@@ -178,13 +180,15 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
 
   // 텍스트 상태 업데이트 핸들러
   const handleTextChange = (index, field, value) => {
-    const updatedTexts = texts.map((text, idx) => {
-      if (idx === index) {
-        return { ...text, [field]: value };
-      }
-      return text;
-    });
-    setTexts(updatedTexts);
+    setTexts((prevTexts) =>
+      prevTexts.map((text, idx) => {
+        if (idx === index) {
+          console.log(`Updating text ${idx}: ${field} to`, value);
+          return { ...text, [field]: value };
+        }
+        return text;
+      })
+    );
   };
 
   useEffect(() => {
@@ -297,7 +301,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
                   />
                   {texts.map((text, index) => (
                     <TextOverlay
-                      key={index}
+                      key={text.id} // 고유한 id 사용
                       text={text}
                       index={index}
                       handleTextChange={handleTextChange}
