@@ -109,7 +109,7 @@ const useAudioRecorder = (onRecordingStop) => {
         if (!silenceTimerRef.current) {
           silenceTimerRef.current = setTimeout(() => {
             stopRecording();
-          }, 3000); // 2초 후에 녹음 종료
+          }, 2000); // 2초 후에 녹음 종료
         }
       } else {
         // 말소리가 들리면 타이머 초기화

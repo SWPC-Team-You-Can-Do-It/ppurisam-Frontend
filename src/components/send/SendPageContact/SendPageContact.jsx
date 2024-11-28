@@ -168,7 +168,7 @@ const SendPageContact = forwardRef(({ messageTitle, messageContent }, ref) => {
     <div className="SendPageContact_contact-form-wrapper" ref={ref}>
       {/* 발신번호 입력 섹션 */}
       <div className="SendPageContact_sender-section2">
-        <h2>발신번호</h2>
+        <h2 id="balsin">발신번호</h2>
         <div className="SendPageContact_sender-input-wrapper">
           <input
             type="text"

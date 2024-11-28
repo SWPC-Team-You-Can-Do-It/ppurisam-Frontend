@@ -249,9 +249,15 @@ const ManageContacts = () => {
     };
 
     // 검색어 변경 핸들러
-    const handleSearchChange = (e) => {
+    const handleSearch = (e) => {
         setSearchTerm(e.target.value);
         setCurrentPage(1); // 검색 시 페이지 초기화
+    };
+
+    // 검색어 초기화 핸들러
+    const handleClearSearch = () => {
+        setSearchTerm("");
+        setCurrentPage(1);
     };
 
     // 폴더 정렬
@@ -355,15 +361,25 @@ const ManageContacts = () => {
 
             {/* 오른쪽 패널: 연락처 관리 */}
             <div className="ManageContacts_right-panel">
-                <div className="ManageContacts_search-and-actions">
-                    <div className="ManageContacts_search-bar">
+                {/* 검색 및 액션 섹션 */}
+                <div className="header-section">
+                    <div className="search-bar">
+                        <div className="search-icon">🔍</div>
                         <input
                             type="text"
                             placeholder="검색어를 입력하세요"
-                            className="ManageContacts_search-input"
                             value={searchTerm}
-                            onChange={handleSearchChange}
+                            onChange={handleSearch}
                         />
+                        {searchTerm && (
+                            <button
+                                className="clear-button"
+                                onClick={handleClearSearch}
+                                aria-label="검색어 지우기"
+                            >
+                                ×
+                            </button>
+                        )}
                     </div>
                 </div>
 

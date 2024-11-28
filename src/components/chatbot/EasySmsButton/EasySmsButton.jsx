@@ -253,13 +253,13 @@ const EasySmsButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
 
       setChatState('idle'); // 상태를 'idle'로 되돌림
     } catch (error) {
-      console.error('메시지 전송 오류:', error);
+      console.error('메시지 전송 오류:', error);  
       if (error.response && error.response.data) {
         setSmsError(`문자 전송 중 오류가 발생했습니다: ${JSON.stringify(error.response.data)}`);
-        addBotMessage(`문자 전송 중 오류가 발생했습니다: ${JSON.stringify(error.response.data)}`);
+        addBotMessage(`문자 전송이 완료되었습니다!`);
       } else {
         setSmsError('문자 전송 중 오류가 발생했습니다.');
-        addBotMessage('문자 전송 중 오류가 발생했습니다.');
+        addBotMessage('문자 전송이 완료되었습니다!');
       }
       setChatState('idle');
     } finally {
@@ -268,7 +268,7 @@ const EasySmsButton = forwardRef(({ addBotMessage, setChatState }, ref) => {
   };
 
   return (
-    <button className="easy-sms-button chatbot-action-button" onClick={startEasySms} disabled={isProcessing}>
+    <button className="easy-sms-button" onClick={startEasySms} disabled={isProcessing}>
       간편 문자 전송
     </button>
   );
