@@ -1,3 +1,5 @@
+// src/components/send/ImageCreate/ImageCreate.jsx
+
 import React, { useState, useEffect, useRef } from "react";
 import "./ImageCreate.css";
 import micIcon from "@/assets/images/send/mic.png";
@@ -35,7 +37,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
 
   const [texts, setTexts] = useState([]);
   const [textColor, setTextColor] = useState("#000000");
-  const [textFont, setTextFont] = useState("Arial");
+  const [textFont, setTextFont] = useState("프리텐다드"); // 기본값을 프리텐다드로 설정
   const [textSize, setTextSize] = useState(16);
 
   const imageContainerRef = useRef(null); // 이미지 및 텍스트 영역 참조
@@ -227,6 +229,36 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
     });
   };
 
+  // Helper 함수: 캔버스를 Blob으로 변환하며 크기가 300KB 이하가 될 때까지 품질을 낮춤
+  const getCompressedBlob = (canvas, maxSizeKB = 300) => {
+    return new Promise((resolve, reject) => {
+      let quality = 0.95; // 초기 품질
+      const step = 0.05; // 품질 감소 단계
+
+      const attempt = () => {
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("캔버스 Blob 변환 실패"));
+              return;
+            }
+
+            if (blob.size / 1024 <= maxSizeKB || quality <= 0.1) {
+              resolve(blob);
+            } else {
+              quality -= step;
+              attempt();
+            }
+          },
+          "image/jpeg",
+          quality
+        );
+      };
+
+      attempt();
+    });
+  };
+
   // "이미지 사용하기" 버튼 핸들러
   const handleUseImage = async () => {
     if (!imageUrl) {
@@ -239,61 +271,58 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
       try {
         const canvas = await html2canvas(imageContainerRef.current, {
           useCORS: true, // CORS 설정이 필요한 경우
+          scale: 1, // 캔버스 스케일 조정 (필요 시 변경)
         });
 
-        // 캔버스를 Blob으로 변환
-        canvas.toBlob(
-          async (blob) => {
-            if (blob) {
-              // 새로운 이미지 파일 생성
-              const newImageFile = new File([blob], "captured_image.jpg", {
-                type: "image/jpeg",
-              });
+        // 캔버스를 Blob으로 변환하면서 크기 제한
+        const blob = await getCompressedBlob(canvas, 300); // 300KB 이하
 
-              // 백엔드에 업로드
-              const formData = new FormData();
-              formData.append("file", newImageFile);
+        if (blob) {
+          // 새로운 이미지 파일 생성
+          const newImageFile = new File([blob], "captured_image.jpg", {
+            type: "image/jpeg",
+          });
 
-              try {
-                const uploadResponse = await axiosInstance.post(
-                  "/api/image/upload",
-                  formData,
-                  {
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                    },
-                  }
-                );
+          // 백엔드에 업로드
+          const formData = new FormData();
+          formData.append("file", newImageFile);
 
-                const fileUrl = uploadResponse.data; // 예: '/images/captured_image_12345.jpg'
-                const backendUrl = import.meta.env.VITE_BACKEND_URL;
-                const serverImageUrl = `${backendUrl}${fileUrl}`;
-
-                // ImageSend으로 전송
-                if (onImageGenerated) {
-                  const base64Data = await convertFileToBase64(newImageFile);
-                  onImageGenerated({
-                    fileName: fileUrl.split("/").pop(),
-                    base64Data,
-                    size: blob.size,
-                    url: serverImageUrl,
-                  });
-                }
-
-                // 필요한 경우 상태 업데이트
-                setImageUrl(serverImageUrl);
-                setError(""); // 에러 초기화
-              } catch (uploadError) {
-                console.error("이미지 업로드 오류:", uploadError);
-                setError("이미지 사용 중 업로드 오류가 발생했습니다.");
+          try {
+            const uploadResponse = await axiosInstance.post(
+              "/api/image/upload",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
               }
-            } else {
-              setError("이미지를 캡쳐할 수 없습니다.");
+            );
+
+            const fileUrl = uploadResponse.data; // 예: '/images/captured_image_12345.jpg'
+            const backendUrl = import.meta.env.VITE_BACKEND_URL;
+            const serverImageUrl = `${backendUrl}${fileUrl}`;
+
+            // ImageSend으로 전송
+            if (onImageGenerated) {
+              const base64Data = await convertFileToBase64(newImageFile);
+              onImageGenerated({
+                fileName: fileUrl.split("/").pop(),
+                base64Data,
+                size: blob.size,
+                url: serverImageUrl,
+              });
             }
-          },
-          "image/jpeg",
-          0.95
-        );
+
+            // 필요한 경우 상태 업데이트
+            setImageUrl(serverImageUrl);
+            setError(""); // 에러 초기화
+          } catch (uploadError) {
+            console.error("이미지 업로드 오류:", uploadError);
+            setError("이미지 사용 중 업로드 오류가 발생했습니다.");
+          }
+        } else {
+          setError("이미지를 캡쳐할 수 없습니다.");
+        }
       } catch (captureError) {
         console.error("캡쳐 오류:", captureError);
         setError("이미지를 캡쳐하는 중 오류가 발생했습니다.");
@@ -382,6 +411,7 @@ const ImageCreate = ({ isOpen, onClose, onImageGenerated, initialPrompt }) => {
                 setTextColor={setTextColor}
                 textFont={textFont}
                 setTextFont={setTextFont}
+                textSize={textSize}
                 setTextSize={setTextSize}
               />
             </div>

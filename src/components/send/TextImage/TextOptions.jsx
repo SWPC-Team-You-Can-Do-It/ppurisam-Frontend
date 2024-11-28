@@ -30,10 +30,9 @@ const TextOptions = ({
           value={textFont}
           onChange={(e) => setTextFont(e.target.value)}
         >
-          <option value="Arial">Arial</option>
-          <option value="Times New Roman">Times New Roman</option>
-          <option value="Courier New">Courier New</option>
-          <option value="Verdana">Verdana</option>
+          <option value="라인고딕체">라인고딕체</option>
+          <option value="프리텐다드">프리텐다드</option>
+          <option value="지마켓산스">지마켓산스</option>
         </select>
       </div>
       <div className="text-option">
@@ -56,6 +55,8 @@ TextOptions.propTypes = {
   setTextColor: PropTypes.func.isRequired,
   textFont: PropTypes.string.isRequired,
   setTextFont: PropTypes.func.isRequired,
+  textSize: PropTypes.number.isRequired,
+  setTextSize: PropTypes.func.isRequired,
 };
 
 export default TextOptions;

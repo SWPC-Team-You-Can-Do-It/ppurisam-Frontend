@@ -1,0 +1,31 @@
+/* src/index.css */
+
+/* 라인고딕체 폰트 정의 */
+@font-face {
+  font-family: "라인고딕체"; /* 원하는 폰트 이름으로 설정 */
+  src: url("./fonts/LINESeedKR-Rg.otf") format("opentype"); /* 폰트 파일의 상대 경로 설정 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 지마켓산스 폰트 정의 */
+@font-face {
+  font-family: "지마켓산스"; /* 원하는 폰트 이름으로 설정 */
+  src: url("./fonts/GmarketSansLight.otf") format("opentype"); /* 폰트 파일의 상대 경로 설정 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 프리텐다드 폰트 정의 */
+@font-face {
+  font-family: "프리텐다드"; /* 원하는 폰트 이름으로 설정 */
+  src: url("./fonts/Pretendard-Regular.woff2") format("woff2"); /* 폰트 파일의 상대 경로 설정 */
+  src: url("./fonts/Pretendard-Regular.otf") format("otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 폰트 패밀리 기본 설정 (필요 시) */
+body {
+  font-family: "프리텐다드", "지마켓산스", "라인고딕체";
+}
