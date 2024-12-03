@@ -1,4 +1,4 @@
-/* src/components/main/Send/ImageCreate/ImageCreate.css */
+/* src/components/send/ImageCreate/ImageCreate.css */
 
 /* 모달 오버레이 스타일 */
 .image-create-modal-overlay {
@@ -123,16 +123,16 @@
 .image-create-prompt-section {
   position: relative;
   margin-bottom: 14px;
+  display: flex;
+  align-items: center; /* 수직 정렬 */
+  gap: 10px; /* 라벨과 버튼 사이 간격 */
 }
 
 .image-create-prompt-label {
   font-family: "NEXON Lv1 Gothic OTP", sans-serif;
   font-size: 30px;
   font-weight: 700;
-  border-radius: 10px;
   color: #000000;
-  display: block;
-  margin-bottom: 10px;
 }
 
 .image-create-required {
@@ -140,15 +140,61 @@
   margin-left: 4px;
 }
 
-.image-create-result-text {
-  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
-  font-size: 30px;
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 0px;
+/* 음성인식 버튼 스타일 */
+.mic-button2 {
+  flex: 1;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; /* 기본 배경색 */
+  padding: 0 10px; /* 텍스트가 있을 때 여유 공간 확보 */
 }
 
-/* 텍스트박스 스타일 */
+.mic-button2:hover {
+  background-color: #f0f0f0; /* 호버 시 배경색 변경 */
+}
+
+.mic-button2.recording {
+  background-color: #ffffff; /* 녹음 중 배경색 */
+  color: #31a575; /* 녹음 중 텍스트 색상 */
+  font-size: 16px; /* 폰트 크기 조정 */
+}
+
+.mic-button2.recording .mic-icon {
+  display: none; /* 녹음 중일 때 아이콘 숨김 */
+}
+
+/* 마이크 아이콘 스타일 */
+.mic-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* 녹음 중 애니메이션 스타일 */
+.recording-animation {
+  width: 30px;
+  height: 30px;
+  border: 5px solid #31a575;
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 프롬프트 텍스트박스 */
 .image-create-prompt-textbox {
   width: 470px;
   height: 470px;
@@ -167,45 +213,6 @@
   outline: none;
   border-color: #31a575;
   background-color: #ffffff;
-}
-
-/* 마이크 버튼 스타일 */
-.image-create-mic-button {
-  width: 100%;
-  max-width: 471px;
-  height: 45px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: "NEXON Lv1 Gothic OTP", sans-serif;
-  font-size: 25px;
-  font-weight: 700;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-top: 0px;
-  background-color: #ffffff;
-  color: #000000;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 0 10px;
-}
-
-.image-create-mic-button img {
-  width: 23px;
-  height: 37px;
-  margin-right: 10px;
-  object-fit: contain;
-}
-
-/* 녹음 중일 때 스타일 */
-.image-create-mic-button.recording {
-  background-color: #ffffff;
-  color: #31a575;
-}
-
-.image-create-mic-button.recording img {
-  display: none;
 }
 
 /* 텍스트 옵션 스타일 */
@@ -289,7 +296,7 @@
 }
 
 .image-create-generate-button:disabled,
-.image-create-mic-button:disabled,
+.mic-button2:disabled,
 .image-create-delete-button:disabled,
 .image-create-use-image-button:disabled {
   background-color: #cccccc;
@@ -379,41 +386,29 @@
   color: #31a575;
 }
 
-/* 녹음 중 애니메이션 스타일 */
-.recording-animation {
-  width: 20px;
-  height: 20px;
-  border: 5px solid #31a575;
-  border-top: 5px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-left: 10px;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
+/* 반응형 디자인 조정 */
+@media (max-width: 768px) {
+  .image-create-prompt-label {
+    font-size: 20px;
   }
-  100% {
-    transform: rotate(360deg);
+
+  .mic-button2 img {
+    width: 24px;
+    height: 24px;
   }
-}
 
-.message-create-mic-button,
-.image-create-mic-button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .recording-animation {
+    width: 24px;
+    height: 24px;
+    border-width: 4px;
+  }
 
-.message-create-mic-button img,
-.image-create-mic-button img {
-  width: 23px;
-  height: 37px;
-}
+  .image-create-prompt-textbox {
+    width: 100%;
+    height: 300px;
+  }
 
-.message-create-mic-button.recording img,
-.image-create-mic-button.recording img {
-  margin-right: 10px;
+  .prompt-input-container {
+    height: 300px;
+  }
 }
